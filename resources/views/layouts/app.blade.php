@@ -12,6 +12,7 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/font-awesome.min.css') }}" rel="stylesheet">
 </head>
 <body>
     <div id="app">
@@ -46,16 +47,16 @@
                             <li><a href="{{ route('login') }}">Войти</a></li>
                         @else
                         @can('is-admin')
-                            <li><a href="#">Панель администратора</a></li>
+                                <li><a href="#"><i class="fa fa-dashboard"></i> Панель администратора</a></li>
                         @else
                                 <li><a href="#">Заявки</a></li>
-                                <li><a href="#">Настройки</a></li>
+                                <li><a href="#"><i class="fa fa-gear"></i> Настройки</a></li>
                         @endcan
 
 
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-                                    {{ Auth::user()->name }} <span class="caret"></span>
+                                    <i class="fa fa-user"></i> {{ Auth::user()->name }} <span class="caret"></span>
                                 </a>
 
                                 <ul class="dropdown-menu" role="menu">
