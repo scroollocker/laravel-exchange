@@ -42,12 +42,15 @@
                     <!-- Right Side Of Navbar -->
                     <ul class="nav navbar-nav navbar-right">
                         <!-- Authentication Links -->
-                        @can ('is-admin')
-                            hello admin
-                        @endcan
                         @if (Auth::guest())
                             <li><a href="{{ route('login') }}">Войти</a></li>
                         @else
+                        @can('is-admin')
+                            <li><a href="#">Панель администратора</a></li>
+                        @else
+                                <li><a href="#">Заявки</a></li>
+                                <li><a href="#">Настройки</a></li>
+                        @endcan
 
 
                             <li class="dropdown">

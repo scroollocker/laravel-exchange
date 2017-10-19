@@ -15,6 +15,9 @@
                     @endif
 
                     You are logged in!
+                        @can('is-admin')
+                            You are admin!
+                        @endcan
                 </div>
             </div>
         </div>
