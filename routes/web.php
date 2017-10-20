@@ -16,7 +16,12 @@ Route::get('/', function () {
 });
 
 Route::get('login', 'Auth\LoginController@showLoginForm')->name('login');
-Route::post('login', 'Auth\LoginController@login');
+Route::post('login', 'Auth\LoginController@firstStepAuth');
 Route::post('logout', 'Auth\LoginController@logout')->name('logout');
 
+Route::get('/login-step-2', 'Auth\LoginController@showSecondStep');
+
 Route::get('/home', 'HomeController@index')->name('home');
+
+
+Route::get('/test', 'Auth\LoginController@firstStepAuth');
