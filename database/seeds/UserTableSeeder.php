@@ -21,5 +21,14 @@ class UserTableSeeder extends Seeder
 
         $user->save();
 
+        $user = new User;
+
+        $user->name = 'Scroollocker User';
+        $user->password = bcrypt('test');
+        $user->email = 'scroollocker@mail.ru';
+        $user->isAdmin = false;
+
+        $user->save();
+
     }
 }
