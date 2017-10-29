@@ -13,12 +13,20 @@
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link href="{{ asset('css/font-awesome.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/breadcrumbs.css') }}" rel="stylesheet">
 
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}"></script>
+    <script src="{{ asset('js/angular.min.js') }}"></script>
+    <script src="{{ asset('js/angular-sanitize.min.js') }}"></script>
+    <script src="{{ asset('js/angular-route.min.js') }}"></script>
+    <script src="{{ asset('js/underscore-min.js') }}"></script>
+
+    <script src="{{ asset('js/app/main.js') }}"></script>
+    <script src="{{ asset('js/app/controllers/invoice.js') }}"></script>
 </head>
-<body>
+<body ng-app="ExchangeApp">
     <div id="app">
         <nav class="navbar navbar-default navbar-static-top">
             <div class="container">
