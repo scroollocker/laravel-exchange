@@ -200,16 +200,18 @@
 
                 </table>
 
-                <table class="table table-responsive">
-                    <thead>
+                <div class="table-responsive">
+
+                    <table class="table ">
+                        <thead>
                         <tr>
                             <th>#</th>
                             <th>Логин</th>
                             <th>Принемать</th>
                             <th>Не принемать</th>
                         </tr>
-                    </thead>
-                    <tbody>
+                        </thead>
+                        <tbody>
                         <tr>
                             <td>1</td>
                             <td>test1</td>
@@ -228,8 +230,9 @@
                             <td><input type="checkbox"></td>
                             <td><input type="checkbox"></td>
                         </tr>
-                    </tbody>
-                </table>
+                        </tbody>
+                    </table>
+                </div>
 
                 <div class="text-center ">
                     <div class="btn-group">
@@ -329,53 +332,57 @@
 
             <div class="panel-body">
 
-                <table class="table table-responsive">
-                    <thead>
-                    <tr>
-                        <th>#</th>
-                        <th>Партнер</th>
-                        <th>Сделано</th>
-                        <th>Действует до</th>
-                        <th>Сообщения</th>
-                        <th>Действия</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr onclick="$('#chatModal').modal('show');">
-                        <td>1</td>
-                        <td>test1</td>
-                        <td>10.10.2017</td>
-                        <td>20.10.2017</td>
-                        <td>2</td>
-                        <td>
-                            <button class="btn btn-sm btn-success"><i class="fa fa-check"></i> Принять</button>
-                            <button class="btn btn-sm btn-danger"><i class="fa fa-remove"></i> Отклонить</button>
-                        </td>
-                    </tr>
-                    <tr onclick="$('#chatModal').modal('show');">
-                        <td>2</td>
-                        <td>test3</td>
-                        <td>10.10.2017</td>
-                        <td>20.10.2017</td>
-                        <td>2</td>
-                        <td>
-                            <button class="btn btn-sm btn-success"><i class="fa fa-check"></i> Принять</button>
-                            <button class="btn btn-sm btn-danger"><i class="fa fa-remove"></i> Отклонить</button>
-                        </td>
-                    </tr>
-                    <tr onclick="$('#chatModal').modal('show');">
-                        <td>3</td>
-                        <td>test2</td>
-                        <td>10.10.2017</td>
-                        <td>20.10.2017</td>
-                        <td>2</td>
-                        <td>
-                            <button class="btn btn-sm btn-success"><i class="fa fa-check"></i> Принять</button>
-                            <button class="btn btn-sm btn-danger"><i class="fa fa-remove"></i> Отклонить</button>
-                        </td>
-                    </tr>
-                    </tbody>
-                </table>
+
+                <div class="table-responsive">
+
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Партнер</th>
+                            <th>Сделано</th>
+                            <th>Действует до</th>
+                            <th>Сообщения</th>
+                            <th>Действия</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr onclick="$('#chatModal').modal('show');">
+                            <td>1</td>
+                            <td>test1</td>
+                            <td>10.10.2017</td>
+                            <td>20.10.2017</td>
+                            <td>2</td>
+                            <td>
+                                <button class="btn btn-sm btn-success"><i class="fa fa-check"></i> Принять</button>
+                                <button class="btn btn-sm btn-danger"><i class="fa fa-remove"></i> Отклонить</button>
+                            </td>
+                        </tr>
+                        <tr onclick="$('#chatModal').modal('show');">
+                            <td>2</td>
+                            <td>test3</td>
+                            <td>10.10.2017</td>
+                            <td>20.10.2017</td>
+                            <td>2</td>
+                            <td>
+                                <button class="btn btn-sm btn-success"><i class="fa fa-check"></i> Принять</button>
+                                <button class="btn btn-sm btn-danger"><i class="fa fa-remove"></i> Отклонить</button>
+                            </td>
+                        </tr>
+                        <tr onclick="$('#chatModal').modal('show');">
+                            <td>3</td>
+                            <td>test2</td>
+                            <td>10.10.2017</td>
+                            <td>20.10.2017</td>
+                            <td>2</td>
+                            <td>
+                                <button class="btn btn-sm btn-success"><i class="fa fa-check"></i> Принять</button>
+                                <button class="btn btn-sm btn-danger"><i class="fa fa-remove"></i> Отклонить</button>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
 
                 <!-- Modal -->
                 <div id="chatModal" class="modal fade" role="dialog">
@@ -498,8 +505,10 @@
 
             <div class="panel-body">
 
-                <table class="table table-responsive">
-                    <thead>
+                <div class="table-responsive">
+
+                    <table class="table">
+                        <thead>
                         <tr>
                             <th>#</th>
                             <th>Приход</th>
@@ -511,8 +520,8 @@
                             <th>Назначение</th>
                             <th>Действие</th>
                         </tr>
-                    </thead>
-                    <tbody>
+                        </thead>
+                        <tbody>
                         <tr>
                             <td>1</td>
                             <td><input type="checkbox" disabled checked></td>
@@ -535,8 +544,9 @@
                             <td>Покупка рублей</td>
                             <td><i class="fa fa-print"></i> </td>
                         </tr>
-                    </tbody>
-                </table>
+                        </tbody>
+                    </table>
+                </div>
 
                 <div class="row">
                     <div class="col-md-5">
