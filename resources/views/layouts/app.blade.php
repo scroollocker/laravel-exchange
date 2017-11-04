@@ -22,9 +22,8 @@
     <script src="{{ asset('js/angular-sanitize.min.js') }}"></script>
     <script src="{{ asset('js/angular-route.min.js') }}"></script>
     <script src="{{ asset('js/underscore-min.js') }}"></script>
-
     <script src="{{ asset('js/app/main.js') }}"></script>
-    <script src="{{ asset('js/app/controllers/invoice.js') }}"></script>
+
 </head>
 <body ng-app="ExchangeApp">
     <div id="app">
@@ -59,7 +58,23 @@
                             <li><a href="{{ route('login') }}">Войти</a></li>
                         @else
                         @can('is-admin')
-                                <li><a href="#"><i class="fa fa-dashboard"></i> Панель администратора</a></li>
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+                                    <i class="fa fa-dashboard"></i> Панель администратора<span class="caret"></span>
+                                </a>
+
+                                <ul class="dropdown-menu" role="menu">
+                                    <li>
+                                        <a href="dashboard/#!/admin/users/list"><i class="fa fa-users"></i> Список пользователей</a>
+                                    </li>
+                                    <li>
+                                        <a href="dashboard/#!/admin/currency/list"><i class="fa fa-money"></i> Список валют</a>
+                                    </li>
+                                    <li>
+                                        <a href="dashboard/#!/admin/settings/list"><i class="fa fa-gears"></i> Список настроек</a>
+                                    </li>
+                                </ul>
+                            </li>
                         @else
                                 <li><a href="#">Заявки</a></li>
                                 <li><a href="#"><i class="fa fa-gear"></i> Настройки</a></li>

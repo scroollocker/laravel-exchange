@@ -30,6 +30,9 @@ Route::group(['as'=>'user', 'middleware' => 'auth'], function() {
 });
 
 Route::group(['as'=>'admin', 'middleware' => 'admin'], function() {
-    Route::get('/dashboard', 'HomeController@index')->name('dashboard');
+    Route::get('/dashboard', 'HomeController@admin')->name('dashboard');
+    Route::get('/users/list', 'AdminController@userList');
+    Route::get('/currency/list', 'AdminController@currencyList');
+    Route::get('/settings/list', 'AdminController@settingsList');
 });
 

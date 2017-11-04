@@ -1,6 +1,10 @@
 @extends('layouts.app')
 
 @section('content')
+
+    <script src="{{ asset('js/app/main.route.js') }}"></script>
+    <script src="{{ asset('js/app/controllers/invoice.js') }}"></script>
+
 <div class="container">
     <!--<div class="row">
         <div class="col-md-10 col-md-offset-1">

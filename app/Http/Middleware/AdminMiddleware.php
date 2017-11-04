@@ -26,7 +26,7 @@ class AdminMiddleware
                 throw new \Exception('Вам запрещен доступ в данный раздел');
             }
 
-            dd($user->isAdmin);
+            //dd($user->isAdmin);
 
             return $next($request);
 

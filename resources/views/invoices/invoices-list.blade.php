@@ -2,7 +2,7 @@
 <div class="row">
     <div class="col-md-12">
         <div class="actions" style="margin-bottom: 10px;">
-            <button class="btn btn-primary"><i class="fa fa-plus"></i> Добавить заявку</button>
+            <a href="#!/invoices/add" class="btn btn-primary"><i class="fa fa-plus"></i> Добавить заявку</a>
         </div>
         <div class="panel panel-default" >
             <div class="panel-heading" style="padding: 15px;">
