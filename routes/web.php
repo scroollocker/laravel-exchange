@@ -19,6 +19,9 @@ Route::get('login', 'Auth\LoginController@showLoginForm')->name('login');
 Route::post('login', 'Auth\LoginController@firstStepAuth');
 Route::post('logout', 'Auth\LoginController@logout')->name('logout');
 
+Route::get('/chat/getMessages', 'ChatController@getMessages');
+Route::get('/chat/send', 'ChatController@send');
+
 Route::get('/login-step-2', 'Auth\LoginController@showSecondStep');
 Route::post('/login-step-2', 'Auth\LoginController@confirmPin')->name('login-confirm');
 Route::get('/resend-pin', 'Auth\LoginController@showSecondStep');
@@ -27,6 +30,7 @@ Route::group(['as'=>'user', 'middleware' => 'auth'], function() {
     Route::get('/home', 'HomeController@index')->name('home');
     Route::get('/invoices/list', 'InvoiceController@invoiceList')->name('invoices');
     Route::get('/invoices/add', 'InvoiceController@invoiceAdd');
+
 });
 
 Route::group(['as'=>'admin', 'middleware' => 'admin'], function() {
