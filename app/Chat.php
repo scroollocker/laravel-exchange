@@ -7,5 +7,9 @@ use Illuminate\Database\Eloquent\Model;
 class Chat extends Model
 {
 
-    protected $dates = ['send_date'];
+    protected $dates = ['date'];
+
+    public function messages() {
+        return $this->hasMany('App\Message', 'chat_id', 'chat_id');
+    }
 }

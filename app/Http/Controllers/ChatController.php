@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Message;
 use Carbon\Carbon;
 use Dotenv\Validator;
 use Exception;
@@ -14,11 +15,40 @@ class ChatController extends Controller
 
     }
 
-    public function getMessages(Request $request) {
+    public function getInvoiceChats(Request $request) {
         $invoiceId = $request->invoice_id;
+        $userId = 1;
 
         try {
             if ($invoiceId == null or $invoiceId == '') {
+                throw new Exception('Неверный запрос');
+            }
+
+            $chats = Chat::where('invoice_id', $invoiceId)
+                            ->orWhere('author_id', $userId)
+                            ->orWhere('recipient_id', $userId)
+                            ->get();
+
+            return response()->json(array(
+                'status' => true,
+                'chats' => $chats->toArray()
+            ));
+
+        }
+        catch (Exception $ex) {
+            return response()->json(array(
+                'status' => false,
+                'message' => $ex->getMessage()
+            ));
+        }
+    }
+
+    public function getMessages(Request $request) {
+        $chatId = $request->chat_id;
+        $userId = 1;
+
+        try {
+            if ($chatId == null or $chatId == '') {
                 throw new Exception('Неверные данные');
             }
 
@@ -27,7 +57,13 @@ class ChatController extends Controller
                 throw new Exception('Вы не авторизованы');
             }*/
 
-            $messages = Chat::where('invoice_id', $invoiceId)
+            $chat = Chat::find($chatId);
+
+            if ($chat->author_id != $userId and $chat->recipient_id != $userId ) {
+                throw new Exception('У вас нет доступа к просмотру этого чата.');
+            }
+
+            $messages = Message::where('chat_id', $chatId)
                             ->get();
 
             return response()->json(array(
@@ -46,13 +82,13 @@ class ChatController extends Controller
 
     public function checkNew(Request $request) {
         $count = $request->count;
-        $invoiceId = $request->invoice_id;
+        $chatId = $request->chat_id;
 
         try {
             if ($count == null or $count == '') {
                 throw new Exception('Неверные данные');
             }
-            if ($invoiceId == null or $invoiceId == '') {
+            if ($chatId == null or $chatId == '') {
                 throw new Exception('Неверные данные');
             }
 
@@ -61,9 +97,9 @@ class ChatController extends Controller
                 throw new Exception('Вы не авторизованы');
             }*/
 
-            $messages = Chat::select('count(*) as m_count')
-                ->where('invoice_id', $invoiceId)
-                ->where('m_count', '>', $invoiceId)
+            $messages = Message::select('count(*) as m_count')
+                ->where('chat_id', $chatId)
+                ->where('m_count', '>', $count)
                 ->get();
 
 
@@ -89,13 +125,13 @@ class ChatController extends Controller
     public function send(Request $request) {
 
         $validation_messages = array(
-            'invoice_id.required' => 'Неверный запрос',
+            'chat_id.required' => 'Неверный запрос',
             'message.required' => 'Не заполнено сообщение',
             'message.max' => 'Длина сообщения слишком велика'
         );
 
         $validation_rules = array(
-            'invoice_id' => array(
+            'chat_id' => array(
                 'required'
             ),
             'message' => array(
@@ -116,11 +152,11 @@ class ChatController extends Controller
                 throw new Exception($errMsg);
             }
 
-            $message = new Chat();
+            $message = new Message();
 
-            $message->invoice_id = $request->invoice_id;
+            $message->chat_id = $request->invoice_id;
             $message->message = $message;
-            $message->send_date = Carbon::now();
+            $message->date_send = Carbon::now();
 
             $message->save();
 
