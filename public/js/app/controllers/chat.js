@@ -5,10 +5,27 @@ app.controller('ChatTemplate', ['$scope', function ($scope) {
             'name': 'user1'
         }
     }];
-    $scope.chatMessages = [];
+    $scope.chatMessages = [
+        {
+            'author': {
+                'name': 'user 1'
+            },
+            'author_id': 2,
+            'message': 'test',
+            'date_send': '15.11.2017 11:53:50'
+        },
+        {
+            'author': {
+                'name': 'user 2'
+            },
+            'author_id': 1,
+            'message': 't e s t',
+            'date_send': '15.11.2017 11:53:51'
+        }
+    ];
 
     $scope.author = 1;
-    $scope.isLoading = true;
+    $scope.isLoading = false;
 
 
     $scope.getChatList = function () {
