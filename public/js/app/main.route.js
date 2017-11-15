@@ -9,6 +9,11 @@ app.config(['$routeProvider', function($routeProvider) {
         controller: 'InvoicesController'
     });
 
+    $routeProvider.when('/invoices/chat',  {
+        templateUrl: '/chat/base',
+        controller: 'ChatTemplate'
+    });
+
     $routeProvider.when('/invoices', {
         redirectTo: '/invoices/lists'
     });

@@ -15,4 +15,8 @@ class InvoiceController extends Controller
         return view('invoices.invoices-add');
     }
 
+    public function chatBase() {
+        return view('chat.chat-base');
+    }
+
 }

@@ -11,4 +11,8 @@ class Message extends Model
     public function chat() {
         $this->belongsTo('App\Message', 'chat_id', 'chat_id');
     }
+
+    public function author() {
+        $this->belongsTo('App\User', 'id', 'author_id');
+    }
 }

@@ -30,6 +30,7 @@ Route::group(['as'=>'user', 'middleware' => 'auth'], function() {
     Route::get('/home', 'HomeController@index')->name('home');
     Route::get('/invoices/list', 'InvoiceController@invoiceList')->name('invoices');
     Route::get('/invoices/add', 'InvoiceController@invoiceAdd');
+    Route::get('/chat/base', 'InvoiceController@chatBase');
 
 });
 

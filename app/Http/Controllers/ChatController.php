@@ -11,9 +11,6 @@ use App\Chat;
 
 class ChatController extends Controller
 {
-    public function test() {
-
-    }
 
     public function getInvoiceChats(Request $request) {
         $invoiceId = $request->invoice_id;

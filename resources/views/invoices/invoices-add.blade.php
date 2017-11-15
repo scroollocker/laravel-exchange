@@ -1,67 +1,56 @@
 <style>
-    .chat
-    {
+    .chat {
         list-style: none;
         margin: 0;
         padding: 0;
     }
 
-    .chat li
-    {
+    .chat li {
         margin-bottom: 10px;
         padding-bottom: 5px;
         border-bottom: 1px dotted #B3A9A9;
     }
 
-    .chat li.left .chat-body
-    {
+    .chat li.left .chat-body {
         margin-left: 60px;
     }
 
-    .chat li.right .chat-body
-    {
+    .chat li.right .chat-body {
         margin-right: 60px;
     }
 
-
-    .chat li .chat-body p
-    {
+    .chat li .chat-body p {
         margin: 0;
         color: #777777;
     }
 
-    .chat-panel .slidedown .glyphicon, .chat .glyphicon
-    {
+    .chat-panel .slidedown .glyphicon, .chat .glyphicon {
         margin-right: 5px;
     }
 
-    .chat-panel-body
-    {
+    .chat-panel-body {
         overflow-y: scroll;
         height: 250px;
     }
 
-    ::-webkit-scrollbar-track
-    {
-        -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+    ::-webkit-scrollbar-track {
+        -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
         background-color: #F5F5F5;
     }
 
-    ::-webkit-scrollbar
-    {
+    ::-webkit-scrollbar {
         width: 12px;
         background-color: #F5F5F5;
     }
 
-    ::-webkit-scrollbar-thumb
-    {
-        -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+    ::-webkit-scrollbar-thumb {
+        -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, .3);
         background-color: #555;
     }
 
 </style>
 
-<nav >
+<nav>
     <ol class="cd-breadcrumb triangle">
         <li ng-class="{'current':isSelect(1)}"><a ng-click="selectStep(1)">Шаг 1</a></li>
         <li ng-class="{'current':isSelect(2)}"><a ng-click="selectStep(2)">Шаг 2</a></li>
@@ -75,7 +64,7 @@
 
 <div class="row" ng-if="isSelect(1)">
     <div class="col-md-12">
-        <div class="panel panel-default" >
+        <div class="panel panel-default">
             <div class="panel-heading" style="padding: 15px;">
                 Условия сделки
             </div>
@@ -124,7 +113,9 @@
                     </tr>
                 </table>
 
-                <p style="margin: 10px;">Найдено сделок - <strong>0</strong> - удовлетворяющих условиям. <button class="btn btn-default">Посмотреть</button></p>
+                <p style="margin: 10px;">Найдено сделок - <strong>0</strong> - удовлетворяющих условиям.
+                    <button class="btn btn-default">Посмотреть</button>
+                </p>
 
                 <div class="text-center ">
                     <div class="btn-group">
@@ -139,7 +130,7 @@
 
 <div class="row" ng-if="isSelect(2)">
     <div class="col-md-12">
-        <div class="panel panel-default" >
+        <div class="panel panel-default">
             <div class="panel-heading" style="padding: 15px;">
                 Укажите счета для расчетов
             </div>
@@ -178,7 +169,7 @@
 
 <div class="row" ng-if="isSelect(3)">
     <div class="col-md-12">
-        <div class="panel panel-default" >
+        <div class="panel panel-default">
             <div class="panel-heading" style="padding: 15px;">
                 Укажите ограничения по сделке
             </div>
@@ -247,7 +238,7 @@
 
 <div class="row" ng-if="isSelect(4)">
     <div class="col-md-12">
-        <div class="panel panel-default" >
+        <div class="panel panel-default">
             <div class="panel-heading" style="padding: 15px;">
                 Оформление сделки
             </div>
@@ -304,7 +295,7 @@
                         </td>
                     </tr>
                     <tr>
-                        <td><label>Принемать сделки автоматически:   </label></td>
+                        <td><label>Принемать сделки автоматически: </label></td>
                         <td>
                             <p>&nbsp;&nbsp;Да</p>
                         </td>
@@ -325,7 +316,7 @@
 
 <div class="row" ng-if="isSelect(5)">
     <div class="col-md-12">
-        <div class="panel panel-default" >
+        <div class="panel panel-default">
             <div class="panel-heading" style="padding: 15px;">
                 Просмотр предложений
             </div>
@@ -399,57 +390,69 @@
                                     <div class="panel-body chat-panel-body">
                                         <ul class="chat">
                                             <li class="left clearfix"><span class="chat-img pull-left">
-                            <img src="http://placehold.it/50/55C1E7/fff&text=U" alt="User Avatar" class="img-circle" />
+                            <img src="http://placehold.it/50/55C1E7/fff&text=U" alt="User Avatar" class="img-circle"/>
                         </span>
                                                 <div class="chat-body clearfix">
                                                     <div class="header">
-                                                        <strong class="primary-font">Jack Sparrow</strong> <small class="pull-right text-muted">
-                                                            <span class="glyphicon glyphicon-time"></span>12 mins ago</small>
+                                                        <strong class="primary-font">Jack Sparrow</strong>
+                                                        <small class="pull-right text-muted">
+                                                            <span class="glyphicon glyphicon-time"></span>12 mins ago
+                                                        </small>
                                                     </div>
                                                     <p>
-                                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur bibendum ornare
+                                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                                                        Curabitur bibendum ornare
                                                         dolor, quis ullamcorper ligula sodales.
                                                     </p>
                                                 </div>
                                             </li>
                                             <li class="right clearfix"><span class="chat-img pull-right">
-                            <img src="http://placehold.it/50/FA6F57/fff&text=ME" alt="User Avatar" class="img-circle" />
+                            <img src="http://placehold.it/50/FA6F57/fff&text=ME" alt="User Avatar" class="img-circle"/>
                         </span>
                                                 <div class="chat-body clearfix">
                                                     <div class="header">
-                                                        <small class=" text-muted"><span class="glyphicon glyphicon-time"></span>13 mins ago</small>
+                                                        <small class=" text-muted"><span
+                                                                    class="glyphicon glyphicon-time"></span>13 mins ago
+                                                        </small>
                                                         <strong class="pull-right primary-font">Bhaumik Patel</strong>
                                                     </div>
                                                     <p>
-                                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur bibendum ornare
+                                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                                                        Curabitur bibendum ornare
                                                         dolor, quis ullamcorper ligula sodales.
                                                     </p>
                                                 </div>
                                             </li>
                                             <li class="left clearfix"><span class="chat-img pull-left">
-                            <img src="http://placehold.it/50/55C1E7/fff&text=U" alt="User Avatar" class="img-circle" />
+                            <img src="http://placehold.it/50/55C1E7/fff&text=U" alt="User Avatar" class="img-circle"/>
                         </span>
                                                 <div class="chat-body clearfix">
                                                     <div class="header">
-                                                        <strong class="primary-font">Jack Sparrow</strong> <small class="pull-right text-muted">
-                                                            <span class="glyphicon glyphicon-time"></span>14 mins ago</small>
+                                                        <strong class="primary-font">Jack Sparrow</strong>
+                                                        <small class="pull-right text-muted">
+                                                            <span class="glyphicon glyphicon-time"></span>14 mins ago
+                                                        </small>
                                                     </div>
                                                     <p>
-                                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur bibendum ornare
+                                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                                                        Curabitur bibendum ornare
                                                         dolor, quis ullamcorper ligula sodales.
                                                     </p>
                                                 </div>
                                             </li>
                                             <li class="right clearfix"><span class="chat-img pull-right">
-                            <img src="http://placehold.it/50/FA6F57/fff&text=ME" alt="User Avatar" class="img-circle" />
+                            <img src="http://placehold.it/50/FA6F57/fff&text=ME" alt="User Avatar" class="img-circle"/>
                         </span>
                                                 <div class="chat-body clearfix">
                                                     <div class="header">
-                                                        <small class=" text-muted"><span class="glyphicon glyphicon-time"></span>15 mins ago</small>
+                                                        <small class=" text-muted"><span
+                                                                    class="glyphicon glyphicon-time"></span>15 mins ago
+                                                        </small>
                                                         <strong class="pull-right primary-font">Bhaumik Patel</strong>
                                                     </div>
                                                     <p>
-                                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur bibendum ornare
+                                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                                                        Curabitur bibendum ornare
                                                         dolor, quis ullamcorper ligula sodales.
                                                     </p>
                                                 </div>
@@ -458,8 +461,9 @@
                                     </div>
                                     <div class="panel-footer">
                                         <div class="input-group">
-                                            <input id="btn-input" type="text" class="form-control input-sm" placeholder="Type your message here..." />
-                        <span class="input-group-btn">
+                                            <input id="btn-input" type="text" class="form-control input-sm"
+                                                   placeholder="Type your message here..."/>
+                                            <span class="input-group-btn">
                             <button class="btn btn-warning btn-sm" id="btn-chat">
                                 Send</button>
                         </span>
@@ -481,13 +485,13 @@
 
 <div class="row" ng-if="isSelect(6)">
     <div class="col-md-12">
-        <div class="panel panel-default" >
+        <div class="panel panel-default">
 
 
             <div class="panel-body">
 
                 <div style="font-size: 50px;" class="text-center alert alert-info">
-                    <p><i class="fa fa-clock-o"></i> </p>
+                    <p><i class="fa fa-clock-o"></i></p>
                     <p>Завершение операции. Формирование расчетов на стороне банка.</p>
                 </div>
 
@@ -498,7 +502,7 @@
 
 <div class="row" ng-if="isSelect(7)">
     <div class="col-md-12">
-        <div class="panel panel-default" >
+        <div class="panel panel-default">
             <div class="panel-heading" style="padding: 15px;">
                 Отчеты о проведении сделки.
             </div>
@@ -531,18 +535,18 @@
                             <td>456</td>
                             <td>21</td>
                             <td>Покупка долларов</td>
-                            <td><i class="fa fa-print"></i> </td>
+                            <td><i class="fa fa-print"></i></td>
                         </tr>
                         <tr>
                             <td>2</td>
-                            <td><input type="checkbox" disabled ></td>
+                            <td><input type="checkbox" disabled></td>
                             <td>50000</td>
                             <td>KGS</td>
                             <td>47855</td>
                             <td>78797</td>
                             <td>22</td>
                             <td>Покупка рублей</td>
-                            <td><i class="fa fa-print"></i> </td>
+                            <td><i class="fa fa-print"></i></td>
                         </tr>
                         </tbody>
                     </table>
@@ -551,7 +555,9 @@
                 <div class="row">
                     <div class="col-md-5">
                         <div class="form-group" style="border: 1px solid #eee; border-radius: 3px; padding: 10px;">
-                            <h4>Оцените партнера <button class="btn btn-warning btn-sm"><i class="fa fa-save"></i></button></h4>
+                            <h4>Оцените партнера
+                                <button class="btn btn-warning btn-sm"><i class="fa fa-save"></i></button>
+                            </h4>
                             <div class="form-group form-inline">
                                 <label>Логин:</label>
                                 <span>User 1</span>
@@ -570,7 +576,9 @@
                     </div>
                     <div class="col-md-5">
                         <div class="form-group" style="border: 1px solid #eee; border-radius: 3px; padding: 10px;">
-                            <h4>Оцените сервис <button class="btn btn-warning btn-sm"><i class="fa fa-save"></i></button></h4>
+                            <h4>Оцените сервис
+                                <button class="btn btn-warning btn-sm"><i class="fa fa-save"></i></button>
+                            </h4>
                             <div class="form-group form-inline">
                                 <label>Оценка:</label>
                                 <select class="form-control">
