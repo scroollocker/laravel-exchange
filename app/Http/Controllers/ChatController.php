@@ -4,10 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Message;
 use Carbon\Carbon;
-use Dotenv\Validator;
 use Exception;
 use Illuminate\Http\Request;
 use App\Chat;
+use Illuminate\Support\Facades\Validator;
 
 class ChatController extends Controller
 {
@@ -26,11 +26,14 @@ class ChatController extends Controller
                             ->orWhere('recipient_id', $userId)
                             ->get();
 
+
+            $chats->load('author');
+            $chats->load('recipient');
+
             return response()->json(array(
                 'status' => true,
                 'chats' => $chats->toArray()
             ));
-
         }
         catch (Exception $ex) {
             return response()->json(array(
@@ -54,7 +57,7 @@ class ChatController extends Controller
                 throw new Exception('Вы не авторизованы');
             }*/
 
-            $chat = Chat::find($chatId);
+            $chat = Chat::where('chat_id', $chatId)->first();
 
             if ($chat->author_id != $userId and $chat->recipient_id != $userId ) {
                 throw new Exception('У вас нет доступа к просмотру этого чата.');
@@ -63,9 +66,12 @@ class ChatController extends Controller
             $messages = Message::where('chat_id', $chatId)
                             ->get();
 
+            $messages->load('chat');
+            $messages->load('author');
+
             return response()->json(array(
                 'status' => true,
-                'data' => $messages->toArray()
+                'messages' => $messages->toArray()
             ));
 
         }
@@ -151,8 +157,9 @@ class ChatController extends Controller
 
             $message = new Message();
 
-            $message->chat_id = $request->invoice_id;
+            $message->chat_id = $request->chat_id;
             $message->message = $message;
+            $message->author_id = 1;
             $message->date_send = Carbon::now();
 
             $message->save();

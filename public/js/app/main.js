@@ -1,3 +1,3 @@
-var app = angular.module('ExchangeApp', ['ngRoute']);
+var app = angular.module('ExchangeApp', ['ngRoute'], transportPatch);
 
 

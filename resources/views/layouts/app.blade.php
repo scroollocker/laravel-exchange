@@ -22,6 +22,7 @@
     <script src="{{ asset('js/angular-sanitize.min.js') }}"></script>
     <script src="{{ asset('js/angular-route.min.js') }}"></script>
     <script src="{{ asset('js/underscore-min.js') }}"></script>
+    <script src="{{ asset('js/patch.js') }}"></script>
     <script src="{{ asset('js/app/main.js') }}"></script>
 
 </head>

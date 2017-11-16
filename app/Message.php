@@ -9,10 +9,10 @@ class Message extends Model
     protected $dates = ['date_send'];
 
     public function chat() {
-        $this->belongsTo('App\Message', 'chat_id', 'chat_id');
+        return $this->belongsTo('App\Chat', 'chat_id', 'chat_id');
     }
 
     public function author() {
-        $this->belongsTo('App\User', 'id', 'author_id');
+        return $this->belongsTo('App\User', 'author_id', 'id');
     }
 }

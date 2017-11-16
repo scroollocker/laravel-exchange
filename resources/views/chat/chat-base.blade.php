@@ -64,13 +64,26 @@
                 </div>
             </div>
             <div class="panel-body collapse in" id="userListBody">
-                <div class="table-responsive">
+
+                <div class="loading-chats text-center" ng-if="isChatLoading">
+                    <p><i class="fa fa-circle-o-notch fa-spin"></i></p>
+                    <p>Загрузка...</p>
+                </div>
+
+                <div class="empty-chats text-center" ng-if="!isChatLoading && getChatList().length == 0">
+                    <p><i class="fa fa-flag"></i></p>
+                    <p>Нет доступных чатов. </p>
+                </div>
+
+                <div class="table-responsive" ng-if="!isChatLoading && getChatList().length > 0">
                     <table class="table table-bordered">
                         <tr ng-repeat="chat in getChatList()">
-                            <td><i class="fa fa-user"></i> @{{ chat.author.name }}</td>
+                            <td><a href="" ng-click="loadMessages(chat.chat_id)"><i
+                                            class="fa fa-user"></i> @{{ chat.author.name }}</a></td>
                         </tr>
                     </table>
                 </div>
+
             </div>
         </div>
         <div class="col-md-8 col-sm-8">
@@ -81,7 +94,8 @@
                     </p>
                     <p> Ожидайте загрузки...</p>
                 </div>
-                <div class="chat-empty text-center" style="font-size: 30px; color: #BDBDBD;" ng-if="!isLoading && getChatMessages().length == 0">
+                <div class="chat-empty text-center" style="font-size: 30px; color: #BDBDBD;"
+                     ng-if="!isLoading && getChatMessages().length == 0">
                     <p>
                         <i class="fa fa-flag"></i>
                     </p>
@@ -89,7 +103,7 @@
                 </div>
                 <div class="chat-body" ng-if="getChatMessages().length > 0">
                     <div class="panel-heading">
-                        <span class="fa fa-comment"></span> Chat
+                        <span class="fa fa-comment"></span> Список сообщений
 
                     </div>
                     <div class="panel-body chat-panel-body">
@@ -102,7 +116,8 @@
                         </span>
                                 <div class="chat-body clearfix">
                                     <div class="header">
-                                        <strong ng-class="{'pull-right': isAuthor(message)}" class="primary-font"> @{{ message.author.name }}</strong>
+                                        <strong ng-class="{'pull-right': isAuthor(message)}"
+                                                class="primary-font"> @{{ message.author.name }} </strong>
                                         <small ng-class="{'pull-right': !isAuthor(message)}" class=" text-muted">
                                             <span class="fa fa-clock-o"></span> @{{ message.date_send }}
                                         </small>
@@ -115,20 +130,19 @@
                         </ul>
                     </div>
                     <div class="panel-footer">
-                        <div class="input-group">
-                            <input id="btn-input" type="text" class="form-control input-sm"
-                                   placeholder="Введите ваше сообщение..."/>
-                            <span class="input-group-btn">
-                            <button class="btn btn-warning btn-sm" id="btn-chat">
-                                <i class="fa fa-send"></i> Отправить</button>
-                        </span>
-                        </div>
+                        <form name="sendMessageForm">
+                            <div class="input-group">
+                                <input id="btn-input" type="text" class="form-control input-sm"
+                                       placeholder="Введите ваше сообщение..." ng-model="chatMessage" required maxlength="500"/>
+                                <span class="input-group-btn">
+                                    <button ng-disabled="isMessageSending" class="btn btn-warning btn-sm" id="btn-chat" ng-click="sendMessage(chatMessage, sendMessageForm)">
+                                    <i class="fa fa-send"></i> Отправить</button>
+                                </span>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="row">
-
         </div>
     </div>
 

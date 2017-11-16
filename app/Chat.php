@@ -14,11 +14,11 @@ class Chat extends Model
     }
 
     public function author() {
-        return $this->belongsTo('App\User', 'id', 'author_id');
+        return $this->belongsTo('App\User', 'author_id', 'id');
     }
 
     public function recipient() {
-        return $this->belongsTo('App\User', 'id', 'recipient_id');
+        return $this->belongsTo('App\User', 'recipient_id', 'id');
     }
 
 }

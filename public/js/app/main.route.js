@@ -9,7 +9,7 @@ app.config(['$routeProvider', function($routeProvider) {
         controller: 'InvoicesController'
     });
 
-    $routeProvider.when('/invoices/chat',  {
+    $routeProvider.when('/invoices/chat/:invoice_id',  {
         templateUrl: '/chat/base',
         controller: 'ChatTemplate'
     });
