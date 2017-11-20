@@ -2,6 +2,7 @@ app.controller('UserController', ['$scope', '$http', function($scope, $http) {
 
     $scope.userListLoading = false;
     $scope.userList = [];
+    $scope.editedUser = {};
 
     $scope.getUserList = function () {
         return $scope.userList;
@@ -30,5 +31,14 @@ app.controller('UserController', ['$scope', '$http', function($scope, $http) {
     };
 
     $scope.loadUserList();
+
+    $scope.isBlocked = function(user) {
+        return user.blocked == '1';
+    };
+
+    $scope.editUser = function(user) {
+        $scope.editedUser = angular.copy(user);
+        $('#userModal').modal('show');
+    };
 
 }]);

@@ -92,6 +92,9 @@ class LoginController extends Controller
             if (!Hash::check($request->password, $user->password)) {
                 throw new Exception('Невернй email или пароль');
             }
+            if ($user->blocked == 1) {
+                throw new Exception('Пользователь заблокирован.');
+            }
 
             if ($request->get('exp_time') >= time() && $user->id == $request->session()->get('user_id', -1)) {
                 return response()->redirectTo('/login-step-2');
