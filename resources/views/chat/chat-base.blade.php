@@ -106,7 +106,7 @@
                         <span class="fa fa-comment"></span> Список сообщений
 
                     </div>
-                    <div class="panel-body chat-panel-body">
+                    <div id="asschat" class="panel-body chat-panel-body">
                         <ul class="chat">
                             <li ng-class="{'left': !isAuthor(message), 'right': isAuthor(message)}" class="clearfix"
                                 ng-repeat="message in getChatMessages()">
@@ -131,6 +131,7 @@
                     </div>
                     <div class="panel-footer">
                         <form name="sendMessageForm">
+                            {{ csrf_field() }}
                             <div class="input-group">
                                 <input id="btn-input" type="text" class="form-control input-sm"
                                        placeholder="Введите ваше сообщение..." ng-model="chatMessage" required maxlength="500"/>

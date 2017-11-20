@@ -14,18 +14,23 @@ class ChatController extends Controller
 
     public function getInvoiceChats(Request $request) {
         $invoiceId = $request->invoice_id;
-        $userId = 1;
 
         try {
             if ($invoiceId == null or $invoiceId == '') {
                 throw new Exception('Неверный запрос');
             }
 
-            $chats = Chat::where('invoice_id', $invoiceId)
-                            ->orWhere('author_id', $userId)
-                            ->orWhere('recipient_id', $userId)
-                            ->get();
+            $user = \Auth::user();
+            if (is_null($user)) {
+                throw new Exception('Вы не авторизованы');
+            }
 
+            $chats = Chat::where('invoice_id', $invoiceId)
+                ->where(function ($query) use ($user) {
+                    $query->orWhere('author_id', $user->id);
+                    $query->orWhere('recipient_id', $user->id);
+                })
+                ->get();
 
             $chats->load('author');
             $chats->load('recipient');
@@ -45,21 +50,20 @@ class ChatController extends Controller
 
     public function getMessages(Request $request) {
         $chatId = $request->chat_id;
-        $userId = 1;
 
         try {
             if ($chatId == null or $chatId == '') {
                 throw new Exception('Неверные данные');
             }
 
-            /*$user = \Auth::user();
+            $user = \Auth::user();
             if (is_null($user)) {
                 throw new Exception('Вы не авторизованы');
-            }*/
+            }
 
             $chat = Chat::where('chat_id', $chatId)->first();
 
-            if ($chat->author_id != $userId and $chat->recipient_id != $userId ) {
+            if ($chat->author_id != $user->id and $chat->recipient_id != $user->id ) {
                 throw new Exception('У вас нет доступа к просмотру этого чата.');
             }
 
@@ -95,10 +99,16 @@ class ChatController extends Controller
                 throw new Exception('Неверные данные');
             }
 
-            /*$user = \Auth::user();
+            $user = \Auth::user();
             if (is_null($user)) {
                 throw new Exception('Вы не авторизованы');
-            }*/
+            }
+
+            $chat = Chat::where('chat_id', $chatId)->first();
+
+            if ($chat->author_id != $user->id and $chat->recipient_id != $user->id ) {
+                throw new Exception('У вас нет доступа к просмотру этого чата.');
+            }
 
             $messages = Message::select('count(*) as m_count')
                 ->where('chat_id', $chatId)
@@ -155,11 +165,22 @@ class ChatController extends Controller
                 throw new Exception($errMsg);
             }
 
+            $user = \Auth::user();
+            if (is_null($user)) {
+                throw new Exception('Вы не авторизованы');
+            }
+
+            $chat = Chat::where('chat_id', $request->chat_id)->first();
+
+            if ($chat->author_id != $user->id and $chat->recipient_id != $user->id ) {
+                throw new Exception('У вас нет доступа к просмотру этого чата.');
+            }
+
             $message = new Message();
 
             $message->chat_id = $request->chat_id;
-            $message->message = $message;
-            $message->author_id = 1;
+            $message->message = $request->message;
+            $message->author_id = $user->id;
             $message->date_send = Carbon::now();
 
             $message->save();

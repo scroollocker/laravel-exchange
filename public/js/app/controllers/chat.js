@@ -1,5 +1,5 @@
 
-app.controller('ChatTemplate', ['$scope', '$http', '$routeParams', function ($scope, $http, $routeParams) {
+app.controller('ChatTemplate', ['$scope', '$http', '$routeParams', '$timeout', function ($scope, $http, $routeParams,$timeout) {
     $scope.chatList = [];
     $scope.chatMessages = [
         {
@@ -55,7 +55,7 @@ app.controller('ChatTemplate', ['$scope', '$http', '$routeParams', function ($sc
         $scope.isChatLoading = true;
         $scope.chatMessages = [];
 
-        $http.get('/chat/chats?invoice_id=1').then(function (response) {
+        $http.get('/chat/chats?invoice_id='+urlParams.invoice_id).then(function (response) {
             $scope.isChatLoading = false;
             response = response.data;
             if (response.status === true) {
@@ -86,6 +86,11 @@ app.controller('ChatTemplate', ['$scope', '$http', '$routeParams', function ($sc
             $scope.selectedChat = chat_id;
             if (response.status == true) {
                 $scope.chatMessages = response.messages;
+                $timeout(function () {
+                    var objDiv = document.getElementById("asschat");
+                    objDiv.scrollTop = objDiv.scrollHeight;
+                },400);
+
             }
             else {
                 alert(response.message);
@@ -124,7 +129,7 @@ app.controller('ChatTemplate', ['$scope', '$http', '$routeParams', function ($sc
                 response = response.data;
                 if (response.status === true) {
                     $scope.chatMessage = '';
-                    $scope.loadMessages($scope.chat_id);
+                    $scope.loadMessages($scope.selectedChat);
                 }
                 else {
                     alert(response.message);
