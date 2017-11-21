@@ -158,7 +158,7 @@ class ChatController extends Controller
 
             if ($validator->fails()) {
                 $errMsg = '';
-                foreach ($validator->errors->all() as $error) {
+                foreach ($validator->errors()->all() as $error) {
                     $errMsg .= $error;
                 }
 

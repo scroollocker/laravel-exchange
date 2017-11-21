@@ -1,7 +1,7 @@
 <div class="row">
     <div class="col-md-12">
         <div class="form-group">
-            <button class="btn btn-primary"><i class="fa fa-plus"></i> Добавить
+            <button ng-click="addUser()" class="btn btn-primary"><i class="fa fa-plus"></i> Добавить
                 пользователя
             </button>
         </div>
@@ -39,15 +39,15 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <tr ng-repeat="user in getUserList()">
+                            <tr ng-repeat="user in getUserList() | filter:userSearch">
                                 <td>@{{ user.id }}</td>
                                 <td>@{{ user.email }}</td>
                                 <td>@{{ user.ibs_id }}</td>
-                                <td><input ng-model="user.blocked" ng-true-value="'1'" ng-false-value="'0'" disabled type="checkbox" checked></td>
+                                <td><input ng-model="user.blocked" ng-true-value="1" ng-false-value="0" disabled type="checkbox" checked></td>
                                 <td>
                                     <button ng-click="editUser(user)" class="btn btn-success btn-xs"><i class="fa fa-edit"></i></button>
                                     <button ng-click="deleteUser(user)" class="btn btn-danger btn-xs"><i class="fa fa-remove"></i></button>
-                                    <button ng-click="lock(user)" class="btn btn-warning btn-xs"><i ng-class="{'fa-unlock': isBlocked(user), 'fa-lock': !isBlocked(user)}" class="fa"></i></button>
+                                    <button ng-click="blockUser(user)" class="btn btn-warning btn-xs"><i ng-class="{'fa-unlock': isBlocked(user), 'fa-lock': !isBlocked(user)}" class="fa"></i></button>
                                 </td>
                             </tr>
 
@@ -69,68 +69,47 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">Добавление пользователя</h4>
+                <h4 class="modal-title"><span ng-if="!editedUser.id">Добавление</span><span ng-if="editedUser.id">Изменение</span> пользователя</h4>
             </div>
             <div class="modal-body">
                 <div class="form-group">
                     <div class="form-group">
+                        <div class="alert alert-danger" ng-if="userError.show">
+                            <strong>Ошибка: </strong> @{{ userError.message }}
+                        </div>
                         <form name="userEditForm">
                             <table class="table">
-                                <tr>
+                                <tr ng-class="{'has-error':userEditForm.name.$invalid}">
+                                    <td><label>Имя: </label></td>
+                                    <td><input ng-model="editedUser.name" name="name" maxlength="150" class="form-control" required type="text"></td>
+                                </tr>
+                                <tr ng-class="{'has-error':userEditForm.email.$invalid}">
                                     <td><label>E-mail: </label></td>
-                                    <td><input ng-model="editedUser.email" maxlength="100" class="form-control" required type="email"></td>
+                                    <td><input ng-model="editedUser.email" name="email" maxlength="100" class="form-control" required type="email"></td>
                                 </tr>
-                                <tr>
+                                <tr ng-class="{'has-error':userEditForm.phone.$invalid}">
                                     <td><label>Телефон: </label></td>
-                                    <td><input ng-model="editedUser.phone" class="form-control" required pattern="996[0-9]{9}"></td>
+                                    <td><input ng-model="editedUser.phone" name="phone" class="form-control" required pattern="996[0-9]{9}"></td>
                                 </tr>
-                                <tr>
+                                <tr ng-class="{'has-error':userEditForm.ibs.$invalid}">
                                     <td><label>Идентификатор в АБС: </label></td>
-                                    <td><input class="form-control" ng-model="editedUser.ibs_id" required type="number"></td>
+                                    <td><input class="form-control" name="ibs" ng-model="editedUser.ibs_id" required type="number"></td>
                                 </tr>
-                                <tr>
-                                    <td colspan="2">
-                                        <div class="table-responsive">
-                                            <table class="table table-bordered">
-                                                <thead>
-                                                <tr>
-                                                    <th>#</th>
-                                                    <th>Валюта</th>
-                                                    <th>Кредит</th>
-                                                </tr>
-                                                </thead>
-                                                <tbody>
-                                                <tr>
-                                                    <td>1</td>
-                                                    <td>USD</td>
-                                                    <td>1000</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>2</td>
-                                                    <td>RUB</td>
-                                                    <td>2000</td>
-                                                </tr>
-                                                </tbody>
-                                            </table>
-                                        </div>
-
-                                    </td>
-                                </tr>
-                                <tr>
+                                <tr ng-class="{'has-error':userEditForm.icount.$invalid}">
                                     <td><label>Количество сделок: </label></td>
-                                    <td><input ng-model="editedUser.invoice_count" class="form-control" required type="number"></td>
+                                    <td><input ng-model="editedUser.invoice_count" name="icount" class="form-control" required type="number"></td>
                                 </tr>
                                 <tr>
                                     <td><label>До какой даты осуществляет сделки: </label></td>
                                     <td>
                                         <div class="input-group date">
-                                            <input type="text" class="form-control"><span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                            <input id="activeDate" type="text" class="form-control"><span class="input-group-addon"><i class="fa fa-calendar"></i></span>
                                         </div>
                                     </td>
                                 </tr>
-                                <tr>
+                                <tr ng-class="{'has-error':userEditForm.comment.$invalid}">
                                     <td><label>Дополнительная информация: </label></td>
-                                    <td><input ng-model="editedUser.comment" class="form-control" type="text"></td>
+                                    <td><input ng-model="editedUser.comment" name="comment" maxlength="500" class="form-control" type="text"></td>
                                 </tr>
                             </table>
                         </form>
@@ -138,7 +117,8 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" ng-click="saveUser(editedUser, userEditForm)" class="btn btn-primary">Применить</button>
+                <button ng-if="!editedUser.id" type="button" ng-click="saveAddUser(editedUser, userEditForm)" class="btn btn-primary">Добавить</button>
+                <button ng-if="editedUser.id" type="button" ng-click="saveEditUser(editedUser, userEditForm)" class="btn btn-primary">Изменить</button>
                 <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
             </div>
         </div>
@@ -148,7 +128,7 @@
 
 <script>
     $('#userModal .input-group.date').datepicker({
-        format: 'dd.mm.yyyy',
+        format: 'yyyy-mm-dd',
         language: "ru",
         startDate: new Date()
     });

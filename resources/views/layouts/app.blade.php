@@ -17,6 +17,7 @@
 
 
     <!-- Scripts -->
+    <script src="{{ asset('js/moment.min.js') }}"></script>
     <script src="{{ asset('js/app.js') }}"></script>
     <script src="{{ asset('js/angular.min.js') }}"></script>
     <script src="{{ asset('js/angular-sanitize.min.js') }}"></script>
@@ -24,6 +25,10 @@
     <script src="{{ asset('js/underscore-min.js') }}"></script>
     <script src="{{ asset('js/patch.js') }}"></script>
     <script src="{{ asset('js/app/main.js') }}"></script>
+
+    <!-- UTILS -->
+
+    <script src="{{ asset('js/app/helpers/utils.js') }}"></script>
 
 </head>
 <body ng-app="ExchangeApp">

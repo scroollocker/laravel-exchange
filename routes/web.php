@@ -37,8 +37,13 @@ Route::group(['as'=>'user', 'middleware' => 'auth'], function() {
 
 Route::group(['as'=>'admin', 'middleware' => ['admin','auth']], function() {
     Route::get('/dashboard', 'HomeController@admin')->name('dashboard');
+
     Route::get('/users/list', 'AdminController@userList');
     Route::get('/users/get', 'AdminController@getUserList');
+    Route::post('/user/add', 'AdminController@addUser');
+    Route::post('/user/edit', 'AdminController@editUser');
+    Route::post('/user/block', 'AdminController@blockUser');
+
     Route::get('/currency/list', 'AdminController@currencyList');
     Route::get('/settings/list', 'AdminController@settingsList');
 });
