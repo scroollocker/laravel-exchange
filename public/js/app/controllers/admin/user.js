@@ -90,7 +90,16 @@ app.controller('UserController', ['$scope', '$http', 'AppUtils', function($scope
             return;
         }
 
+        var active_date = $('#activeDate').val();
+
+        if (active_date === null || active_date === undefined || active_date === '') {
+            $scope.userError.message = 'Не выбрана дата';
+            AppUtils.showAlertBox($scope.userError);
+            return;
+        }
+
         var request = $scope.editedUser;
+        request.active_date = active_date;
 
         $http.post('/user/edit', request).then(function (response) {
             response = response.data;
@@ -119,7 +128,16 @@ app.controller('UserController', ['$scope', '$http', 'AppUtils', function($scope
             return;
         }
 
+        var active_date = $('#activeDate').val();
+
+        if (active_date === null || active_date === undefined || active_date === '') {
+            $scope.userError.message = 'Не выбрана дата';
+            AppUtils.showAlertBox($scope.userError);
+            return;
+        }
+
         var request = $scope.editedUser;
+        request.active_date = active_date;
 
         $http.post('/user/add', request).then(function (response) {
             response = response.data;
@@ -139,6 +157,60 @@ app.controller('UserController', ['$scope', '$http', 'AppUtils', function($scope
 
         console.log('Success');
 
-    }
+    };
+
+    $scope.removeUser = function (user) {
+        if (user === undefined || !user) {
+            return;
+        }
+
+        if (!confirm('Вы действительно хотите удалить пользователя?')) {
+            return;
+        }
+
+        var request = {
+            'user_id' : user.id
+        };
+
+        $http.post('/user/remove', request).then(function (response) {
+            response = response.data;
+
+            if (response.status) {
+                $scope.loadUserList();
+            }
+            else {
+                alert(response.message);
+            }
+        }, function (response) {
+            alert('Произошла системная ошибка');
+        });
+    };
+
+    $scope.resetPassword = function (user) {
+        if (user === undefined || !user) {
+            return;
+        }
+
+        if (!confirm('Вы действительно хотите сбросить пароль?')) {
+            return;
+        }
+
+        var request = {
+            'user_id' : user.id
+        };
+
+        $http.post('/user/reset', request).then(function (response) {
+            response = response.data;
+
+            if (response.status) {
+                $scope.loadUserList();
+            }
+            else {
+                alert(response.message);
+            }
+        }, function (response) {
+            alert('Произошла системная ошибка');
+        });
+    };
 
 }]);

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Currency;
 use App\User;
 use Exception;
 use Illuminate\Http\Request;
@@ -20,6 +21,200 @@ class AdminController extends Controller
 
     public function currencyList() {
         return view('admin.currency-list');
+    }
+
+    public function getCurrencyList() {
+        $currencies = Currency::all();
+
+        return response()->json(array(
+            'status' => true,
+            'currencies' => $currencies->toArray()
+        ));
+    }
+
+    public function addNewCurrency(Request $request) {
+
+        $messages = array(
+            'cur_code.required' => 'Поле код валюты обязателен к заполнению',
+            'cur_code.max' => 'Поле код валюты превышает допустимый размер символов',
+            'cur_name.max' => 'Поле наименование валюты превышает допустимый размер символов',
+            'cur_name.required' => 'Поле наименование валюты превышает допустимый размер символов'
+        );
+
+        $rules = array(
+            'cur_code' => array(
+                'required', 'max:20'
+            ),
+            'cur_name' => array(
+                'required', 'max:50'
+            )
+        );
+
+        try {
+            $validator = Validator::make($request->all(), $rules, $messages);
+
+            if ($validator->fails()) {
+                $errMsg = '';
+                foreach ($validator->errors()->all() as $error) {
+                    $errMsg .= $error;
+                }
+                throw new Exception($errMsg);
+            }
+
+            $currency = new Currency;
+
+            $currency->cur_code = $request->cur_code;
+            $currency->cur_name = $request->cur_name;
+
+            $currency->save();
+
+            \Log::info('Save currency');
+            \Log::info($currency->toArray());
+
+            return response()->json(array(
+                'status' => true
+            ));
+
+        }
+        catch (Exception $ex) {
+            \Log::error($ex->getMessage());
+            return response()->json(array(
+                'status' => false,
+                'message' => $ex->getMessage()
+            ));
+        }
+
+        $currencies = Currency::all();
+
+        return response()->json(array(
+            'status' => true,
+            'currencies' => $currencies->toArray()
+        ));
+    }
+
+    public function editCurrency(Request $request) {
+
+        $messages = array(
+            'id.required' => 'Неверный запрос',
+            'id.integer' => 'Неверный запрос',
+            'cur_code.required' => 'Поле код валюты обязателен к заполнению',
+            'cur_code.max' => 'Поле код валюты превышает допустимый размер символов',
+            'cur_name.max' => 'Поле наименование валюты превышает допустимый размер символов',
+            'cur_name.required' => 'Поле наименование валюты превышает допустимый размер символов'
+        );
+
+        $rules = array(
+            'id' => array(
+                'required', 'integer'
+            ),
+            'cur_code' => array(
+                'required', 'max:20'
+            ),
+            'cur_name' => array(
+                'required', 'max:50'
+            )
+        );
+
+        try {
+            $validator = Validator::make($request->all(), $rules, $messages);
+
+            if ($validator->fails()) {
+                $errMsg = '';
+                foreach ($validator->errors()->all() as $error) {
+                    $errMsg .= $error;
+                }
+                throw new Exception($errMsg);
+            }
+
+            $currency = Currency::find($request->id);
+
+            if (is_null($currency)) {
+                throw new Exception('Валюта не найдена');
+            }
+
+            $currency->cur_code = $request->cur_code;
+            $currency->cur_name = $request->cur_name;
+
+            $currency->save();
+
+            \Log::info('Edit currency');
+            \Log::info($currency->toArray());
+
+            return response()->json(array(
+                'status' => true
+            ));
+
+        }
+        catch (Exception $ex) {
+            \Log::error($ex->getMessage());
+            return response()->json(array(
+                'status' => false,
+                'message' => $ex->getMessage()
+            ));
+        }
+
+        $currencies = Currency::all();
+
+        return response()->json(array(
+            'status' => true,
+            'currencies' => $currencies->toArray()
+        ));
+    }
+
+    public function removeCurrency(Request $request) {
+
+        $messages = array(
+            'id.required' => 'Неверный запрос',
+            'id.integer' => 'Неверный запрос'
+        );
+
+        $rules = array(
+            'id' => array(
+                'required', 'integer'
+            )
+        );
+
+        try {
+            $validator = Validator::make($request->all(), $rules, $messages);
+
+            if ($validator->fails()) {
+                $errMsg = '';
+                foreach ($validator->errors()->all() as $error) {
+                    $errMsg .= $error;
+                }
+                throw new Exception($errMsg);
+            }
+
+            $currency = Currency::find($request->id);
+
+            if (is_null($currency)) {
+                throw new Exception('Валюта не найдена');
+            }
+
+            \Log::info('Delete currency');
+            \Log::info($currency->toArray());
+
+            $currency->delete();
+
+            return response()->json(array(
+                'status' => true
+            ));
+
+        }
+        catch (Exception $ex) {
+            \Log::error($ex->getMessage());
+            return response()->json(array(
+                'status' => false,
+                'message' => $ex->getMessage()
+            ));
+        }
+
+        $currencies = Currency::all();
+
+        return response()->json(array(
+            'status' => true,
+            'currencies' => $currencies->toArray()
+        ));
     }
 
     public function settingsList() {
@@ -129,6 +324,8 @@ class AdminController extends Controller
 
             $newUser->save();
 
+            \Log::info('Save user');
+            \Log::info($newUser->toArray());
             \Log::info($userPin);
 
             return response()->json(array(
@@ -136,6 +333,7 @@ class AdminController extends Controller
             ));
 
         } catch (Exception $ex) {
+            \Log::error($ex->getMessage());
             return response()->json(array(
                 'status' => false,
                 'message' => $ex->getMessage()
@@ -215,24 +413,120 @@ class AdminController extends Controller
             $newUser->invoice_count = $request->invoice_count;
             $newUser->active_date = $request->active_date;
             $newUser->comment = $request->comment;
-            //$newUser->password = bcrypt($userPin);
-            //$newUser->blocked = 0;
-            //$newUser->recreatePwd = 1;
-
             $newUser->save();
 
-            //\Log::info($userPin);
+            \Log::info('Edit user');
+            \Log::info($newUser->toArray());
 
             return response()->json(array(
                 'status' => true
             ));
 
         } catch (Exception $ex) {
+            \Log::error($ex->getMessage());
             return response()->json(array(
                 'status' => false,
                 'message' => $ex->getMessage()
             ));
         }
     }
+
+    public function removeUser(Request $request) {
+        $messages = array(
+            'user_id.required' => 'Неверный запрос',
+            'user_id.integer' => 'Неверный запрос'
+        );
+
+        $rules = array(
+            'user_id' => array(
+                'required', 'integer'
+            )
+        );
+
+        try {
+            $validator = Validator::make($request->all(), $rules, $messages);
+            if ($validator->fails()) {
+                $errMsg = '';
+                foreach ($validator->errors()->all() as $error) {
+                    $errMsg .= $error;
+                }
+                throw new Exception($errMsg);
+            }
+
+            $user = User::where('id', $request->user_id)
+                            ->where('isAdmin', '0')
+                            ->first();
+            if (is_null($user)) {
+                throw new Exception('Пользователь не найден');
+            }
+
+            $user->delete();
+            \Log::info('User has been deleted');
+            \Log::info($user->toArray());
+
+            return response()->json(array(
+                'status' => true
+            ));
+        }
+        catch (Exception $ex) {
+            \Log::error($ex->getMessage());
+            return response()->json(array(
+                'status' => false,
+                'message' => $ex->getMessage()
+            ));
+        }
+    }
+
+    public function resetPassword(Request $request) {
+        $messages = array(
+            'user_id.required' => 'Неверный запрос',
+            'user_id.integer' => 'Неверный запрос'
+        );
+
+        $rules = array(
+            'user_id' => array(
+                'required', 'integer'
+            )
+        );
+
+        try {
+            $validator = Validator::make($request->all(), $rules, $messages);
+            if ($validator->fails()) {
+                $errMsg = '';
+                foreach ($validator->errors()->all() as $error) {
+                    $errMsg .= $error;
+                }
+                throw new Exception($errMsg);
+            }
+
+            $userPin = \Sms::generatePin();
+
+            $user = User::where('id', $request->user_id)
+                ->first();
+            if (is_null($user)) {
+                throw new Exception('Пользователь не найден');
+            }
+
+            $user->password = bcrypt($userPin);
+            $user->recreatePwd = 1;
+
+            \Log::info('User password has been updated');
+            \Log::info($user->toArray());
+            \Log::info($userPin);
+
+            return response()->json(array(
+                'status' => true
+            ));
+        }
+        catch (Exception $ex) {
+            \Log::error($ex->getMessage());
+            return response()->json(array(
+                'status' => false,
+                'message' => $ex->getMessage()
+            ));
+        }
+    }
+
+
 
 }

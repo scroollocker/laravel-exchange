@@ -46,8 +46,9 @@
                                 <td><input ng-model="user.blocked" ng-true-value="1" ng-false-value="0" disabled type="checkbox" checked></td>
                                 <td>
                                     <button ng-click="editUser(user)" class="btn btn-success btn-xs"><i class="fa fa-edit"></i></button>
-                                    <button ng-click="deleteUser(user)" class="btn btn-danger btn-xs"><i class="fa fa-remove"></i></button>
+                                    <button ng-click="removeUser(user)" class="btn btn-danger btn-xs"><i class="fa fa-remove"></i></button>
                                     <button ng-click="blockUser(user)" class="btn btn-warning btn-xs"><i ng-class="{'fa-unlock': isBlocked(user), 'fa-lock': !isBlocked(user)}" class="fa"></i></button>
+                                    <button ng-click="resetPassword(user)" class="btn btn-success btn-xs"><i class="fa fa-retweet"></i></button>
                                 </td>
                             </tr>
 
