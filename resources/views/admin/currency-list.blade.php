@@ -7,58 +7,49 @@
             <div class="panel-heading" style="padding: 15px;">
                 Список валют
             </div>
-
             <div class="panel-body">
-                <div class="form-group">
-                    <input class="form-control" placeholder="Поиск">
+                <div class="currency-empty" ng-if="!isCurrenciesLoading && getCurrencies().length === 0">
+                    <div class="text-center" style="font-size: 35px;">
+                        <p><i class="fa fa-flag"></i></p>
+                        <p>Валюты не найдены</p>
+                    </div>
                 </div>
-                <div class="table-responsive">
-                    <table class="table table-bordered">
-                        <thead>
-                            <tr>
-                                <th>#</th>
-                                <th>Код</th>
-                                <th>Наименование</th>
-                                <th>Сделки</th>
-                                <th>Действия</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>1</td>
-                                <td>USD</td>
-                                <td>Доллар</td>
-                                <td><input type="checkbox" checked></td>
-                                <td>
-                                    <button class="btn btn-success btn-xs"><i class="fa fa-edit"></i></button>
+                <div class="currency-loading" ng-if="isCurrenciesLoading">
+                    <div class="text-center" style="font-size: 35px;">
+                        <p><i class="fa fa-circle-o-notch fa-spin"></i></p>
+                        <p>Загрузка... Ожидайте.</p>
+                    </div>
+                </div>
+                <div class="currency-list" ng-if="!isCurrenciesLoading && getCurrencies().length > 0">
+                    <div class="form-group">
+                        <input ng-model="searchText" class="form-control" placeholder="Поиск">
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Код</th>
+                                    <th>Наименование</th>
+                                    <th>Сделки</th>
+                                    <th>Действия</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="currency in getCurrencies() | filter: searchText">
+                                    <td>@{{ currency.id }}</td>
+                                    <td>@{{ currency.cur_code }}</td>
+                                    <td>@{{ currency.cur_name }}</td>
+                                    <td><input ng-model="currency.cur_enable" ng-true-value="1" ng-false-value="0" type="checkbox" disabled></td>
+                                    <td>
+                                        <button class="btn btn-success btn-xs" ng-click="editCurrency(currency)"><i class="fa fa-edit"></i></button>
 
-                                    <button class="btn btn-warning btn-xs"><i class="fa fa-lock"></i></button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>2</td>
-                                <td>RUB</td>
-                                <td>Рубль</td>
-                                <td><input type="checkbox" checked></td>
-                                <td>
-                                    <button class="btn btn-success btn-xs"><i class="fa fa-edit"></i></button>
-
-                                    <button class="btn btn-warning btn-xs"><i class="fa fa-lock"></i></button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>3</td>
-                                <td>EUR</td>
-                                <td>Евро</td>
-                                <td><input type="checkbox" ></td>
-                                <td>
-                                    <button class="btn btn-success btn-xs"><i class="fa fa-edit"></i></button>
-
-                                    <button class="btn btn-warning btn-xs"><i class="fa fa-unlock"></i></button>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
+                                        <button class="btn btn-warning btn-xs" ng-click="blockCurrency(currency)"><i class="fa fa-lock"></i></button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
 
@@ -74,26 +65,29 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">Добавление валюты</h4>
+                <h4 class="modal-title"><span ng-if="!currencyEdit.id">Добавление</span><span ng-if="currencyEdit.id">Изменение</span> валюты</h4>
             </div>
             <div class="modal-body">
                 <div class="form-group">
-                    <div class="form-group">
-                       <table class="table">
-                           <tr>
-                               <td><label>Код: </label></td>
-                               <td><input class="form-control" type="text"></td>
-                           </tr>
-                           <tr>
-                               <td><label>Наименование: </label></td>
-                               <td><input class="form-control"  type="tel"></td>
-                           </tr>
-                       </table>
-                    </div>
+                    <form name="currencyEditForm">
+                        <div class="form-group">
+                           <table class="table">
+                               <tr ng-class="{'has-error':currencyEditForm.code.$invalid}">
+                                   <td><label>Код: </label></td>
+                                   <td><input name="code" ng-model="currencyEdit.cur_code" class="form-control" type="text" maxlength="20" required></td>
+                               </tr>
+                               <tr ng-class="{'has-error':currencyEditForm.name.$invalid}">
+                                   <td><label>Наименование: </label></td>
+                                   <td><input name="name" ng-model="currencyEdit.cur_name" class="form-control" type="text" maxlength="50" required></td>
+                               </tr>
+                           </table>
+                        </div>
+                    </form>
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary" >Применить</button>
+                <button type="button" class="btn btn-primary" ng-if="!currencyEdit.id">Добавить</button>
+                <button type="button" class="btn btn-primary" ng-if="currencyEdit.id">Изменить</button>
                 <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
             </div>
         </div>
