@@ -1,7 +1,7 @@
 <div class="row">
     <div class="col-md-12">
         <div class="form-group">
-            <button class="btn btn-primary" onclick="$('#currencyModal').modal('show');"><i class="fa fa-plus"></i> Добавить валюту</button>
+            <button class="btn btn-primary" ng-click="addCurrency()"><i class="fa fa-plus"></i> Добавить валюту</button>
         </div>
         <div class="panel panel-default" >
             <div class="panel-heading" style="padding: 15px;">
@@ -71,6 +71,9 @@
                 <div class="form-group">
                     <form name="currencyEditForm">
                         <div class="form-group">
+                            <div class="alert alert-danger" ng-if="currencyError.show">
+                                <strong>Ошибка</strong> @{{ currencyError.message }}
+                            </div>
                            <table class="table">
                                <tr ng-class="{'has-error':currencyEditForm.code.$invalid}">
                                    <td><label>Код: </label></td>
@@ -86,8 +89,8 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary" ng-if="!currencyEdit.id">Добавить</button>
-                <button type="button" class="btn btn-primary" ng-if="currencyEdit.id">Изменить</button>
+                <button type="button" ng-click="saveCurrency(currencyEdit, currencyEditForm)" class="btn btn-primary" ng-if="!currencyEdit.id">Добавить</button>
+                <button type="button" ng-click="saveEditCurrency(currencyEdit, currencyEditForm)" class="btn btn-primary"  ng-if="currencyEdit.id">Изменить</button>
                 <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
             </div>
         </div>

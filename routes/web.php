@@ -50,7 +50,7 @@ Route::group(['as'=>'admin', 'middleware' => ['admin','auth']], function() {
     Route::get('/currency/get', 'AdminController@getCurrencyList');
     Route::post('/currency/add', 'AdminController@addNewCurrency');
     Route::post('/currency/edit', 'AdminController@editCurrency');
-    Route::post('/currency/remove', 'AdminController@removeCurrency');
+    Route::post('/currency/block', 'AdminController@blockCurrency');
 
     Route::get('/settings/list', 'AdminController@settingsList');
 });

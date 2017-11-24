@@ -65,6 +65,7 @@ class AdminController extends Controller
 
             $currency->cur_code = $request->cur_code;
             $currency->cur_name = $request->cur_name;
+            $currency->cur_enable = 1;
 
             $currency->save();
 
@@ -84,12 +85,6 @@ class AdminController extends Controller
             ));
         }
 
-        $currencies = Currency::all();
-
-        return response()->json(array(
-            'status' => true,
-            'currencies' => $currencies->toArray()
-        ));
     }
 
     public function editCurrency(Request $request) {
@@ -153,23 +148,22 @@ class AdminController extends Controller
             ));
         }
 
-        $currencies = Currency::all();
-
-        return response()->json(array(
-            'status' => true,
-            'currencies' => $currencies->toArray()
-        ));
     }
 
-    public function removeCurrency(Request $request) {
+    public function blockCurrency(Request $request) {
 
         $messages = array(
             'id.required' => 'Неверный запрос',
-            'id.integer' => 'Неверный запрос'
+            'id.integer' => 'Неверный запрос',
+            'block.integer' => 'Неверный запрос',
+            'block.required' => 'Неверный запрос'
         );
 
         $rules = array(
             'id' => array(
+                'required', 'integer'
+            ),
+            'block' => array(
                 'required', 'integer'
             )
         );
@@ -191,10 +185,12 @@ class AdminController extends Controller
                 throw new Exception('Валюта не найдена');
             }
 
-            \Log::info('Delete currency');
+            \Log::info('lock\unlock currency');
             \Log::info($currency->toArray());
 
-            $currency->delete();
+            $currency->cur_enable = $request->block;
+
+            $currency->save();
 
             return response()->json(array(
                 'status' => true
@@ -208,13 +204,6 @@ class AdminController extends Controller
                 'message' => $ex->getMessage()
             ));
         }
-
-        $currencies = Currency::all();
-
-        return response()->json(array(
-            'status' => true,
-            'currencies' => $currencies->toArray()
-        ));
     }
 
     public function settingsList() {
