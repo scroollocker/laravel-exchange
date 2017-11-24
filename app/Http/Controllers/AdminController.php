@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Currency;
+use App\Setting;
 use App\User;
 use Exception;
 use Illuminate\Http\Request;
@@ -208,6 +209,64 @@ class AdminController extends Controller
 
     public function settingsList() {
         return view('admin.settings-list');
+    }
+
+    public function getSeeting(Request $request) {
+        $setting = Setting::all()->first();
+
+        return response()->json(array(
+            'status' => true,
+            'setting' => $setting
+        ));
+    }
+
+    public function saveSetting(Request $request) {
+        $messages = array(
+//            'id.required' => 'Неверный запрос',
+//            'id.integer' => 'Неверный запрос',
+            'settings_err_count.required' => 'поле Количество ошибок обязательно',
+            'settings_err_count.integer' => 'поле Количество ошибок имеет неверный формат',
+            'settings_day.required' => 'поле Дней на операцию обязательно',
+            'settings_day.integer' => 'поле Дней на операцию имеет неверный формат',
+            'settings_op_count.required' => 'поле Дней на операцию обязательно',
+            'settings_op_count.integer' => 'поле Дней на операцию имеет неверный формат'
+        );
+
+        $rules = array(
+//            'id' => array(
+//                'required', 'integer'
+//            ),
+            'settings_err_count' => array(
+                'required', 'integer'
+            ),
+            'settings_day' => array(
+                'required', 'integer'
+            ),
+            'settings_op_count' => array(
+                'required', 'integer'
+            )
+        );
+
+        try {
+            $validator = Validator::make($request->all(), $rules, $messages);
+            if ($validator->fails()) {
+                $errMsg = '';
+                foreach ($validator->errors()->all() as $error) {
+                    $errMsg .= $error;
+                }
+                throw new Exception($errMsg);
+            }
+
+
+
+        } catch (Exception $ex) {
+            \Log::error($ex);
+
+            return response()->json(array(
+                'status' => false,
+                'message' => $ex->getMessage()
+            ));
+        }
     }
 
     public function getUserList() {
