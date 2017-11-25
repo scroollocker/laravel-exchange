@@ -65,7 +65,7 @@
                         @else
                         @can('is-admin')
                             <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+                                <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
                                     <i class="fa fa-dashboard"></i> Панель администратора<span class="caret"></span>
                                 </a>
 

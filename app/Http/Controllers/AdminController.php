@@ -222,8 +222,6 @@ class AdminController extends Controller
 
     public function saveSetting(Request $request) {
         $messages = array(
-//            'id.required' => 'Неверный запрос',
-//            'id.integer' => 'Неверный запрос',
             'settings_err_count.required' => 'поле Количество ошибок обязательно',
             'settings_err_count.integer' => 'поле Количество ошибок имеет неверный формат',
             'settings_day.required' => 'поле Дней на операцию обязательно',
@@ -254,10 +252,28 @@ class AdminController extends Controller
                 foreach ($validator->errors()->all() as $error) {
                     $errMsg .= $error;
                 }
-                throw new Exception($errMsg);
+                throw new Exceptisettings_err_counton($errMsg);
             }
 
+            $settingId = $request->id;
+            $settingModel = null;
+            if ($settingId) {
+                $settingModel = Setting::find($settingId);
+            }
 
+            if (is_null($settingModel)) {
+                $settingModel = new Setting;
+            }
+
+            $settingModel->settings_err_count = $request->settings_err_count;
+            $settingModel->settings_day = $request->settings_day;
+            $settingModel->settings_op_count = $request->settings_op_count;
+
+            $settingModel->save();
+
+            return response()->json(array(
+                'status' => true
+            ));
 
         } catch (Exception $ex) {
             \Log::error($ex);
