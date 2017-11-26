@@ -6,6 +6,7 @@
     <script src="{{ asset('js/app/controllers/invoice.js') }}"></script>
     <script src="{{ asset('js/app/controllers/chat.js') }}"></script>
     <script src="{{ asset('js/app/controllers/settings.js') }}"></script>
+    <script src="{{ asset('js/app/controllers/accounts.js') }}"></script>
 
 <div class="container">
     <!--<div class="row">

@@ -142,4 +142,8 @@ class UserSettingsController extends Controller
             ));
         }
     }
+
+    public function accountsView() {
+        return view('settings.user-accounts');
+    }
 }
