@@ -83,21 +83,38 @@
                             </li>
                         @else
                                 <li><a href="#">Заявки</a></li>
-                                <li><a href="#"><i class="fa fa-gear"></i> Настройки</a></li>
                         @endcan
+                                <li class="dropdown">
+                                    <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+                                        <i class="fa fa-gears"></i> Настройки<span class="caret"></span>
+                                    </a>
 
+                                    <ul class="dropdown-menu" role="menu">
+                                        <li>
+                                            <a href="home/#!/user/settings"><i class="fa fa-user"></i> Мои настройки</a>
+                                        </li>
+                                        <li>
+                                            <a href="home/#!/user/accounts"><i class="fa fa-credit-card"></i> Мои счета</a>
+                                        </li>
+                                        <li>
+                                            <a href="home/#!/user/partners"><i class="fa fa-users"></i> Мои партнеры</a>
+                                        </li>
+                                    </ul>
+                                </li>
 
                             <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+                                <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+
                                     <i class="fa fa-user"></i> {{ Auth::user()->name }} <span class="caret"></span>
                                 </a>
 
                                 <ul class="dropdown-menu" role="menu">
+
                                     <li>
                                         <a href="{{ route('logout') }}"
                                             onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
-                                            Выйти
+                                            <i class="fa fa-sign-out"></i> Выйти
                                         </a>
 
                                         <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">

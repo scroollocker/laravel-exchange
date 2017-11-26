@@ -33,6 +33,10 @@ Route::group(['as'=>'user', 'middleware' => 'auth'], function() {
     Route::post('/chat/send', 'ChatController@send');
     Route::get('/chat/chats', 'ChatController@getInvoiceChats');
 
+    Route::get('/user/settings', 'UserSettingsController@showUserSettingsView');
+    Route::get('/user/settings/get', 'UserSettingsController@getUserSettings');
+    Route::post('/user/settings/save', 'UserSettingsController@saveUserSettings');
+
 });
 
 Route::group(['as'=>'admin', 'middleware' => ['auth','admin']], function() {

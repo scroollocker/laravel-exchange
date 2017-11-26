@@ -4,6 +4,21 @@ app.config(['$routeProvider', function($routeProvider) {
         controller: 'InvoicesController'
     });
 
+    $routeProvider.when('/user/settings',  {
+        templateUrl: '/user/settings',
+        controller: 'UserSettings'
+    });
+
+    $routeProvider.when('/user/accounts',  {
+        templateUrl: '/user/accounts',
+        controller: 'UserAccounts'
+    });
+
+    $routeProvider.when('/user/partners',  {
+        templateUrl: '/user/partners',
+        controller: 'UserPartners'
+    });
+
     $routeProvider.when('/invoices/add',  {
         templateUrl: '/invoices/add',
         controller: 'InvoicesController'
