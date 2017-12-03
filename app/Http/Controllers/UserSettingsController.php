@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\User;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
 class UserSettingsController extends Controller
@@ -145,5 +146,74 @@ class UserSettingsController extends Controller
 
     public function accountsView() {
         return view('settings.user-accounts');
+    }
+
+    public function getUserAccounts() {
+        try {
+            $user = \Auth::user();
+
+            if (is_null($user)) {
+                throw new Exception('Вы не авторизованы');
+            }
+
+            $accounts = \AccountDb::getAccounts($user->id);
+
+            return response()->json(array(
+                'status' => true,
+                'accounts' => $accounts
+            ));
+
+        }
+        catch(Exception $ex) {
+            return response()->json(array(
+                'status' => false,
+                'message' => $ex->getMessage()
+            ));
+        }
+    }
+
+    public function enableUserAccount(Request $request) {
+        $messages = array(
+            'account_id.required' => 'Неверный запрос',
+            'account_id.integer' => 'Параметр имеет неверный формат',
+            'account_state.required' => 'Неверный запрос',
+            'account_state.integer' => 'Параметр имеет неверный формат'
+        );
+
+        $rules = array(
+            'account_id' => array(
+                'required', 'integer'
+            ),
+            'account_state' => array(
+                'required', 'integer'
+            )
+        );
+        try {
+            $validator = Validator::make($request->all(), $rules, $messages);
+            if ($validator->fails()) {
+                $errMsg = '';
+                foreach ($validator->errors()->all() as $error) {
+                    $errMsg .= $error;
+                }
+                throw new Exception($errMsg);
+            }
+
+            /* TODO: check for user account */
+
+            \AccountDb::setAccountState($request->account_id, $request->account_state);
+
+            return response()->json(array(
+                'status' => true
+            ));
+
+        }
+        catch(Exception $ex) {
+            return response()->json(array(
+                'status' => false,
+                'message' => $ex->getMessage()
+            ));
+        }
+
+
     }
 }

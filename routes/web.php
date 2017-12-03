@@ -38,6 +38,8 @@ Route::group(['as'=>'user', 'middleware' => 'auth'], function() {
     Route::post('/user/settings/save', 'UserSettingsController@saveUserSettings');
 
     Route::get('/user/accounts', 'UserSettingsController@accountsView');
+    Route::get('/user/accounts/get', 'UserSettingsController@getUserAccounts');
+    Route::post('/user/accounts/state', 'UserSettingsController@enableUserAccount');
 
 });
 

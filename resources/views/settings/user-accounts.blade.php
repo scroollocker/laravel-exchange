@@ -36,18 +36,18 @@
                             </thead>
                             <tbody>
                                 <tr ng-repeat="account in getAccounts()">
-                                    <td>@{{ account.number }}</td>
-                                    <td>@{{ account.currency }}</td>
-                                    <td>@{{ account.balance }}</td>
-                                    <td>@{{ account.block_balance }}</td>
-                                    <td>@{{ account.dest }}</td>
-                                    <td>@{{ account.status }}</td>
-                                    <td><input type="checkbox" disabled ng-true-value="1" ng-false-value="0" ng-model="account.allow"></td>
+                                    <td>@{{ account.num_v }}</td>
+                                    <td>@{{ account.cur_name }}</td>
+                                    <td>@{{ account.saldo_nd }}</td>
+                                    <td>@{{ account.saldo_limit_nd }}</td>
+                                    <td>@{{ account.account_name }}</td>
+                                    <td>@{{ account.account_status }}</td>
+                                    <td><input type="checkbox" disabled ng-true-value="1" ng-false-value="0" ng-model="account.for_deal_n"></td>
                                     <td>
-                                        <button ng-if="account.allow == 1" class="btn btn-warning btn-sm">
+                                        <button ng-click="setAccountState(account)" ng-if="account.for_deal_n == 1" class="btn btn-warning btn-sm">
                                             <i class="fa fa-lock"></i>
                                         </button>
-                                        <button ng-if="account.allow == 0" class="btn btn-warning btn-sm">
+                                        <button ng-click="setAccountState(account)" ng-if="account.for_deal_n == 0" class="btn btn-warning btn-sm">
                                             <i class="fa fa-unlock"></i>
                                         </button>
                                     </td>
