@@ -41,6 +41,8 @@ Route::group(['as'=>'user', 'middleware' => 'auth'], function() {
     Route::get('/user/accounts/get', 'UserSettingsController@getUserAccounts');
     Route::post('/user/accounts/state', 'UserSettingsController@enableUserAccount');
 
+    Route::get('user/partners',  'UserSettingsController@partnersView');
+    Route::get('user/partners/get', 'UserSettingsController@getPartners');
 });
 
 Route::group(['as'=>'admin', 'middleware' => ['auth','admin']], function() {
