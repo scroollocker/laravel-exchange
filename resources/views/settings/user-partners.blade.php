@@ -41,7 +41,7 @@
                                         <button ng-click="setPartnerState(partner)" ng-if="partner.state == 1" class="btn btn-warning btn-sm">
                                             <i class="fa fa-lock"></i>
                                         </button>
-                                        <button ng-click="setPartnerState(partner)" ng-if="account.state == 2" class="btn btn-warning btn-sm">
+                                        <button ng-click="setPartnerState(partner)" ng-if="partner.state == 2" class="btn btn-warning btn-sm">
                                             <i class="fa fa-unlock"></i>
                                         </button>
                                         <button ng-click="removePartner(partner)" class="btn btn-danger btn-sm">

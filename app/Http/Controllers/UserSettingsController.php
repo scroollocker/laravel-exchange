@@ -213,7 +213,134 @@ class UserSettingsController extends Controller
                 'message' => $ex->getMessage()
             ));
         }
+    }
 
+    public function partnersView() {
+        return view('settings/user-partners');
+    }
 
+    public function getPartners(Request $request) {
+        try {
+            $user = \Auth::user();
+
+            if (is_null($user)) {
+                throw new Exception('Пользователь не авторизован');
+            }
+
+            $partners = \DB::table('tb_user_list as ul')
+                            ->join('users as u', 'u.id', '=', 'ul.user_id')
+                            ->join('users as p', 'p.id', '=', 'ul.user_id')
+                        ->select('ul.user_list_id AS id', 'ul.user_id AS user_id', 'ul.partner_id AS partner_id', 'p.email AS partner_email', 'ul.state_n as state')
+                        ->get();
+
+            return response()->json(array(
+                'status' => true,
+                'partners' => $partners->toArray()
+            ));
+
+        } catch (Exception $ex) {
+            return response()->json(array(
+                'status' => false,
+                'message' => $ex->getMessage()
+            ));
+        }
+    }
+
+    public function setPartnersState(Request $request) {
+
+        $messages = array(
+            'partner_id.required' => 'Неверный запрос',
+            'partner_id.integer' => 'Неверный формат запроса',
+            'state.required' => 'Неверный запрос',
+            'state.regex' => 'Невернй формат запроса'
+        );
+
+        $rules = array(
+            'partner_id' => array(
+                'required', 'integer'
+            ),
+            'state' => array(
+                'required', 'regex:/^[1|2]$/'
+            )
+        );
+
+        try {
+
+            $user = Auth::user();
+
+            if (is_null($user)) {
+                throw new Exception('Пользователь не авторизован');
+            }
+
+            $validator = Validator::make($request->all(), $rules, $messages);
+
+            if ($validator->fails()) {
+                $errMsg = '';
+                foreach ($validator->errors()->all() as $error) {
+                    $errMsg .= $error;
+                }
+                throw new Exception($errMsg);
+            }
+
+            \DB::select('call merge_user_list(?,?,?);', array($user->id, $request->partner_id, $request->state));
+
+            /*\DB::table('tb_user_list')
+                ->where('user_id', $user->id)
+                ->where('partner_id', $request->partner_id)
+                ->update(array(
+                    'state_n' => $request->state
+                ));
+            */
+            return response()->json(array(
+                'status' => true
+            ));
+        }
+        catch (Exception $ex) {
+            return response()->json(array(
+                'status' => false,
+                'message' => $ex->getMessage()
+            ));
+        }
+
+    }
+
+    public function removePartner(Request $request) {
+        $messages = array(
+            'partner_id.required' => 'Неверный запрос',
+            'partner_id.integer' => 'Неверный формат запроса'
+        );
+
+        $rules = array(
+            'partner_id' => array(
+                'required', 'integer'
+            )
+        );
+
+        try {
+            $validator = Validator::make($request->all(), $rules, $messages);
+
+            $user = Auth::user();
+
+            if (is_null($user)) {
+                throw new Exception('Пользователь не авторизован');
+            }
+
+            if ($validator->fails()) {
+                $errMsg = '';
+                foreach ($validator->errors()->all() as $error) {
+                    $errMsg .= $error;
+                }
+                throw new Exception($errMsg);
+            }
+
+            \DB::select('call delete_user_list(?,?);', array($user->id, $request->partner_id));
+
+            return response()->json(array(
+                'status' => true
+            ));
+        }
+        catch (Exception $ex) {
+
+        }
     }
 }
