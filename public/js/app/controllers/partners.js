@@ -4,9 +4,11 @@
 
 app.controller('UserPartners', ['$scope', '$http', function($scope, $http) {
     $scope.partnersLoading = false;
+    $scope.userLoading = false;
 
     $scope.parners = [];
     $scope.userList = [];
+    $scope.isAddView = false;
 
     $scope.paginator = {
         "total": 50,
@@ -25,6 +27,8 @@ app.controller('UserPartners', ['$scope', '$http', function($scope, $http) {
     $scope.currentPage = 1;
     $scope.pageCount = 10;
     $scope.perViewPages = 4;
+    $scope.userSearch = '';
+    $scope.selectedUser = {};
 
     $scope.getPages = function() {
         var fView = $scope.paginator.current_page - $scope.perViewPages;
@@ -85,6 +89,44 @@ app.controller('UserPartners', ['$scope', '$http', function($scope, $http) {
         return $scope.userList;
     };
 
+    $scope.loadUsers = function (page) {
+        $scope.userLoading = true;
+        var request = {
+            'page': page,
+            'q': $scope.userSearch
+        };
+
+        $http.post('/user/partners/userlist', request).then(function (response) {
+            $scope.userLoading = false;
+            response = response.data;
+            if (response.status) {
+                $scope.paginator = response.paginator;
+                if ($scope.paginator.data !== null && $scope.paginator.data !== undefined) {
+                    $scope.userList = $scope.paginator.data;
+                }
+                else {
+                    $scope.userList = [];
+                }
+            }
+            else {
+
+                alert(response.message);
+            }
+        }, function (response) {
+            $scope.userLoading = false;
+            alert('Произошла системная ошибка');
+        });
+    };
+
+    $scope.showAddView = function (user) {
+        $scope.selectedUser = angular.copy(user);
+        $scope.isAddView = true;
+    };
+
+    $scope.closeAddView = function () {
+        $scope.isAddView = false;
+    };
+
     $scope.loadPartners = function() {
         $scope.partnersLoading = true;
 
@@ -98,8 +140,8 @@ app.controller('UserPartners', ['$scope', '$http', function($scope, $http) {
                 alert(response.message);
             }
         }, function(response) {
-            $scope.partnersLoading = false;
             alert('Произошла системная ошибка');
+            $scope.partnersLoading = false;
         });
     };
 
@@ -110,8 +152,6 @@ app.controller('UserPartners', ['$scope', '$http', function($scope, $http) {
             'partner_id': partner.partner_id,
             'state': newState
         };
-
-
 
         $scope.partnersLoading = true;
         $http.post('/user/partners/state', request).then(function (response) {
@@ -153,7 +193,9 @@ app.controller('UserPartners', ['$scope', '$http', function($scope, $http) {
     };
 
     $scope.addPartner = function () {
+        $scope.isAddView = false;
         $('#addPartnerModal').modal('show');
+        $scope.loadUsers(1);
     };
 
     $scope.loadPartners();

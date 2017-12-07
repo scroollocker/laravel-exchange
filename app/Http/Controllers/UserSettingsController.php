@@ -340,7 +340,47 @@ class UserSettingsController extends Controller
             ));
         }
         catch (Exception $ex) {
-
+            return response()->json(array(
+                'status' => false,
+                'message' => $ex->getMessage()
+            ));
         }
+    }
+
+    public function getUserList(Request $request) {
+        $messages = array(
+            'page.integer' => 'Неверный запрос'
+        );
+
+        $rules = array(
+            'page' => array(
+                'integer', 'nullable'
+            ),
+            'q' => array(
+                'nullable'
+            )
+        );
+        try {
+            $validator = Validator::make($request->all(), $rules, $messages);
+            if ($validator->fails()) {
+                $errMsg = '';
+                foreach ($validator->errors()->all() as $error) {
+                    $errMsg .= $error;
+                }
+                throw new Exception($errMsg);
+            }
+
+            $page = ($request->page) ? $request->page : '1';
+            $q = ($request->q) ? $request->q : '';
+
+
+
+        } catch (Exception $ex) {
+            return response()->json(array(
+                'status' => false,
+                'message' => $ex->getMessage()
+            ));
+        }
+
     }
 }
