@@ -57,7 +57,7 @@ app.controller('UserPartners', ['$scope', '$http', function($scope, $http) {
     };
 
     $scope.isLastPage = function() {
-        if ($scope.paginator.current_page = $scope.paginator.last_page) {
+        if ($scope.paginator.current_page == $scope.paginator.last_page) {
             return true;
         }
         else {
@@ -81,12 +81,24 @@ app.controller('UserPartners', ['$scope', '$http', function($scope, $http) {
         return prevPage;
     };
 
+    $scope.getLastPage = function () {
+        return $scope.paginator.last_page;
+    };
+
+    $scope.getFirstPage = function () {
+        return '1';
+    };
+
     $scope.getPartners = function() {
         return $scope.parners;
     };
 
     $scope.getUserList = function() {
         return $scope.userList;
+    };
+
+    $scope.isActivePage = function (page) {
+        return $scope.paginator.current_page == page;
     };
 
     $scope.loadUsers = function (page) {
@@ -120,11 +132,40 @@ app.controller('UserPartners', ['$scope', '$http', function($scope, $http) {
 
     $scope.showAddView = function (user) {
         $scope.selectedUser = angular.copy(user);
+        $scope.selectedUser.state = 1;
         $scope.isAddView = true;
     };
 
     $scope.closeAddView = function () {
         $scope.isAddView = false;
+    };
+
+    $scope.findUser = function (search) {
+        $scope.userSearch = search;
+        $scope.loadUsers(1);
+    };
+
+    $scope.savePartner = function (user) {
+        $scope.userLoading = true;
+        var request = {
+            "partner_id": user.id,
+            "state": user.state
+        };
+
+        $http.post('/user/partners/add', request).then(function (response) {
+            $scope.userLoading = false;
+            response = response.data;
+            if (response.status) {
+                $('#addPartnerModal').modal('hide');
+                $scope.loadPartners();
+            }
+            else {
+                alert(response.message);
+            }
+        }, function (response) {
+            $scope.userLoading = false;
+            alert('Произошла системная ошибка');
+        });
     };
 
     $scope.loadPartners = function() {
@@ -194,6 +235,7 @@ app.controller('UserPartners', ['$scope', '$http', function($scope, $http) {
 
     $scope.addPartner = function () {
         $scope.isAddView = false;
+        $scope.userLoading = false;
         $('#addPartnerModal').modal('show');
         $scope.loadUsers(1);
     };

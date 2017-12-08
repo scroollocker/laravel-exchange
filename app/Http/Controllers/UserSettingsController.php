@@ -370,12 +370,66 @@ class UserSettingsController extends Controller
                 throw new Exception($errMsg);
             }
 
-            $page = ($request->page) ? $request->page : '1';
             $q = ($request->q) ? $request->q : '';
 
+            $users = \DB::table('users')
+                        ->select('id', 'email','name')
+                        ->where('blocked', '0')
+                        ->where('email', 'like', '%'.$q.'%')
+                        ->paginate(15);
 
+            return response()->json(array(
+                'status' => true,
+                'paginator' => $users->toArray()
+            ));
 
         } catch (Exception $ex) {
+            return response()->json(array(
+                'status' => false,
+                'message' => $ex->getMessage()
+            ));
+        }
+
+    }
+
+    public function savePartner(Request $request) {
+        $messages = array(
+            'partner_id.required' => 'Неверный запрос',
+            'partner_id.integer' => 'Невернй формат',
+            'state.required' => 'Неверный запрос',
+            'state.integer' => 'Невернй формат'
+        );
+
+        $rules = array(
+            'partner_id' => array(
+                'required', 'integer'
+            ),
+            'state' => array(
+                'required', 'integer'
+            )
+        );
+        try {
+            $validator = Validator::make($request->all(), $rules, $messages);
+            if ($validator->fails()) {
+                $errMsg = '';
+                foreach ($validator->errors()->all() as $error) {
+                    $errMsg .= $error;
+                }
+                throw new Exception($errMsg);
+            }
+
+            $user = Auth::user();
+            if (is_null($user)) {
+                throw new Exception('Пользователь не авторизован');
+            }
+
+            \DB::select('call merge_user_list(?, ?, ?);', array($user->id, $request->partner_id, $request->state));
+
+            return response()->json(array(
+                'status' => true
+            ));
+        }
+        catch (Exception $ex) {
             return response()->json(array(
                 'status' => false,
                 'message' => $ex->getMessage()

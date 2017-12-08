@@ -45,7 +45,7 @@ Route::group(['as'=>'user', 'middleware' => 'auth'], function() {
     Route::get('user/partners/get', 'UserSettingsController@getPartners');
     Route::post('user/partners/state', 'UserSettingsController@setPartnersState');
     Route::post('user/partners/remove', 'UserSettingsController@removePartner');
-    Route::get('user/partners/userlist', 'UserSettingsController@getUserList');
+    Route::post('user/partners/userlist', 'UserSettingsController@getUserList');
 });
 
 Route::group(['as'=>'admin', 'middleware' => ['auth','admin']], function() {

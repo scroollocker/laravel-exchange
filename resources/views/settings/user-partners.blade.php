@@ -1,3 +1,4 @@
+
 <div class="row">
     <div class="col-md-12">
 
@@ -76,6 +77,7 @@
                 <h4 class="modal-title">Добавление партнера</h4>
             </div>
             <div class="modal-body">
+
                 <div class="add-partner-detail" ng-if="isAddView">
                     <div class="form-group">
                         <div class="panel panel-default">
@@ -83,17 +85,24 @@
                                 <p>Добавление партнера</p>
                             </div>
                             <div class="panel-body">
-                                <div class="form-group">
-                                    <label for="enable-email">
-                                        <input class="form-control" id="enable-email" type="text" ng-model="selectedUser.email" disabled>
-                                    </label>
-                                    <label for="enable-deals">
-                                        <input class="form-control" id="enable-deals" type="checkbox" ng-model="selectedUser.state" ng-true-value="1" ng-false-value="2">
-                                    </label>
-                                </div>
-                                <div class="form-group">
+                                <table class="table">
+                                    <tr>
+                                        <td><label for="enable-email"> Email</label></td>
+                                        <td> <input class="form-control" id="enable-email" type="text"
+                                                    ng-model="selectedUser.email" disabled></td>
+                                    </tr>
+
+                                    <tr>
+                                        <td><label for="enable-deals"> Разрешить сделки</label></td>
+                                        <td><input class="form-control" id="enable-deals" type="checkbox"
+                                                   ng-model="selectedUser.state" ng-true-value="1" ng-false-value="2"></td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <div class="panel-footer">
+                                <div class="form-group text-center">
                                     <div class="btn-group">
-                                        <button class="btn btn-success">
+                                        <button class="btn btn-success" ng-click="savePartner(selectedUser)" >
                                             <i class="fa fa-save"></i> Сохранить
                                         </button>
                                         <button class="btn btn-default" ng-click="closeAddView()">
@@ -106,31 +115,34 @@
                     </div>
                 </div>
                 <div class="find-box" ng-if="!isAddView">
-                    <div class="add-partner-search" ng-if="!userLoading && getUserList().length > 0">
-                        <div class="form-group">
-                            <div class="input-group">
-                                <input type="text" class="form-control" ng-model="userSearch" placeholder="Поиск...">
-                                <span class="input-group-btn">
-                                <button class="btn btn-default">
+                    <div class="form-group">
+                        <div class="input-group">
+                            <input type="text" class="form-control" ng-model="userSearch" placeholder="Поиск...">
+                            <span class="input-group-btn">
+                                <button class="btn btn-default" ng-click="findUser(userSearch)">
                                     <i class="fa fa-search"></i>
                                 </button>
                             </span>
-                            </div>
                         </div>
+                    </div>
+                    <div class="add-partner-search" ng-if="!userLoading && getUserList().length > 0">
+
 
                         <div class="table-responsive">
                             <table class="table table-bordered">
                                 <thead>
                                 <tr>
                                     <th>#</th>
+                                    <th>Имя</th>
                                     <th>E-Mail</th>
                                     <th>Действия</th>
                                 </tr>
                                 </thead>
                                 <tbody>
                                 <tr ng-repeat="user in getUserList()">
-                                    <td>user.id</td>
-                                    <td>user.email</td>
+                                    <td>@{{ user.id }}</td>
+                                    <td>@{{ user.name }}</td>
+                                    <td>@{{ user.email }}</td>
                                     <td>
                                         <button ng-click="showAddView(user)" class="btn btn-warning btn-sm">
                                             <i class="fa fa-plus-circle"></i>
@@ -140,15 +152,23 @@
                                 </tbody>
                                 <tfoot>
                                 <tr>
-                                    <td colspan="3" class="text-center">
+                                    <td colspan="4" class="text-center">
                                         <ul class="pagination">
-                                            <li ng-class="{disabled: isFirstPage()}" ng-disabled="isFirstPage()"><a href="#">&lt;&lt;&lt; Первая</a></li>
-                                            <li ng-class="{disabled: isFirstPage()}" ng-disabled="isFirstPage()"><a href="#">&lt; Назад</a></li>
+                                            <li ng-class="{disabled: isFirstPage()}" ng-disabled="isFirstPage()"><a
+                                                        ng-click="loadUsers(getFirstPage())">&lt;&lt;&lt; Первая</a>
+                                            </li>
+                                            <li ng-class="{disabled: isFirstPage()}" ng-disabled="isFirstPage()"><a
+                                                        ng-click="loadUsers(getPrevPage())">&lt; Назад</a></li>
 
-                                            <li ng-repeat="page in getPages()"><a ng-click="loadUsers(page)">@{{ page }}</a></li>
+                                            <li ng-repeat="page in getPages()"
+                                                ng-class="{'active': isActivePage(page)}"><a
+                                                        ng-click="loadUsers(page)">@{{ page }}</a></li>
 
-                                            <li ng-class="{disabled: isLastPage()}" ng-disabled="isLastPage()"><a href="#">Вперед &gt;</a></li>
-                                            <li ng-class="{disabled: isLastPage()}" ng-disabled="isLastPage()"><a href="#">Последняя &gt;&gt;&gt;</a></li>
+                                            <li ng-class="{disabled: isLastPage()}" ng-disabled="isLastPage()"><a
+                                                        ng-click="loadUsers(getNextPage())">Вперед &gt;</a></li>
+                                            <li ng-class="{disabled: isLastPage()}" ng-disabled="isLastPage()"><a
+                                                        ng-click="loadUsers(getLastPage())">Последняя &gt;&gt;&gt;</a>
+                                            </li>
                                         </ul>
                                     </td>
                                 </tr>
