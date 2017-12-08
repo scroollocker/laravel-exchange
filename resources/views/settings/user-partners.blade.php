@@ -94,7 +94,7 @@
 
                                     <tr>
                                         <td><label for="enable-deals"> Разрешить сделки</label></td>
-                                        <td><input class="form-control" id="enable-deals" type="checkbox"
+                                        <td><input class="form-control" id="enable-deals" icheck type="checkbox"
                                                    ng-model="selectedUser.state" ng-true-value="1" ng-false-value="2"></td>
                                     </tr>
                                 </table>

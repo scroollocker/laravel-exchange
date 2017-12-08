@@ -43,7 +43,7 @@
                                 <td>@{{ user.id }}</td>
                                 <td>@{{ user.email }}</td>
                                 <td>@{{ user.ibs_id }}</td>
-                                <td><input ng-model="user.blocked" ng-true-value="1" ng-false-value="0" disabled type="checkbox" checked></td>
+                                <td><input icheck ng-model="user.blocked" ng-true-value="1" ng-false-value="0" disabled type="checkbox" checked></td>
                                 <td>
                                     <button ng-click="editUser(user)" class="btn btn-success btn-xs"><i class="fa fa-edit"></i></button>
                                     <button ng-click="removeUser(user)" class="btn btn-danger btn-xs"><i class="fa fa-remove"></i></button>

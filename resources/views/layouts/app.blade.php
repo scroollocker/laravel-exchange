@@ -14,6 +14,7 @@
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link href="{{ asset('css/font-awesome.min.css') }}" rel="stylesheet">
     <link href="{{ asset('css/breadcrumbs.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/icheck/skins/square/blue.css') }}" rel="stylesheet">
 
 
     <!-- Scripts -->
@@ -24,6 +25,7 @@
     <script src="{{ asset('js/angular-route.min.js') }}"></script>
     <script src="{{ asset('js/underscore-min.js') }}"></script>
     <script src="{{ asset('js/patch.js') }}"></script>
+    <script src="{{ asset('js/icheck.min.js') }}"></script>
     <script src="{{ asset('js/app/main.js') }}"></script>
 
     <!-- UTILS -->

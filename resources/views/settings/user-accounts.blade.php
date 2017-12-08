@@ -42,7 +42,7 @@
                                     <td>@{{ account.saldo_limit_nd }}</td>
                                     <td>@{{ account.account_name }}</td>
                                     <td>@{{ account.account_status }}</td>
-                                    <td><input type="checkbox" disabled ng-true-value="1" ng-false-value="0" ng-model="account.for_deal_n"></td>
+                                    <td><input icheck type="checkbox" disabled ng-true-value="1" ng-false-value="0" ng-model="account.for_deal_n"></td>
                                     <td>
                                         <button ng-click="setAccountState(account)" ng-if="account.for_deal_n == 1" class="btn btn-warning btn-sm">
                                             <i class="fa fa-lock"></i>

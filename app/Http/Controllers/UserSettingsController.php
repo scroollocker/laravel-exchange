@@ -229,7 +229,7 @@ class UserSettingsController extends Controller
 
             $partners = \DB::table('tb_user_list as ul')
                             ->join('users as u', 'u.id', '=', 'ul.user_id')
-                            ->join('users as p', 'p.id', '=', 'ul.user_id')
+                            ->join('users as p', 'p.id', '=', 'ul.partner_id')
                         ->select('ul.user_list_id AS id', 'ul.user_id AS user_id', 'ul.partner_id AS partner_id', 'p.email AS partner_email', 'ul.state_n as state')
                         ->get();
 

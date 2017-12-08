@@ -46,6 +46,7 @@ Route::group(['as'=>'user', 'middleware' => 'auth'], function() {
     Route::post('user/partners/state', 'UserSettingsController@setPartnersState');
     Route::post('user/partners/remove', 'UserSettingsController@removePartner');
     Route::post('user/partners/userlist', 'UserSettingsController@getUserList');
+    Route::post('user/partners/add', 'UserSettingsController@savePartner');
 });
 
 Route::group(['as'=>'admin', 'middleware' => ['auth','admin']], function() {
