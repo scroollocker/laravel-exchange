@@ -40,7 +40,7 @@
                             <tr ng-repeat="partner in getPartners()">
                                 <td>@{{ partner.id }}</td>
                                 <td>@{{ partner.partner_email }}</td>
-                                <td><input type="checkbox" disabled ng-true-value="1" ng-false-value="2"
+                                <td class="text-center"><input type="checkbox" icheck disabled ng-true-value="1" ng-false-value="2"
                                            ng-model="partner.state"></td>
                                 <td>
                                     <button ng-click="setPartnerState(partner)" ng-if="partner.state == 1"
