@@ -25,8 +25,6 @@ Route::get('/resend-pin', 'Auth\LoginController@showSecondStep');
 
 Route::group(['as'=>'user', 'middleware' => 'auth'], function() {
     Route::get('/home', 'HomeController@index')->name('home');
-    Route::get('/invoices/list', 'InvoiceController@invoiceList')->name('invoices');
-    Route::get('/invoices/add', 'InvoiceController@invoiceAdd');
     Route::get('/chat/base', 'InvoiceController@chatBase');
 
     Route::get('/chat/messages', 'ChatController@getMessages');
@@ -47,6 +45,16 @@ Route::group(['as'=>'user', 'middleware' => 'auth'], function() {
     Route::post('user/partners/remove', 'UserSettingsController@removePartner');
     Route::post('user/partners/userlist', 'UserSettingsController@getUserList');
     Route::post('user/partners/add', 'UserSettingsController@savePartner');
+
+    Route::prefix('invoices')->group(function () {
+        Route::get('list', 'InvoiceController@invoiceList')->name('invoices');
+        Route::get('add', 'InvoiceController@invoiceAdd');
+        Route::get('getCurrences', 'InvoiceController@getCurrences');
+        Route::post('getInvoiceById', 'InvoiceController@getDeclereForStep1');
+        Route::post('getAccounts', 'InvoiceController@getAccounts');
+
+    });
+
 });
 
 Route::group(['as'=>'admin', 'middleware' => ['auth','admin']], function() {

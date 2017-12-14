@@ -1,4 +1,4 @@
-var app = angular.module('ExchangeApp', ['ngRoute'], transportPatch);
+var app = angular.module('ExchangeApp', ['ngRoute', 'datetimepicker'], transportPatch);
 
 app.directive('icheck', function($timeout, $parse) {
     return {

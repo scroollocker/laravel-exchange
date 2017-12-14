@@ -1,66 +1,30 @@
-<style>
-    .chat {
-        list-style: none;
-        margin: 0;
-        padding: 0;
-    }
 
-    .chat li {
-        margin-bottom: 10px;
-        padding-bottom: 5px;
-        border-bottom: 1px dotted #B3A9A9;
-    }
-
-    .chat li.left .chat-body {
-        margin-left: 60px;
-    }
-
-    .chat li.right .chat-body {
-        margin-right: 60px;
-    }
-
-    .chat li .chat-body p {
-        margin: 0;
-        color: #777777;
-    }
-
-    .chat-panel .slidedown .glyphicon, .chat .glyphicon {
-        margin-right: 5px;
-    }
-
-    .chat-panel-body {
-        overflow-y: scroll;
-        height: 250px;
-    }
-
-    ::-webkit-scrollbar-track {
-        -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
-        background-color: #F5F5F5;
-    }
-
-    ::-webkit-scrollbar {
-        width: 12px;
-        background-color: #F5F5F5;
-    }
-
-    ::-webkit-scrollbar-thumb {
-        -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, .3);
-        background-color: #555;
-    }
-
-</style>
 
 <nav>
     <ol class="cd-breadcrumb triangle">
-        <li ng-class="{'current':isSelect(1)}"><a ng-click="selectStep(1)">Шаг 1</a></li>
-        <li ng-class="{'current':isSelect(2)}"><a ng-click="selectStep(2)">Шаг 2</a></li>
-        <li ng-class="{'current':isSelect(3)}"><a ng-click="selectStep(3)">Шаг 3</a></li>
-        <li ng-class="{'current':isSelect(4)}"><a ng-click="selectStep(4)">Шаг 4</a></li>
-        <li ng-class="{'current':isSelect(5)}"><a ng-click="selectStep(5)">Шаг 5</a></li>
-        <li ng-class="{'current':isSelect(6)}"><a ng-click="selectStep(6)">Шаг 6</a></li>
-        <li ng-class="{'current':isSelect(7)}"><a ng-click="selectStep(7)">Шаг 7</a></li>
+        <li ng-class="{'current':isSelect(1)}"><a>Шаг 1</a></li>
+        <li ng-class="{'current':isSelect(2)}"><a>Шаг 2</a></li>
+        <li ng-class="{'current':isSelect(3)}"><a>Шаг 3</a></li>
+        <li ng-class="{'current':isSelect(4)}"><a>Шаг 4</a></li>
+        <li ng-class="{'current':isSelect(5)}"><a>Шаг 5</a></li>
+        <li ng-class="{'current':isSelect(6)}"><a>Шаг 6</a></li>
+        <li ng-class="{'current':isSelect(7)}"><a>Шаг 7</a></li>
     </ol>
 </nav>
+
+<div ng-if="invoiceError.show" class="alert alert-danger">
+    <strong>Ошибка:</strong>
+    <p>@{{ invoiceError.message }}</p>
+</div>
+
+<div class="row" ng-if="isInvoiceLoading">
+    <div class="col-md-12">
+        <div class="invoice-loading text-center" style="font-size: 32px;">
+            <p><i class="fa fa-circle-o-notch fa-spin"></i></p>
+            <p>Производится загрузка... Ждите.</p>
+        </div>
+    </div>
+</div>
 
 <div class="row" ng-if="isSelect(1)">
     <div class="col-md-12">
@@ -70,57 +34,76 @@
             </div>
 
             <div class="panel-body">
-                <table>
-                    <tr>
-                        <td><label>Вид сделки:</label></td>
-                        <td>
-                            <select class="form-control" style="width: 200px;">
-                                <option value="1">Покупка</option>
-                                <option value="2">Продажа</option>
-                            </select>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td><label>Валюта:</label></td>
-                        <td>
-                            <select class="form-control" style="width: 200px;">
-                                <option value="1">Выберите...</option>
-                            </select>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td><label>Контр. валюта:</label></td>
-                        <td>
-                            <select class="form-control" style="width: 200px;">
-                                <option value="1">Выберите...</option>
-                            </select>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td><label>Сумма: </label></td>
-                        <td>
-                            <input type="text" placeholder="1000" class="form-control">
-                        </td>
-                    </tr>
-                    <tr>
-                        <td><label>Курс: </label></td>
-                        <td>
-                            <div class="form-inline">
-                                <input type="text" class="form-control" placeholder="47,50">
-                                <input type="text" class="form-control" placeholder="47,50">
-                            </div>
-                        </td>
-                    </tr>
-                </table>
+                <form name="step1_form">
+                    <table class="table">
+                        <tr>
+                            <td><label>Вид сделки:</label></td>
 
-                <p style="margin: 10px;">Найдено сделок - <strong>0</strong> - удовлетворяющих условиям.
-                    <button class="btn btn-default">Посмотреть</button>
-                </p>
+                            <td>
+                                <div class="form-inline">
+                                    <div class="form-group">
+                                        <input name="type" icheck type="radio" required ng-model="invoice.type" id="buy"
+                                               value="1">
+                                        <label for="buy">Покупка</label>
+                                    </div>
+                                    <div class="form-group">
+                                        <input name="type" icheck type="radio" required ng-model="invoice.type"
+                                               id="sold"
+                                               value="2">
+                                        <label for="sold">Продажа</label>
+                                    </div>
+                                </div>
+                            </td>
+
+                        </tr>
+                        <tr ng-class="{'has-error': step1_form.currence_one.$invalid}">
+                            <td><label>Валюта:</label></td>
+                            <td>
+                                <select name="currence_one" required class="form-control" style="width: 200px;"
+                                        ng-model="invoice.cur_1"
+                                        ng-options="item as item.cur_name for item in getCurrencies() track by item.id">
+
+                                </select>
+                            </td>
+                        </tr>
+                        <tr ng-class="{'has-error': step1_form.currence_two.$invalid}">
+                            <td><label>Контр. валюта:</label></td>
+                            <td>
+                                <select name="currence_two" required class="form-control" style="width: 200px;"
+                                        ng-model="invoice.cur_2"
+                                        ng-options="item as item.cur_name for item in getCurrencies() track by item.id">
+
+                                </select>
+                            </td>
+                        </tr>
+                        <tr ng-class="{'has-error': step1_form.sum.$invalid}">
+                            <td><label>Сумма: </label></td>
+                            <td>
+                                <input type="text" name="sum" required ng-model="invoice.cur_sum" placeholder="1000"
+                                       class="form-control">
+                            </td>
+                        </tr>
+                        <tr ng-class="{'has-error': step1_form.curs.$invalid}">
+                            <td><label>Курс: </label></td>
+                            <td>
+                                <input required name="curs" type="text" ng-model="invoice.cur_curs" class="form-control"
+                                       placeholder="47,50">
+
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><label>Сумма по курсу:</label></td>
+                            <td><input type="text" disabled class="form-control" ng-value="computeCursSum()"></td>
+                        </tr>
+
+                    </table>
+                </form>
 
                 <div class="text-center ">
                     <div class="btn-group">
                         <button class="btn btn-default">Отмена</button>
-                        <button class="btn btn-primary">Дальше</button>
+                        <button class="btn btn-primary" ng-click="confirmInvoiceStep1(invoice, step1_form)">Дальше
+                        </button>
                     </div>
                 </div>
             </div>
@@ -136,30 +119,32 @@
             </div>
 
             <div class="panel-body">
-                <table>
-                    <tr>
-                        <td><label>Счет выплат</label></td>
-                        <td>
-                            <select class="form-control" style="width: 200px;">
-                                <option value="1">Счет</option>
-                            </select>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td><label>Счет получения средств:</label></td>
-                        <td>
-                            <select class="form-control" style="width: 200px;">
-                                <option value="1">Счет</option>
-                            </select>
-                        </td>
-                    </tr>
+                <form name="step2_form">
+                    <table class="table">
+                        <tr ng-class="{'has-error':step2_form.acc_1.$invalid}">
+                            <td><label>Счет выплат</label></td>
+                            <td>
+                                <select name="acc_1" required ng-model="invoice.acc_1"
+                                        ng-options="item as item.acc_num + '  (' + item.acc_name + ')' for item in getAccForCur1() track by item.id"
+                                        class="form-control" style="width: 200px;"></select>
+                            </td>
+                        </tr>
+                        <tr ng-class="{'has-error':step2_form.acc_2.$invalid}">
+                            <td><label>Счет получения средств:</label></td>
+                            <td>
+                                <select name="acc_2" required ng-model="invoice.acc_2"
+                                        ng-options="item as item.acc_num + '  (' + item.acc_name + ')' for item in getAccForCur2() track by item.id"
+                                        class="form-control" style="width: 200px;"></select>
+                            </td>
+                        </tr>
 
-                </table>
+                    </table>
+                </form>
 
                 <div class="text-center ">
                     <div class="btn-group">
-                        <button class="btn btn-default">Назад</button>
-                        <button class="btn btn-primary">Дальше</button>
+                        <button class="btn btn-default" ng-click="selectStep(1)">Назад</button>
+                        <button class="btn btn-primary" ng-click="confirmInvoiceStep2(invoice, step2_form)">Дальше</button>
                     </div>
                 </div>
             </div>
@@ -175,17 +160,19 @@
             </div>
 
             <div class="panel-body">
-                <table>
+                <table class="table">
                     <tr>
-                        <td><label>Дата окончания сделки</label></td>
+                        <td><label>Дата окончания сделки: </label></td>
                         <td>
-                            <input type="date" class="form-control">
+                            <div class="input-group date">
+                                <input datetimepicker ng-model="invoice.endData" datetimepicker-options="{format: 'yyyy-mm-dd',language: 'ru'}" id="invoice-timeout" type="text" class="form-control"><span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                            </div>
                         </td>
                     </tr>
                     <tr>
-                        <td><label for="ass">Принемать предложения автоматически:</label></td>
+                        <td><label for="auto-confirm">Принемать предложения автоматически:</label></td>
                         <td>
-                            <input name="ass" type="checkbox" class="form-control" style="width: 20px;">
+                            <input name="auto-confirm" ng-model="invoice.autoconfirm" icheck type="checkbox" class="form-control" style="width: 20px;">
                         </td>
                     </tr>
 
@@ -193,7 +180,7 @@
 
                 <div class="table-responsive">
 
-                    <table class="table ">
+                    <table class="table">
                         <thead>
                         <tr>
                             <th>#</th>
@@ -227,7 +214,7 @@
 
                 <div class="text-center ">
                     <div class="btn-group">
-                        <button class="btn btn-default">Назад</button>
+                        <button class="btn btn-default" ng-click="selectStep(2)">Назад</button>
                         <button class="btn btn-primary">Дальше</button>
                     </div>
                 </div>
@@ -306,14 +293,14 @@
                 <div class="text-center ">
                     <div class="btn-group">
                         <button class="btn btn-default">Изменить</button>
-                        <button class="btn btn-primary">Дальше</button>
+                        <button class="btn btn-primary">Создать</button>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
-
+<!--
 <div class="row" ng-if="isSelect(5)">
     <div class="col-md-12">
         <div class="panel panel-default">
@@ -375,108 +362,7 @@
                     </table>
                 </div>
 
-                <!-- Modal -->
-                <div id="chatModal" class="modal fade" role="dialog">
-                    <div class="modal-dialog">
 
-                        <!-- Modal content-->
-                        <div class="modal-content">
-                            <div class="modal-body">
-                                <div class="chat-panel panel panel-primary">
-                                    <div class="panel-heading">
-                                        <span class="glyphicon glyphicon-comment"></span> Chat
-
-                                    </div>
-                                    <div class="panel-body chat-panel-body">
-                                        <ul class="chat">
-                                            <li class="left clearfix"><span class="chat-img pull-left">
-                            <img src="http://placehold.it/50/55C1E7/fff&text=U" alt="User Avatar" class="img-circle"/>
-                        </span>
-                                                <div class="chat-body clearfix">
-                                                    <div class="header">
-                                                        <strong class="primary-font">Jack Sparrow</strong>
-                                                        <small class="pull-right text-muted">
-                                                            <span class="glyphicon glyphicon-time"></span>12 mins ago
-                                                        </small>
-                                                    </div>
-                                                    <p>
-                                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                                                        Curabitur bibendum ornare
-                                                        dolor, quis ullamcorper ligula sodales.
-                                                    </p>
-                                                </div>
-                                            </li>
-                                            <li class="right clearfix"><span class="chat-img pull-right">
-                            <img src="http://placehold.it/50/FA6F57/fff&text=ME" alt="User Avatar" class="img-circle"/>
-                        </span>
-                                                <div class="chat-body clearfix">
-                                                    <div class="header">
-                                                        <small class=" text-muted"><span
-                                                                    class="glyphicon glyphicon-time"></span>13 mins ago
-                                                        </small>
-                                                        <strong class="pull-right primary-font">Bhaumik Patel</strong>
-                                                    </div>
-                                                    <p>
-                                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                                                        Curabitur bibendum ornare
-                                                        dolor, quis ullamcorper ligula sodales.
-                                                    </p>
-                                                </div>
-                                            </li>
-                                            <li class="left clearfix"><span class="chat-img pull-left">
-                            <img src="http://placehold.it/50/55C1E7/fff&text=U" alt="User Avatar" class="img-circle"/>
-                        </span>
-                                                <div class="chat-body clearfix">
-                                                    <div class="header">
-                                                        <strong class="primary-font">Jack Sparrow</strong>
-                                                        <small class="pull-right text-muted">
-                                                            <span class="glyphicon glyphicon-time"></span>14 mins ago
-                                                        </small>
-                                                    </div>
-                                                    <p>
-                                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                                                        Curabitur bibendum ornare
-                                                        dolor, quis ullamcorper ligula sodales.
-                                                    </p>
-                                                </div>
-                                            </li>
-                                            <li class="right clearfix"><span class="chat-img pull-right">
-                            <img src="http://placehold.it/50/FA6F57/fff&text=ME" alt="User Avatar" class="img-circle"/>
-                        </span>
-                                                <div class="chat-body clearfix">
-                                                    <div class="header">
-                                                        <small class=" text-muted"><span
-                                                                    class="glyphicon glyphicon-time"></span>15 mins ago
-                                                        </small>
-                                                        <strong class="pull-right primary-font">Bhaumik Patel</strong>
-                                                    </div>
-                                                    <p>
-                                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                                                        Curabitur bibendum ornare
-                                                        dolor, quis ullamcorper ligula sodales.
-                                                    </p>
-                                                </div>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                    <div class="panel-footer">
-                                        <div class="input-group">
-                                            <input id="btn-input" type="text" class="form-control input-sm"
-                                                   placeholder="Type your message here..."/>
-                                            <span class="input-group-btn">
-                            <button class="btn btn-warning btn-sm" id="btn-chat">
-                                Send</button>
-                        </span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
-                            </div>
-                        </div>
-
-                    </div>
                 </div>
             </div>
         </div>
@@ -603,3 +489,6 @@
         </div>
     </div>
 </div>
+-->
+
+
