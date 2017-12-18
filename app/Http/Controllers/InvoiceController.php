@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
 class InvoiceController extends Controller
@@ -108,6 +109,34 @@ class InvoiceController extends Controller
             ));
         }
 
+    }
+
+    public function getPartners() {
+        try {
+            $user = Auth::user();
+
+            if (is_null($user)) {
+                throw new Exception('Пользователь не авторизован');
+            }
+
+            $partners = \DB::table('tb_user_list as ul')
+                            ->select('ul.user_list_id AS id', 'ul.user_id', 'ul.partner_id', 'p.name', 'p.email', 'ul.state_n')
+                            ->where('ul.user_id', $user->id)
+                            ->join('users as p', 'ul.partner_id', '=', 'p.id')
+                            ->get();
+
+            return response()->json(array(
+                'status' => true,
+                'autoconfirm' => $user->autoconfirm,
+                'partners' => $partners->toArray()
+            ));
+
+        } catch (Exception $ex) {
+            return response()->json(array(
+                'status' => false,
+                'message' => $ex->getMessage()
+            ));
+        }
     }
 
 }

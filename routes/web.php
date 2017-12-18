@@ -52,6 +52,7 @@ Route::group(['as'=>'user', 'middleware' => 'auth'], function() {
         Route::get('getCurrences', 'InvoiceController@getCurrences');
         Route::post('getInvoiceById', 'InvoiceController@getDeclereForStep1');
         Route::post('getAccounts', 'InvoiceController@getAccounts');
+        Route::get('getPartners', 'InvoiceController@getPartners');
 
     });
 

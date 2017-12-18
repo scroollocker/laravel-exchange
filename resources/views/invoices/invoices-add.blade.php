@@ -160,54 +160,43 @@
             </div>
 
             <div class="panel-body">
-                <table class="table">
-                    <tr>
-                        <td><label>Дата окончания сделки: </label></td>
-                        <td>
-                            <div class="input-group date">
-                                <input datetimepicker ng-model="invoice.endData" datetimepicker-options="{format: 'yyyy-mm-dd',language: 'ru'}" id="invoice-timeout" type="text" class="form-control"><span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td><label for="auto-confirm">Принемать предложения автоматически:</label></td>
-                        <td>
-                            <input name="auto-confirm" ng-model="invoice.autoconfirm" icheck type="checkbox" class="form-control" style="width: 20px;">
-                        </td>
-                    </tr>
+                <form class="form" name="step3_form">
+                    <table class="table">
+                        <tr ng-class="{'has-error':step3_form.date_end.$invalid}">
+                            <td><label>Дата окончания сделки: </label></td>
+                            <td>
+                                <div class="input-group date">
+                                    <input name="date_end" datetimepicker required ng-model="invoice.endDate" datetimepicker-options="{format: 'yyyy-mm-dd',language: 'ru'}" id="invoice-timeout" type="text" class="form-control"><span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><label for="auto-confirm">Принемать предложения автоматически:</label></td>
+                            <td>
+                                <input name="auto-confirm" ng-model="invoice.autoconfirm" icheck type="checkbox"  ng-true-value='1' ng-false-value='0' class="form-control" style="width: 20px;">
+                            </td>
+                        </tr>
 
-                </table>
-
-                <div class="table-responsive">
+                    </table>
+                </form>
+                <div class="table-responsive" ng-if="!invoice.autoconfirm">
 
                     <table class="table">
                         <thead>
                         <tr>
                             <th>#</th>
                             <th>Логин</th>
-                            <th>Принемать</th>
-                            <th>Не принемать</th>
+                            <th>Имя</th>
+                            <th>Принемать сделки автоматически</th>
                         </tr>
                         </thead>
                         <tbody>
-                        <tr>
-                            <td>1</td>
-                            <td>test1</td>
-                            <td><input type="checkbox"></td>
-                            <td><input type="checkbox"></td>
-                        </tr>
-                        <tr>
-                            <td>2</td>
-                            <td>test2</td>
-                            <td><input type="checkbox"></td>
-                            <td><input type="checkbox"></td>
-                        </tr>
-                        <tr>
-                            <td>3</td>
-                            <td>test3</td>
-                            <td><input type="checkbox"></td>
-                            <td><input type="checkbox"></td>
-                        </tr>
+                            <tr ng-repeat="partner in getPartners()">
+                                <td>@{{ partner.id }}</td>
+                                <td>@{{ partner.email }}</td>
+                                <td>@{{ partner.name }}</td>
+                                <td><input type="checkbox" icheck ng-model="partner.autoconfirm"></td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>
@@ -215,7 +204,7 @@
                 <div class="text-center ">
                     <div class="btn-group">
                         <button class="btn btn-default" ng-click="selectStep(2)">Назад</button>
-                        <button class="btn btn-primary">Дальше</button>
+                        <button class="btn btn-primary" ng-click="confirmInvoiceStep3(invoice, step3_form)">Дальше</button>
                     </div>
                 </div>
             </div>
@@ -234,57 +223,77 @@
                 <table>
                     <tr>
                         <td><label>Вид сделки: </label></td>
-                        <td>
+                        <td ng-if="invoice.type == 1">
+                            <p>Покупка</p>
+                        </td>
+                        <td ng-if="invoice.type == 2">
                             <p>Продажа</p>
                         </td>
                     </tr>
                     <tr>
                         <td><label>Валюта: </label></td>
                         <td>
-                            <p>USD</p>
+                            <p>@{{ invoice.cur_1.cur_name }}</p>
                         </td>
                     </tr>
                     <tr>
                         <td><label>Контр валюта: </label></td>
                         <td>
-                            <p>KGS</p>
+                            <p>@{{ invoice.cur_2.cur_name }}</p>
                         </td>
                     </tr>
                     <tr>
                         <td><label>Сумма: </label></td>
                         <td>
-                            <p>1000</p>
+                            <p>@{{ invoice.cur_sum }}</p>
                         </td>
                     </tr>
                     <tr>
                         <td><label>Курс: </label></td>
                         <td>
-                            <p>47,5</p>
+                            <p>@{{ invoice.cur_curs }}</p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><label>Сумма по курсу: </label></td>
+                        <td>
+                            <p>@{{ invoice.final_sum }}</p>
                         </td>
                     </tr>
                     <tr>
                         <td><label>Счет выплат: </label></td>
                         <td>
-                            <p>123456789 (USD)</p>
+                            <p>@{{ invoice.acc1.acc_num }} (@{{ invoice.acc1.acc_name }})</p>
                         </td>
                     </tr>
                     <tr>
                         <td><label>Счет получения средств: </label></td>
                         <td>
-                            <p>123456789 (KGS)</p>
+                            <p>@{{ invoice.acc2.acc_num }} (@{{ invoice.acc2.acc_name }})</p>
                         </td>
                     </tr>
 
                     <tr>
                         <td><label> Дата окончания сделки: </label></td>
                         <td>
-                            <p>10.11.2017</p>
+                            <p>@{{ invoice.endDate }}</p>
                         </td>
                     </tr>
                     <tr>
                         <td><label>Принемать сделки автоматически: </label></td>
                         <td>
-                            <p>&nbsp;&nbsp;Да</p>
+                            <p ng-if="invoice.autoconfirm == 1">Да</p>
+                            <p ng-if="invoice.autoconfirm == 0">Нет</p>
+                        </td>
+                    </tr>
+                    <tr ng-if="invoice.autoconfirm == 0">
+                        <td colspan="2">
+                            <table class="table">
+                                <tr ng-repeat="partner in getPartners()" ng-if="partner.autoconfirm == 1">
+                                    <td>@{{ partner.email }}</td>
+                                    <td>@{{ partner.name }}</td>
+                                </tr>
+                            </table>
                         </td>
                     </tr>
 
@@ -292,7 +301,7 @@
 
                 <div class="text-center ">
                     <div class="btn-group">
-                        <button class="btn btn-default">Изменить</button>
+                        <button class="btn btn-default" ng-click="selectStep(3)">Изменить</button>
                         <button class="btn btn-primary">Создать</button>
                     </div>
                 </div>

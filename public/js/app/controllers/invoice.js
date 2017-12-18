@@ -36,6 +36,10 @@ app.controller('InvoicesController', ['$scope', '$http', 'AppUtils', function($s
         return $scope.currences;
     };
 
+    $scope.getPartners = function () {
+        return $scope.invoice.partners;
+    };
+
     $scope.loadCurrencies = function() {
         $scope.isInvoiceLoading = true;
         $http.get('/invoices/getCurrences').then(function(response) {
@@ -81,6 +85,29 @@ app.controller('InvoicesController', ['$scope', '$http', 'AppUtils', function($s
         })
     };
 
+    $scope.loadPartners = function () {
+        $scope.isInvoiceLoading = true;
+
+        $http.get('/invoices/getPartners').then(function (response) {
+            $scope.isInvoiceLoading = false;
+            response = response.data;
+
+            if (response.status) {
+                $scope.invoice.autoconfirm = response.autoconfirm;
+                $scope.invoice.partners = response.partners;
+            }
+            else {
+                $scope.invoiceError.message = response.message;
+                AppUtils.showAlertBox($scope.invoiceError);
+            }
+
+        }, function (response) {
+            $scope.isInvoiceLoading = false;
+            $scope.invoiceError.message = 'Произошла системная ошибка. Обновите страницу.';
+            AppUtils.showAlertBox($scope.invoiceError);
+        })
+    };
+
     $scope.confirmInvoiceStep1 = function (invoice, form) {
         if (form.$invalid) {
             $scope.invoiceError.message = 'Не все поля заполнены верно';
@@ -100,6 +127,8 @@ app.controller('InvoicesController', ['$scope', '$http', 'AppUtils', function($s
             return;
         }
 
+        $scope.invoice.final_sum = $scope.computeCursSum();
+
         $scope.loadAccounts();
 
         $scope.selectStep(2);
@@ -112,7 +141,21 @@ app.controller('InvoicesController', ['$scope', '$http', 'AppUtils', function($s
             return;
         }
 
+        $scope.loadPartners();
+
         $scope.selectStep(3);
+    };
+
+    $scope.confirmInvoiceStep3 = function (invoice, form) {
+        if (form.$invalid) {
+            $scope.invoiceError.message = 'Не все поля заполнены верно';
+            AppUtils.showAlertBox($scope.invoiceError);
+            return;
+        }
+
+        console.log(invoice);
+
+        $scope.selectStep(4);
     };
 
     $scope.computeCursSum = function () {
