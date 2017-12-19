@@ -179,7 +179,7 @@
 
                     </table>
                 </form>
-                <div class="table-responsive" ng-if="!invoice.autoconfirm">
+                <div class="table-responsive" ng-if="invoice.autoconfirm != 1">
 
                     <table class="table">
                         <thead>
@@ -220,7 +220,7 @@
             </div>
 
             <div class="panel-body">
-                <table>
+                <table class="table">
                     <tr>
                         <td><label>Вид сделки: </label></td>
                         <td ng-if="invoice.type == 1">
@@ -263,13 +263,13 @@
                     <tr>
                         <td><label>Счет выплат: </label></td>
                         <td>
-                            <p>@{{ invoice.acc1.acc_num }} (@{{ invoice.acc1.acc_name }})</p>
+                            <p>@{{ invoice.acc_1.acc_num }} (@{{ invoice.acc_1.acc_name }})</p>
                         </td>
                     </tr>
                     <tr>
                         <td><label>Счет получения средств: </label></td>
                         <td>
-                            <p>@{{ invoice.acc2.acc_num }} (@{{ invoice.acc2.acc_name }})</p>
+                            <p>@{{ invoice.acc_2.acc_num }} (@{{ invoice.acc_2.acc_name }})</p>
                         </td>
                     </tr>
 
@@ -286,10 +286,11 @@
                             <p ng-if="invoice.autoconfirm == 0">Нет</p>
                         </td>
                     </tr>
-                    <tr ng-if="invoice.autoconfirm == 0">
+                    <tr ng-if="invoice.autoconfirm == 0 && getPartnersAutoconfirm().length > 0">
                         <td colspan="2">
+                            <p>Автоматически принемать от:</p>
                             <table class="table">
-                                <tr ng-repeat="partner in getPartners()" ng-if="partner.autoconfirm == 1">
+                                <tr ng-repeat="partner in getPartnersAutoconfirm()">
                                     <td>@{{ partner.email }}</td>
                                     <td>@{{ partner.name }}</td>
                                 </tr>

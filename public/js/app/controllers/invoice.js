@@ -2,7 +2,7 @@
  * Created by scroollocker on 28.10.17.
  */
 
-app.controller('InvoicesController', ['$scope', '$http', 'AppUtils', function($scope, $http, AppUtils) {
+app.controller('InvoicesController', ['$scope', '$http', 'AppUtils', '$filter', '$location', function($scope, $http, AppUtils, $filter, $location) {
     $scope.step = 1;
     $scope.selectStep = function(step) {
         $scope.step = step;
@@ -38,6 +38,10 @@ app.controller('InvoicesController', ['$scope', '$http', 'AppUtils', function($s
 
     $scope.getPartners = function () {
         return $scope.invoice.partners;
+    };
+
+    $scope.getPartnersAutoconfirm = function () {
+        return $filter('filter')($scope.invoice.partners, {autoconfirm: 1});
     };
 
     $scope.loadCurrencies = function() {
@@ -108,6 +112,29 @@ app.controller('InvoicesController', ['$scope', '$http', 'AppUtils', function($s
         })
     };
 
+    $scope.loadInvoiceById = function(id) {
+        $scope.isInvoiceLoading = true;
+        var request = {
+            invoiceId: id
+        };
+
+        $http.post('/invoice/getInvoice', request).then(function(response) {
+            $scope.isInvoiceLoading = false;
+            response = response.data;
+            if (response.status) {
+                $scope.invoice = response.invoice;
+            }
+            else {
+                $location.path('/invoices');
+                $location.replace();
+            }
+        }, function() {
+            $scope.isInvoiceLoading = false;
+            $scope.invoiceError.message = 'Произошла сисемная ошибка';
+            AppUtils.showAlertBox($scope.invoiceError);
+        })
+    };
+
     $scope.confirmInvoiceStep1 = function (invoice, form) {
         if (form.$invalid) {
             $scope.invoiceError.message = 'Не все поля заполнены верно';
@@ -168,7 +195,14 @@ app.controller('InvoicesController', ['$scope', '$http', 'AppUtils', function($s
     };
 
     $scope.init = function () {
-        $scope.loadCurrencies();
+
+        if ($routeParams.invoiceId !== undefined) {
+            $scope.loadInvoiceById($routeParams.invoiceId);
+        }
+        else {
+            $scope.loadCurrencies();
+        }
+
     };
 
     $scope.init();
