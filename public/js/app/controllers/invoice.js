@@ -2,7 +2,7 @@
  * Created by scroollocker on 28.10.17.
  */
 
-app.controller('InvoicesController', ['$scope', '$http', 'AppUtils', '$filter', '$location', function($scope, $http, AppUtils, $filter, $location) {
+app.controller('InvoicesController', ['$scope', '$http', 'AppUtils', '$filter', '$location', '$routeParams', function($scope, $http, AppUtils, $filter, $location, $routeParams) {
     $scope.step = 1;
     $scope.selectStep = function(step) {
         $scope.step = step;
@@ -115,14 +115,21 @@ app.controller('InvoicesController', ['$scope', '$http', 'AppUtils', '$filter', 
     $scope.loadInvoiceById = function(id) {
         $scope.isInvoiceLoading = true;
         var request = {
-            invoiceId: id
+            invoice_id: id
         };
 
-        $http.post('/invoice/getInvoice', request).then(function(response) {
+        $http.post('/invoices/getInvoiceById', request).then(function(response) {
             $scope.isInvoiceLoading = false;
             response = response.data;
             if (response.status) {
-                $scope.invoice = response.invoice;
+
+                var tmpInvoice = response.invoice;
+
+                $scope.invoice = AppUtils.pushKey(tmpInvoice);
+
+                $scope.loadCurrencies();
+
+                //console.log(tmpInvoice, $scope.invoice);
             }
             else {
                 $location.path('/invoices');

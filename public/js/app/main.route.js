@@ -19,7 +19,7 @@ app.config(['$routeProvider', function($routeProvider) {
         controller: 'UserPartners'
     });
 
-    $routeProvider.when('/invoices/add',  {
+    $routeProvider.when('/invoices/add/:invoiceId?',  {
         templateUrl: '/invoices/add',
         controller: 'InvoicesController'
     });
