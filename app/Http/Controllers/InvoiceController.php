@@ -213,4 +213,93 @@ class InvoiceController extends Controller
         }
     }
 
+    public function saveInvoice(Request $request) {
+        try {
+            $messages = array(
+                'acc_1.required' => 'Неверный запрос',
+                'acc_2.required' => 'Неверный запрос',
+                'autoconfirm.required' => 'Неверный запрос',
+                'cur_1.required' => 'Неверный запрос',
+                'cur_2.required' => 'Неверный запрос',
+                'sum_1.required' => 'Неверный запрос',
+                'sum_2.required' => 'Неверный запрос',
+                'type.required' => 'Неверный запрос',
+                'endDate.required' => 'Неверный запрос',
+                'id.required' => 'Неверный запрос',
+                'acc_1.integer' => 'Неверный запрос',
+                'acc_2.integer' => 'Неверный запрос',
+                'autoconfirm.regex' => 'Неверный запрос',
+                'cur_1.integer' => 'Неверный запрос',
+                'cur_2.integer' => 'Неверный запрос',
+                'sum_1.numeric' => 'Неверный запрос',
+                'sum_2.numeric' => 'Неверный запрос',
+                'type.regex' => 'Неверный запрос',
+                'endDate.date' => 'Неверная дата окончания сделки',
+                'id.integer' => 'Неверный запрос',
+            );
+
+            $rules = array(
+                'acc_1' => array(
+                    'required', 'integer'
+                ),
+                'acc_2' => array(
+                    'required', 'integer'
+                ),
+                'autoconfirm' => array(
+                    'required', 'regex:/^[1|2]$/'
+                ),
+                'cur_1' => array(
+                    'required', 'integer'
+                ),
+                'cur_2' => array(
+                    'required', 'integer'
+                ),
+                'sum_1' => array(
+                    'required', 'numeric'
+                ),
+                'sum_2' => array(
+                    'required', 'numeric'
+                ),
+                'type' => array(
+                    'required', 'regex:/^[1|2]$/'
+                ),
+                'endDate' => array(
+                    'required', 'date'
+                )
+            );
+
+            if (!$request->action) {
+                throw new Exception('Неверный запрос.');
+            }
+
+            if ($request->action == 'edit') {
+                $rules['id'] = array(
+                    'required', 'integer'
+                );
+            }
+
+            $validator = Validator::make($request->all(), $rules, $messages);
+
+            if ($validator->fails()) {
+                $errMsg = '';
+                foreach ($validator->errors()->all() as $error) {
+                    $errMsg .= $error;
+                }
+                throw new Exception($errMsg);
+            }
+
+
+
+        }
+        catch (Exception $ex) {
+            \Log::error('Save invoice error', $ex);
+            return response()->json(array(
+                'status' => false,
+                'message' => $ex->getMessage()
+            ));
+        }
+
+
+    }
+
 }

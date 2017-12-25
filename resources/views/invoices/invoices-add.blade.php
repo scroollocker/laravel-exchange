@@ -303,7 +303,7 @@
                 <div class="text-center ">
                     <div class="btn-group">
                         <button class="btn btn-default" ng-click="selectStep(3)">Изменить</button>
-                        <button class="btn btn-primary">Создать</button>
+                        <button class="btn btn-primary" ng-click="saveInvoice(invoice)">Создать</button>
                     </div>
                 </div>
             </div>

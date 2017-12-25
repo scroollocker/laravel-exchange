@@ -192,6 +192,50 @@ app.controller('InvoicesController', ['$scope', '$http', 'AppUtils', '$filter', 
         $scope.selectStep(4);
     };
 
+    $scope.saveInvoice = function (invoice) {
+        var request = {
+            'acc_1': invoice.acc_1.id,
+            'acc_2': invoice.acc_2.id,
+            'autoconfirm': invoice.autoconfirm,
+            'cur_1': invoice.cur_1.id,
+            'cur_2': invoice.cur_2.id,
+            'sum_1': invoice.cur_sum,
+            'sum_2': invoice.final_sum,
+            'type': invoice.type,
+            'endDate': invoice.endDate
+
+        };
+        if (invoice.id !== undefined && invoice.id !== null) {
+            request['id'] = invoice.id;
+            request['action'] = 'edit';
+        }
+        else {
+            request['action'] = 'add';
+        }
+
+        if (invoice.autoconfirm == '2') {
+            var partners = getPartnersAutoconfirm();
+            request['partners'] = partners;
+        }
+        else {
+            request['partners'] = [];
+        }
+
+        $http.post('/invoices/save', request).then(function (response) {
+            response = response.data;
+            if (response.status) {
+                // TODO: Make logic
+            }
+            else {
+                $scope.invoiceError.message = response.message;
+                AppUtils.showAlertBox($scope.invoiceError);
+            }
+        }, function () {
+            $scope.invoiceError.message = 'Произошла системная ошибка. Попробуйте еще раз.';
+            AppUtils.showAlertBox($scope.invoiceError);
+        });
+    };
+
     $scope.computeCursSum = function () {
         if ($scope.invoice.cur_sum !== undefined && $scope.invoice.cur_curs !== undefined) {
             return $scope.invoice.cur_sum * $scope.invoice.cur_curs;
