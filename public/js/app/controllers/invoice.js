@@ -129,7 +129,6 @@ app.controller('InvoicesController', ['$scope', '$http', 'AppUtils', '$filter', 
 
                 $scope.loadCurrencies();
 
-                //console.log(tmpInvoice, $scope.invoice);
             }
             else {
                 $location.path('/invoices');
@@ -140,6 +139,13 @@ app.controller('InvoicesController', ['$scope', '$http', 'AppUtils', '$filter', 
             $scope.invoiceError.message = 'Произошла сисемная ошибка';
             AppUtils.showAlertBox($scope.invoiceError);
         })
+    };
+
+    $scope.cancelCreateInvoice = function () {
+        if (confirm('Все изменения будут потеряны. Вы уверены?')) {
+            $location.path('/invoices');
+            $location.replace();
+        }
     };
 
     $scope.confirmInvoiceStep1 = function (invoice, form) {
@@ -214,7 +220,7 @@ app.controller('InvoicesController', ['$scope', '$http', 'AppUtils', '$filter', 
         }
 
         if (invoice.autoconfirm == '2') {
-            var partners = getPartnersAutoconfirm();
+            var partners = $scope.getPartnersAutoconfirm();
             request['partners'] = partners;
         }
         else {
@@ -224,7 +230,8 @@ app.controller('InvoicesController', ['$scope', '$http', 'AppUtils', '$filter', 
         $http.post('/invoices/save', request).then(function (response) {
             response = response.data;
             if (response.status) {
-                // TODO: Make logic
+                $location.path('/invoices');
+                $location.replace();
             }
             else {
                 $scope.invoiceError.message = response.message;
@@ -245,7 +252,7 @@ app.controller('InvoicesController', ['$scope', '$http', 'AppUtils', '$filter', 
         }
     };
 
-    $scope.init = function () {
+    $scope.initAdd = function () {
 
         if ($routeParams.invoiceId !== undefined) {
             $scope.loadInvoiceById($routeParams.invoiceId);
@@ -256,5 +263,5 @@ app.controller('InvoicesController', ['$scope', '$http', 'AppUtils', '$filter', 
 
     };
 
-    $scope.init();
+
 }]);

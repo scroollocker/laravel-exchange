@@ -1,6 +1,6 @@
 
 
-<nav>
+<nav ng-init="initAdd()">
     <ol class="cd-breadcrumb triangle">
         <li ng-class="{'current':isSelect(1)}"><a>Шаг 1</a></li>
         <li ng-class="{'current':isSelect(2)}"><a>Шаг 2</a></li>
@@ -101,7 +101,7 @@
 
                 <div class="text-center ">
                     <div class="btn-group">
-                        <button class="btn btn-default">Отмена</button>
+                        <button class="btn btn-default" ng-click="cancelCreateInvoice()">Отмена</button>
                         <button class="btn btn-primary" ng-click="confirmInvoiceStep1(invoice, step1_form)">Дальше
                         </button>
                     </div>
@@ -195,7 +195,7 @@
                                 <td>@{{ partner.id }}</td>
                                 <td>@{{ partner.email }}</td>
                                 <td>@{{ partner.name }}</td>
-                                <td><input type="checkbox" icheck ng-model="partner.autoconfirm"></td>
+                                <td><input type="checkbox" icheck ng-model="partner.autoconfirm" ng-true-value="'1'" ng-false-value="'0'"></td>
                             </tr>
                         </tbody>
                     </table>

@@ -1,7 +1,7 @@
 app.config(['$routeProvider', function($routeProvider) {
     $routeProvider.when('/invoices/lists',  {
         templateUrl: '/invoices/list',
-        controller: 'InvoicesController'
+        controller: 'InvoicesListController'
     });
 
     $routeProvider.when('/user/settings',  {
@@ -19,7 +19,7 @@ app.config(['$routeProvider', function($routeProvider) {
         controller: 'UserPartners'
     });
 
-    $routeProvider.when('/invoices/add/:invoiceId?',  {
+    $routeProvider.when('/invoices/invoice/:invoiceId?',  {
         templateUrl: '/invoices/add',
         controller: 'InvoicesController'
     });
