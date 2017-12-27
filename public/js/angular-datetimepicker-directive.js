@@ -38,11 +38,14 @@ angular
 
 
                         var passed_in_options = $scope.$eval($attrs.datetimepickerOptions);
+                        console.log(passed_in_options);
                         var options = jQuery.extend({}, default_options, passed_in_options);
 
                         $scope.$watch($attrs['ngModel'], function (newValue) {
                             setPickerValue();
                         });
+
+                        console.log(options);
 
                         $element
                             .on('changeDate', function (e) {

@@ -97,7 +97,9 @@ app.controller('InvoicesController', ['$scope', '$http', 'AppUtils', '$filter', 
             response = response.data;
 
             if (response.status) {
-                $scope.invoice.autoconfirm = response.autoconfirm;
+                if ($scope.invoice.id === undefined || $scope.invoice.id === null) {
+                    $scope.invoice.autoconfirm = response.autoconfirm;
+                }
                 $scope.invoice.partners = response.partners;
             }
             else {
@@ -193,6 +195,12 @@ app.controller('InvoicesController', ['$scope', '$http', 'AppUtils', '$filter', 
             return;
         }
 
+        if (!moment(invoice.endDate).isAfter(new Date())) {
+            $scope.invoiceError.message = 'Дата должна быть больше текущей';
+            AppUtils.showAlertBox($scope.invoiceError);
+            return;
+        }
+
         console.log(invoice);
 
         $scope.selectStep(4);
@@ -219,7 +227,7 @@ app.controller('InvoicesController', ['$scope', '$http', 'AppUtils', '$filter', 
             request['action'] = 'add';
         }
 
-        if (invoice.autoconfirm == '2') {
+        if (invoice.autoconfirm == '0') {
             var partners = $scope.getPartnersAutoconfirm();
             request['partners'] = partners;
         }

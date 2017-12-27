@@ -50,11 +50,12 @@ Route::group(['as'=>'user', 'middleware' => 'auth'], function() {
         Route::get('list', 'InvoiceController@invoiceList')->name('invoices');
         Route::get('add', 'InvoiceController@invoiceAdd');
         Route::get('getCurrences', 'InvoiceController@getCurrences');
-        Route::post('getAccounts', 'InvoiceController@getAccounts');
         Route::get('getPartners', 'InvoiceController@getPartners');
-        Route::get('getInvoiceById', 'InvoiceController@getInvoiceById');
         Route::get('getInvoices', 'InvoiceController@getInvoiceList');
+        Route::post('getAccounts', 'InvoiceController@getAccounts');
+        Route::post('getInvoiceById', 'InvoiceController@getInvoiceById');
         Route::post('save', 'InvoiceController@saveInvoice');
+        Route::post('remove', 'InvoiceController@removeInvoice');
     });
 
 });

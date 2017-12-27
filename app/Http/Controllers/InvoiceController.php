@@ -173,7 +173,6 @@ class InvoiceController extends Controller
                           ->select('d.approve_auto_n as autoconfirm',
                                    'd.course_nd as cur_curs',
                                    'd.declare_id AS id',
-                                   'd.num_v AS type',
                                    'd.sum_sell_nd as cur_sum',
                                    'd.sum_buy_nd as final_sum',
                                    'd.end_dt as endDate',
@@ -198,6 +197,7 @@ class InvoiceController extends Controller
 
             if (!is_null($invoice)) {
                 $status = true;
+                $invoice->type = '1';
             }
 
             return response()->json(array(
@@ -248,7 +248,7 @@ class InvoiceController extends Controller
                     'required', 'integer'
                 ),
                 'autoconfirm' => array(
-                    'required', 'regex:/^[1|2]$/'
+                    'required', 'regex:/^[0|1]$/'
                 ),
                 'cur_1' => array(
                     'required', 'integer'
@@ -367,7 +367,6 @@ class InvoiceController extends Controller
                     'd.course_nd as cur_curs',
                     'd.declare_id AS id',
                     'd.created_dt AS created_date',
-                    'd.num_v AS type',
                     'd.sum_sell_nd as cur_sum',
                     'd.sum_buy_nd as final_sum',
                     'd.end_dt as endDate',
@@ -397,6 +396,55 @@ class InvoiceController extends Controller
         catch (Exception $ex) {
             \Log::error('Get invoice Error');
             \Log::error($ex);
+            return response()->json(array(
+                'status' => false,
+                'message' => $ex->getMessage()
+            ));
+        }
+    }
+
+    public function removeInvoice(Request $request) {
+        $rules = array(
+            'id' => array(
+                'required', 'integer'
+            )
+        );
+
+        $messages = array(
+            'id.required' => 'Неверный запрос',
+            'id.integer' => 'Неверный запрос',
+        );
+
+        $validator = Validator::make($request->all(), $rules, $messages);
+
+        try {
+            if ($validator->fails()) {
+                $errMsg = '';
+                foreach ($validator->errors()->all() as $error) {
+                    $errMsg .= $error;
+                }
+                throw new Exception($errMsg);
+            }
+
+            $user = Auth::user();
+            if (is_null($user)) {
+                throw new Exception('Пользователь не авторизован');
+            }
+
+            DB::table('tb_declare')
+                ->where('declare_id', $request->id)
+                ->where('user_id', $user->id)
+                ->delete();
+
+            return response()->json(array(
+                'status' => true
+            ));
+
+        }
+        catch (Exception $ex) {
+            \Log::error('Remove invoice error');
+            \Log::error($ex);
+
             return response()->json(array(
                 'status' => false,
                 'message' => $ex->getMessage()

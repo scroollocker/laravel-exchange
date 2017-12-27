@@ -1,4 +1,4 @@
-app.controller('InvoicesListController', ['$scope', '$http', 'AppUtils', function ($scope, $http, AppUtils) {
+app.controller('InvoicesListController', ['$scope', '$http', 'AppUtils','$location', function ($scope, $http, AppUtils, $location) {
 
     $scope.isInvoiceLoading = false;
 
@@ -36,6 +36,37 @@ app.controller('InvoicesListController', ['$scope', '$http', 'AppUtils', functio
             $scope.invoiceError.message = 'Произошла системная ошибка. Повторите запрос позднее.';
             AppUtils.showAlertBox($scope.invoiceError);
         });
+    };
+
+    $scope.editInvoice = function (id) {
+        $location.path('/invoices/invoice/'+id);
+        $location.replace();
+    };
+
+    $scope.removeInvoice = function (id) {
+        if (confirm('Вы уверены, что хотите удалить заявку?')){
+            $scope.isInvoiceLoading = true;
+
+            var request = {
+                id: id
+            };
+
+            $http.post('/invoices/remove', request).then(function (response) {
+                $scope.isInvoiceLoading = false;
+                response = response.data;
+                if (response.status) {
+                    $scope.loadInvoices();
+                }
+                else {
+                    $scope.invoiceError.message = response.message;
+                    AppUtils.showAlertBox($scope.invoiceError);
+                }
+            }, function () {
+                $scope.isInvoiceLoading = false;
+                $scope.invoiceError.message = 'Произошла системная ошибка. Повторите запрос позднее.';
+                AppUtils.showAlertBox($scope.invoiceError);
+            });
+        }
     };
 
     $scope.init = function () {
