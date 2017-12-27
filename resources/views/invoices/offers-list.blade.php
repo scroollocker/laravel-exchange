@@ -1,11 +1,8 @@
 <div class="row" ng-init="init()">
     <div class="col-md-12">
-        <div class="actions" style="margin-bottom: 10px;">
-            <a href="#!/invoices/invoice" class="btn btn-primary"><i class="fa fa-plus"></i> Добавить заявку</a>
-        </div>
         <div class="panel panel-default">
             <div class="panel-heading" style="padding: 15px;">
-                Список заявок
+                Список предложений по заявке
             </div>
 
             <div class="panel-body">
@@ -15,20 +12,20 @@
                     <p>@{{ invoiceError.message }}</p>
                 </div>
 
-                <div class="empty-invoice-list" ng-if="isInvoiceLoading == false && getInvoices().length == 0">
+                <div class="empty-invoice-list" ng-if="isOffersLoading == false && getOffers().length == 0">
                     <div class="form-group text-center" style="font-size: 35px;">
                         <p><i class="fa fa-flag"></i></p>
-                        <p>Нет доступных заявок</p>
+                        <p>Нет доступных предложений</p>
                     </div>
                 </div>
-                <div class="loading-invoice-list" ng-if="isInvoiceLoading == true">
+                <div class="loading-invoice-list" ng-if="isOffersLoading == true">
                     <div class="form-group text-center" style="font-size: 35px;">
                         <p><i class="fa fa-circle-o-notch fa-spin"></i></p>
                         <p>Идет загрузка...</p>
                     </div>
                 </div>
 
-                <div class="invoice-data-content" ng-if="isInvoiceLoading == false && getInvoices().length > 0">
+                <div class="invoice-data-content" ng-if="isOffersLoading == false && getOffers().length > 0">
                     <div class="table-responsive">
                         <table class="table table-striped table-condensed">
                             <thead>
