@@ -7,7 +7,7 @@
     <script src="{{ asset('js/bootstrap-datepicker.min.js') }}"></script>
     <script src="{{ asset('locales/bootstrap-datepicker.ru.min.js') }}"></script>
 
-    <script src="http://exchange.dev/js/angular-datetimepicker-directive.js"></script>
+    <script src="{{ asset('js/angular-datetimepicker-directive.js') }}"></script>
 
     <script src="{{ asset('js/app/admin.route.js') }}"></script>
     <script src="{{ asset('js/app/controllers/admin/user.js') }}"></script>
