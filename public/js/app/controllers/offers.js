@@ -5,19 +5,14 @@ app.controller('OffersController', ['$scope', '$routeParams', 'AppUtils', '$loca
         message: ''
     };
 
-    $scope.detailOfferError = {
-        show: false,
-        message: ''
-    };
-
     $scope.invoiceId = $routeParams.invoiceId;
     $scope.detailOfferId = $routeParams.offerId;
 
     $scope.offers = [];
     $scope.invoice = {};
+    $scope.offer = {};
 
     $scope.isOffersLoading = false;
-    $scope.isDetailOffersLoading = false;
 
     $scope.getOffers = function() {
         return $scope.offers;
@@ -49,40 +44,100 @@ app.controller('OffersController', ['$scope', '$routeParams', 'AppUtils', '$loca
 
     $scope.loadInvoice = function() {
         $scope.invoice = {};
-        $scope.isDetailOffersLoading = true;
+        $scope.offer = {};
+        $scope.isOffersLoading = true;
         if ($scope.detailOfferId === undefined || $scope.detailOfferId === null) {
-            $scope.detailOfferError.message = 'Неверный запрос. Неверно переданы параметры.';
-            AppUtils.showAlertBox($scope.detailOfferError);
+            $scope.invoiceError.message = 'Неверный запрос. Неверно переданы параметры.';
+            AppUtils.showAlertBox($scope.invoiceError);
             return;
         }
 
         var request = {
-            invoice_id: $scope.detailOfferId
+            offer_id: $scope.detailOfferId
         };
 
-        $http.post('/invoices/getInvoiceById', request).then(function(response) {
-            $scope.isDetailOffersLoading = false;
+        $http.post('/invoices/getOfferById', request).then(function(response) {
+            $scope.isOffersLoading = false;
 
 
             response = response.data;
 
             if (response.status) {
                 $scope.invoice = AppUtils.pushKey(response.invoice);
+                $scope.offer = response.offer;
             }
             else {
-                $scope.detailOfferError.message = response.message;
+                $scope.invoiceError.message = response.message;
                 AppUtils.showAlertBox()
             }
         }, function() {
-            $scope.isDetailOffersLoading = false;
-            $scope.detailOfferError.message = 'Произошла системная ошибка. Повторите запрос позднее.';
-            AppUtils.showAlertBox($scope.detailOfferError);
+            $scope.isOffersLoading = false;
+            $scope.invoiceError.message = 'Произошла системная ошибка. Повторите запрос позднее.';
+            AppUtils.showAlertBox($scope.invoiceError);
         });
     };
 
     $scope.openOffer = function(id) {
         $location.path('/offers/open/'+id);
         $location.replace();
+    };
+    
+    $scope.agreeOffer = function (id) {
+
+        if (!confirm('Вы действительно хотите подтвердить предложение?')) {
+            return;
+        }
+
+        $scope.isOffersLoading = true;
+        
+        var request = {
+            'offer_id': id
+        };
+        
+        $http.post('/invoices/agreeOffer', request).then(function (response) {
+            response = response.data;
+            
+            if (response.status) {
+                $location.path('/invoices');
+                $location.replace();
+            }
+            else {
+                $scope.invoiceError.message = response.message;
+                AppUtils.showAlertBox($scope.invoiceError);
+            }
+        }, function () {
+            $scope.invoiceError.message = 'Произошла системная ошибка. Повторите позднее.';
+            AppUtils.showAlertBox($scope.invoiceError);
+        });
+    };
+
+    $scope.disagreeOffer = function (id) {
+
+        if (!confirm('Вы действительно хотите отменить предложение?')) {
+            return;
+        }
+
+        $scope.isOffersLoading = true;
+
+        var request = {
+            'offer_id': id
+        };
+
+        $http.post('/invoices/disagreeOffer', request).then(function (response) {
+            response = response.data;
+
+            if (response.status) {
+                $location.path('/invoices');
+                $location.replace();
+            }
+            else {
+                $scope.invoiceError.message = response.message;
+                AppUtils.showAlertBox($scope.invoiceError);
+            }
+        }, function () {
+            $scope.invoiceError.message = 'Произошла системная ошибка. Повторите позднее.';
+            AppUtils.showAlertBox($scope.invoiceError);
+        });
     };
 
     $scope.init = function() {

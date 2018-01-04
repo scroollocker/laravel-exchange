@@ -41,11 +41,12 @@
                                 <th>Курс</th>
                                 <th>Сумма</th>
                                 <th>Валюта</th>
+                                <th>Статус</th>
                                 <th>Действия</th>
                             </tr>
                             </thead>
                             <tbody>
-                            <tr ng-repeat="invoice in getInvoices()" ng-dblclick="openInvoice(invoice.id)" style="cursor:pointer;">
+                            <tr ng-repeat="invoice in getInvoices()" ng-dblclick="openInvoice(invoice)" style="cursor:pointer;">
                                 <td>@{{ invoice.id }}</td>
                                 <td>@{{ invoice.created_date }}</td>
                                 <td>@{{ invoice.endDate }}</td>
@@ -54,9 +55,13 @@
                                 <td>@{{ invoice.cur_curs }}</td>
                                 <td>@{{ invoice.final_sum }}</td>
                                 <td>@{{ invoice.cur_2.cur_name }}</td>
-                                <td>
+                                <td>@{{ invoice.state.name }}</td>
+                                <td ng-if="invoice.state.code === 'OPENED'">
                                     <button class="btn btn-warning btn-sm" ng-click="editInvoice(invoice.id)"><i class="fa fa-edit"></i></button>
                                     <button class="btn btn-danger btn-sm" ng-click="removeInvoice(invoice.id)"><i class="fa fa-remove"></i></button>
+                                </td>
+                                <td ng-if="invoice.state.code !== 'OPENED'" class="text-center">
+                                    <span>Управление не доступно</span>
                                 </td>
                             </tr>
 

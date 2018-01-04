@@ -58,7 +58,12 @@ Route::group(['as'=>'user', 'middleware' => 'auth'], function() {
         Route::post('remove', 'InvoiceController@removeInvoice');
         Route::get('offers', 'InvoiceController@getOffersInvoice');
         Route::get('offersDetail', 'InvoiceController@getOffersDetail');
+        Route::post('getOfferById', 'InvoiceController@getOfferDetail');
         Route::post('getOffers', 'InvoiceController@getOffersByInvoice');
+
+        Route::post('agreeOffer', 'InvoiceController@agreeOffer');
+        Route::post('disagreeOffer', 'InvoiceController@disagreeOffer');
+
     });
 
 });

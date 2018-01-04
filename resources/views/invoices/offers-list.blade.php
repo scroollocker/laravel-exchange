@@ -12,6 +12,11 @@
 
 <div class="row" ng-init="init()">
     <div class="col-md-12">
+
+        <div class="form-group">
+            <a ng-href="#!/invoices/lists" class="btn btn-default">&lt;&lt;&lt; Назад</a>
+        </div>
+
         <div class="panel panel-default">
             <div class="panel-heading" style="padding: 15px;">
                 Список предложений по заявке
@@ -50,11 +55,12 @@
                                 <th>Курс</th>
                                 <th>Сумма</th>
                                 <th>Валюта</th>
+                                <th>Статус</th>
                                 <th>Действия</th>
                             </tr>
                             </thead>
                             <tbody>
-                            <tr ng-repeat="offer in getOffers()" ng-dblclick="openOffer(offer.detail_id)" style="cursor:pointer;">
+                            <tr ng-repeat="offer in getOffers()" ng-dblclick="openOffer(offer.id)" style="cursor:pointer;">
                                 <td>@{{ offer.id }}</td>
                                 <td>@{{ offer.created_date }}</td>
                                 <td>@{{ offer.endDate }}</td>
@@ -63,6 +69,7 @@
                                 <td>@{{ offer.course }}</td>
                                 <td>@{{ offer.sum_2 }}</td>
                                 <td>@{{ offer.cur_2.name }}</td>
+                                <td>@{{ offer.offer_state }}</td>
                                 <td>
                                     <button class="btn btn-success btn-sm" ng-click="agreeOffer(offer.id)"><i class="fa fa-check"></i></button>
                                     <button class="btn btn-danger btn-sm" ng-click="disagreeOffer(offer.id)"><i class="fa fa-remove"></i></button>
