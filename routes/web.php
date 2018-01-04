@@ -56,6 +56,9 @@ Route::group(['as'=>'user', 'middleware' => 'auth'], function() {
         Route::post('getInvoiceById', 'InvoiceController@getInvoiceById');
         Route::post('save', 'InvoiceController@saveInvoice');
         Route::post('remove', 'InvoiceController@removeInvoice');
+        Route::get('offers', 'InvoiceController@getOffersInvoice');
+        Route::get('offersDetail', 'InvoiceController@getOffersDetail');
+        Route::post('getOffers', 'InvoiceController@getOffersByInvoice');
     });
 
 });

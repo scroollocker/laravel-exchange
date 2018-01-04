@@ -24,6 +24,16 @@ app.config(['$routeProvider', function($routeProvider) {
         controller: 'InvoicesController'
     });
 
+    $routeProvider.when('/offers/byInvoice/:invoiceId',  {
+        templateUrl: '/invoices/offers',
+        controller: 'OffersController'
+    });
+
+    $routeProvider.when('/offers/open/:offerId',  {
+        templateUrl: '/invoices/offersDetail',
+        controller: 'OffersController'
+    });
+
     $routeProvider.when('/invoices/chat/:invoice_id',  {
         templateUrl: '/chat/base',
         controller: 'ChatTemplate'

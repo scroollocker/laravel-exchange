@@ -1,0 +1,97 @@
+
+app.controller('OffersController', ['$scope', '$routeParams', 'AppUtils', '$location', '$http', function($scope, $routeParams, AppUtils, $location, $http) {
+    $scope.invoiceError = {
+        show: false,
+        message: ''
+    };
+
+    $scope.detailOfferError = {
+        show: false,
+        message: ''
+    };
+
+    $scope.invoiceId = $routeParams.invoiceId;
+    $scope.detailOfferId = $routeParams.offerId;
+
+    $scope.offers = [];
+    $scope.invoice = {};
+
+    $scope.isOffersLoading = false;
+    $scope.isDetailOffersLoading = false;
+
+    $scope.getOffers = function() {
+        return $scope.offers;
+    };
+
+    $scope.loadOffers = function() {
+        $scope.isOffersLoading = true;
+
+        var request = {
+            invoice_id: $scope.invoiceId
+        };
+
+        $http.post('/invoices/getOffers', request).then(function(response) {
+            $scope.isOffersLoading = false;
+            response = response.data;
+            if (response.status) {
+                $scope.offers = AppUtils.pushKeys(response.offers);
+            }
+            else {
+                $scope.invoiceError.message = response.message;
+                AppUtils.showAlertBox($scope.invoiceError);
+            }
+        }, function() {
+            $scope.isOffersLoading = false;
+            $scope.invoiceError.message = 'Произошла системная ошибка. Повторите запрос позднее.';
+            AppUtils.showAlertBox($scope.invoiceError);
+        });
+    };
+
+    $scope.loadInvoice = function() {
+        $scope.invoice = {};
+        $scope.isDetailOffersLoading = true;
+        if ($scope.detailOfferId === undefined || $scope.detailOfferId === null) {
+            $scope.detailOfferError.message = 'Неверный запрос. Неверно переданы параметры.';
+            AppUtils.showAlertBox($scope.detailOfferError);
+            return;
+        }
+
+        var request = {
+            invoice_id: $scope.detailOfferId
+        };
+
+        $http.post('/invoices/getInvoiceById', request).then(function(response) {
+            $scope.isDetailOffersLoading = false;
+
+
+            response = response.data;
+
+            if (response.status) {
+                $scope.invoice = AppUtils.pushKey(response.invoice);
+            }
+            else {
+                $scope.detailOfferError.message = response.message;
+                AppUtils.showAlertBox()
+            }
+        }, function() {
+            $scope.isDetailOffersLoading = false;
+            $scope.detailOfferError.message = 'Произошла системная ошибка. Повторите запрос позднее.';
+            AppUtils.showAlertBox($scope.detailOfferError);
+        });
+    };
+
+    $scope.openOffer = function(id) {
+        $location.path('/offers/open/'+id);
+        $location.replace();
+    };
+
+    $scope.init = function() {
+        if ($scope.invoiceId === undefined || $scope.invoiceId === null) {
+            $location.path('/invoices');
+            $location.replace();
+            return;
+        }
+
+        $scope.loadOffers();
+    }
+}]);

@@ -1,3 +1,15 @@
+<nav>
+    <ol class="cd-breadcrumb triangle">
+        <li><a>Шаг 1</a></li>
+        <li><a>Шаг 2</a></li>
+        <li><a>Шаг 3</a></li>
+        <li><a>Шаг 4</a></li>
+        <li class="current"><a>Шаг 5</a></li>
+        <li><a>Шаг 6</a></li>
+        <li><a>Шаг 7</a></li>
+    </ol>
+</nav>
+
 <div class="row" ng-init="init()">
     <div class="col-md-12">
         <div class="panel panel-default">
@@ -42,18 +54,18 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <tr ng-repeat="invoice in getInvoices()" ng-dblclick="openInvoice(invoice.id)" style="cursor:pointer;">
-                                <td>@{{ invoice.id }}</td>
-                                <td>@{{ invoice.created_date }}</td>
-                                <td>@{{ invoice.endDate }}</td>
-                                <td>@{{ invoice.cur_sum }}</td>
-                                <td>@{{ invoice.cur_1.cur_name }}</td>
-                                <td>@{{ invoice.cur_curs }}</td>
-                                <td>@{{ invoice.final_sum }}</td>
-                                <td>@{{ invoice.cur_2.cur_name }}</td>
+                            <tr ng-repeat="offer in getOffers()" ng-dblclick="openOffer(offer.detail_id)" style="cursor:pointer;">
+                                <td>@{{ offer.id }}</td>
+                                <td>@{{ offer.created_date }}</td>
+                                <td>@{{ offer.endDate }}</td>
+                                <td>@{{ offer.sum_1 }}</td>
+                                <td>@{{ offer.cur_1.name }}</td>
+                                <td>@{{ offer.course }}</td>
+                                <td>@{{ offer.sum_2 }}</td>
+                                <td>@{{ offer.cur_2.name }}</td>
                                 <td>
-                                    <button class="btn btn-warning btn-sm" ng-click="editInvoice(invoice.id)"><i class="fa fa-edit"></i></button>
-                                    <button class="btn btn-danger btn-sm" ng-click="removeInvoice(invoice.id)"><i class="fa fa-remove"></i></button>
+                                    <button class="btn btn-success btn-sm" ng-click="agreeOffer(offer.id)"><i class="fa fa-check"></i></button>
+                                    <button class="btn btn-danger btn-sm" ng-click="disagreeOffer(offer.id)"><i class="fa fa-remove"></i></button>
                                 </td>
                             </tr>
 

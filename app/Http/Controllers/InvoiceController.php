@@ -452,4 +452,80 @@ class InvoiceController extends Controller
         }
     }
 
+    public function getOffersInvoice(Request $request) {
+        return view('invoices.offers-list');
+    }
+
+    public function getOffersDetail() {
+        return view('invoices.offer-detail');
+    }
+
+    public function getOffersByInvoice(Request $request) {
+        $rules = array(
+            'invoice_id' => array(
+                'integer', 'required'
+            )
+        );
+
+        $messages = array(
+            'invoice_id.integer' => 'Неверный запрос',
+            'invoice_id.required' => 'Неверный запрос'
+        );
+
+        $validator = Validator::make($request->all(), $rules, $messages);
+
+        $user = \Auth::user();
+
+        try {
+            if ($validator->fails()) {
+                $errMsg = '';
+                foreach ($validator->errors()->all() as $error) {
+                    $errMsg .= $error;
+                }
+                throw new Exception($errMsg);
+            }
+
+            if (is_null($user)) {
+                throw new Exception('Пользователь не авторизован');
+            }
+
+            $offers = DB::table('tb_offer AS o')
+                ->select(
+                    'o.offer_id AS id',
+                    'o.details_id AS detail_id',
+                    'o.declare_id AS declare_id',
+                    'td.sum_buy_nd AS sum_1',
+                    'td.sum_sell_nd AS sum_2',
+                    'td.created_dt as created_date',
+                    'td.end_dt as endDate',
+                    'td.course_nd as course',
+                    'cur1.id as \'cur_1.id\'',
+                    'cur1.cur_name as \'cur_1.name\'',
+                    'cur2.id as \'cur_2.id\'',
+                    'cur2.cur_name as \'cur_2.name\'')
+                ->join('tb_declare AS td', 'td.declare_id', '=', 'o.details_id')
+                ->join('tb_declare AS tdo', 'tdo.declare_id', '=', 'o.declare_id')
+                ->join('currencies AS cur1', 'cur1.id', '=', 'td.cur_sell_id')
+                ->join('currencies AS cur2', 'cur2.id', '=', 'td.cur_buy_id')
+                ->where('o.declare_id', $request->invoice_id)
+                ->where('tdo.user_id', $user->id)
+                ->get();
+
+            return response()->json(array(
+                'status' => true,
+                'offers' => $offers->toArray()
+            ));
+
+        }
+        catch(Exception $ex) {
+            \Log::error('get offer error');
+            \Log::error($ex);
+
+            return response()->json(array(
+                'status' => false,
+                'message' => $ex->getMessage()
+            ));
+        }
+    }
+
 }

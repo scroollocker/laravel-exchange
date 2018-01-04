@@ -17,6 +17,7 @@
     <script src="{{ asset('js/app/controllers/settings.js') }}"></script>
     <script src="{{ asset('js/app/controllers/accounts.js') }}"></script>
     <script src="{{ asset('js/app/controllers/partners.js') }}"></script>
+    <script src="{{ asset('js/app/controllers/offers.js') }}"></script>
 
 <div class="container">
     <!--<div class="row">

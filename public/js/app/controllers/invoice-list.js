@@ -69,6 +69,11 @@ app.controller('InvoicesListController', ['$scope', '$http', 'AppUtils','$locati
         }
     };
 
+    $scope.openInvoice = function(id) {
+        $location.path('/offers/byInvoice/'+id);
+        $location.replace();
+    };
+
     $scope.init = function () {
         $scope.loadInvoices();
     };
