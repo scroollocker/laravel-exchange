@@ -39,6 +39,11 @@ app.config(['$routeProvider', function($routeProvider) {
         controller: 'ChatTemplate'
     });
 
+    $routeProvider.when('/dashboard/invoices',  {
+        templateUrl: '/dashboard/invoices-list',
+        controller: 'DashboardInvoices'
+    });
+
     $routeProvider.when('/invoices', {
         redirectTo: '/invoices/lists'
     });

@@ -23,6 +23,8 @@ Route::get('/login-step-2', 'Auth\LoginController@showSecondStep');
 Route::post('/login-step-2', 'Auth\LoginController@confirmPin')->name('login-confirm');
 Route::get('/resend-pin', 'Auth\LoginController@showSecondStep');
 
+Route::get('/test', 'Dashboard@getAvailibleInvoices');
+
 Route::group(['as'=>'user', 'middleware' => 'auth'], function() {
     Route::get('/home', 'HomeController@index')->name('home');
     Route::get('/chat/base', 'InvoiceController@chatBase');
@@ -64,6 +66,13 @@ Route::group(['as'=>'user', 'middleware' => 'auth'], function() {
         Route::post('agreeOffer', 'InvoiceController@agreeOffer');
         Route::post('disagreeOffer', 'InvoiceController@disagreeOffer');
 
+    });
+
+    Route::prefix('dashboard')->group(function() {
+        Route::get('invoices-list', 'Dashboard@templateInvoiceList');
+
+        Route::get('currencies-get', 'Dashboard@getCurrencies');
+        Route::post('invoices-list-get', 'Dashboard@getAvailibleInvoices');
     });
 
 });
