@@ -23,7 +23,12 @@ Route::get('/login-step-2', 'Auth\LoginController@showSecondStep');
 Route::post('/login-step-2', 'Auth\LoginController@confirmPin')->name('login-confirm');
 Route::get('/resend-pin', 'Auth\LoginController@showSecondStep');
 
-Route::get('/test', 'Dashboard@getAvailibleInvoices');
+Route::get('/test', function(){
+    $pin = \Sms::generatePin();
+    $user = \Auth::user();
+
+    \Sms::sendPin($pin, $user);
+});
 
 Route::group(['as'=>'user', 'middleware' => 'auth'], function() {
     Route::get('/home', 'HomeController@index')->name('home');

@@ -164,6 +164,7 @@ return [
         Illuminate\Translation\TranslationServiceProvider::class,
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
+        Ixudra\Curl\CurlServiceProvider::class,
 
         /*
          * Package Service Providers...
@@ -231,6 +232,7 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
         'Sms' => App\Facades\SmsFacade::class,
         'AccountDb' => App\Facades\AccountFacade::class,
+        'Curl' => Ixudra\Curl\Facades\Curl::class,
     ],
 
 ];
