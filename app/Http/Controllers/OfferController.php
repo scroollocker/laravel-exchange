@@ -31,7 +31,6 @@ class OfferController extends Controller
         $user = \Auth::user();
 
 
-
     }
 
 

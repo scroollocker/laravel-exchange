@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Account;
 use App\Currency;
 use App\Invoice;
+use App\Offer;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -11,6 +13,10 @@ class Dashboard extends Controller
 {
     public function templateInvoiceList() {
         return view('dashboard.invoices-list');
+    }
+
+    public function templateEditOffer() {
+        return view('dashboard.offer-add');
     }
 
     public function getAvailibleInvoices(Request $request) {
@@ -168,5 +174,125 @@ class Dashboard extends Controller
                 'message' => $ex->getMessage()
             ));
         }
+    }
+
+
+    public function getInvoice(Request $request) {
+        $rules = array(
+            'invoice_id' => array(
+                'required', 'integer'
+            ),
+            'offer_id' => array(
+                'nullable', 'integer'
+            )
+        );
+
+        $messages = array(
+            'invoice_id.required' => 'Неверный запрос',
+            'invoice_id.integer' => 'Неверный запрос',
+            'offer_id.integer' => 'Неверный запрос'
+        );
+
+        try {
+            $validator = Validator::make($request->all(), $rules, $messages);
+
+            if ($validator->fails()) {
+                $errMsg = '';
+                foreach ($validator->errors()->all() as $error) {
+                    $errMsg .= $error;
+                }
+                throw new \Exception($errMsg);
+            }
+
+            $invoice = Invoice::where('declare_id', $request->invoice_id)
+                ->with('acc_dt', 'acc_ct', 'currency_sell', 'currency_buy')
+
+                ->first();
+
+            if (is_null($invoice)) {
+                throw new \Exception('Заявка не найдена');
+            }
+
+            $offer = null;
+
+            if (isset($request->offer_id) && !is_null($request->offer_id)) {
+                $offer = Offer::where($request->offer_id)
+                    ->with('origin', 'state', 'detail', 'detail.currency_sell', 'detail.currency_buy', 'detail.acc_dt', 'detail.acc_ct')
+                    ->first();
+
+            }
+
+            return response()->json(array(
+                'status' => true,
+                'offer' => $offer,
+                'invoice' => $invoice
+            ));
+        }
+        catch (\Exception $ex) {
+            \Log::error('get invoice error');
+            \Log::error($ex);
+
+            return response()->json(array(
+                'status' => false,
+                'message' => $ex->getMessage()
+            ));
+        }
+    }
+
+    public function getAcc(Request $request) {
+        $rules = array(
+            'currency_buy' => array(
+                'required', 'integer'
+            ),
+            'currency_sell' => array(
+                'required', 'integer'
+            )
+        );
+
+        $messages = array(
+            'currency_buy.required' => 'Неверный запрос',
+            'currency_buy.integer' => 'Неверный запрос',
+            'currency_sell.required' => 'Неверный запрос',
+            'currency_sell.integer' => 'Неверный запрос'
+        );
+
+        try {
+            $validator = Validator::make($request->all(), $rules, $messages);
+
+            if ($validator->fails()) {
+                $errMsg = '';
+                foreach ($validator->errors()->all() as $error) {
+                    $errMsg .= $error;
+                }
+                throw new \Exception($errMsg);
+            }
+
+            $acc_sell = Account::where('cur_id', $request->currency_sell)
+                ->where('for_deal_n', 1)
+                ->select('acc_id', 'name_v as acc_name', 'num_v as acc_num')
+                ->get();
+
+            $acc_buy = Account::where('cur_id', $request->currency_buy)
+                ->where('for_deal_n', 1)
+                ->select('acc_id', 'name_v as acc_name', 'num_v as acc_num')
+                ->get();
+
+            return response()->json(array(
+                'status' => true,
+                'acc_sell' => $acc_sell->toArray(),
+                'acc_buy' => $acc_buy->toArray()
+            ));
+
+        }
+        catch (\Exception $ex) {
+            \Log::error('get acc error');
+            \Log::error($ex);
+
+            return response()->json(array(
+                'status' => false,
+                'message' => $ex->getMessage()
+            ));
+        }
+
     }
 }

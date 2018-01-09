@@ -32,7 +32,6 @@
             <div class="panel-heading" style="padding: 15px;">
                 Условия предложения
             </div>
-
             <div class="panel-body">
                 <form name="step1_form">
                     <table class='table'>
@@ -50,89 +49,27 @@
                             <td>@{{ invoice.course_nd }}</td>
                         </tr>
 
-                        <tr>
+                        <tr ng-class="{'has-error': step1_form.sum_sell_nd.$invalid}">
                             <td>Сумма продажи: </td>
-                            <td><input type="number" class="form-control" ng-model="offer.sum_sell_nd"></td>
+                            <td><input name="sum_sell_nd" string-to-number type="number" class="form-control" ng-model="offer.sum_sell_nd"></td>
                         </tr>
-                        <tr>
+                        <tr ng-class="{'has-error': step1_form.course_nd.$invalid}">
                             <td>Курс: </td>
-                            <td><input type="number" class="form-control" ng-model="offer.course_nd"></td>
+                            <td><input name="course_nd" string-to-number type="number" class="form-control" ng-model="offer.course_nd"></td>
                         </tr>
                         <tr>
                             <td>Сумма покупки: </td>
-                            <td><input disabled type="number" class="form-control" ng-value="@{{ getFinalSum() }}"></td>
+                            <td><input disabled class="form-control" ng-value="getFinalSum()"></td>
                         </tr>
 
                     </table>
 
-                    <table class="table">
-                        <tr>
-                            <td><label>Вид сделки:</label></td>
-
-                            <td>
-                                <div class="form-inline">
-                                    <div class="form-group">
-                                        <input name="type" icheck type="radio" required ng-model="invoice.type" id="buy"
-                                               value="1">
-                                        <label for="buy">Покупка</label>
-                                    </div>
-                                    <div class="form-group">
-                                        <input name="type" icheck type="radio" required ng-model="invoice.type"
-                                               id="sold"
-                                               value="2">
-                                        <label for="sold">Продажа</label>
-                                    </div>
-                                </div>
-                            </td>
-
-                        </tr>
-                        <tr ng-class="{'has-error': step1_form.currence_one.$invalid}">
-                            <td><label>Валюта:</label></td>
-                            <td>
-                                <select name="currence_one" required class="form-control" style="width: 200px;"
-                                        ng-model="invoice.cur_1"
-                                        ng-options="item as item.cur_name for item in getCurrencies() track by item.id">
-
-                                </select>
-                            </td>
-                        </tr>
-                        <tr ng-class="{'has-error': step1_form.currence_two.$invalid}">
-                            <td><label>Контр. валюта:</label></td>
-                            <td>
-                                <select name="currence_two" required class="form-control" style="width: 200px;"
-                                        ng-model="invoice.cur_2"
-                                        ng-options="item as item.cur_name for item in getCurrencies() track by item.id">
-
-                                </select>
-                            </td>
-                        </tr>
-                        <tr ng-class="{'has-error': step1_form.sum.$invalid}">
-                            <td><label>Сумма: </label></td>
-                            <td>
-                                <input type="text" name="sum" required ng-model="invoice.cur_sum" placeholder="1000"
-                                       class="form-control">
-                            </td>
-                        </tr>
-                        <tr ng-class="{'has-error': step1_form.curs.$invalid}">
-                            <td><label>Курс: </label></td>
-                            <td>
-                                <input required name="curs" type="text" ng-model="invoice.cur_curs" class="form-control"
-                                       placeholder="47,50">
-
-                            </td>
-                        </tr>
-                        <tr>
-                            <td><label>Сумма по курсу:</label></td>
-                            <td><input type="text" disabled class="form-control" ng-value="computeCursSum()"></td>
-                        </tr>
-
-                    </table>
                 </form>
 
                 <div class="text-center ">
                     <div class="btn-group">
-                        <button class="btn btn-default" ng-click="cancelCreateInvoice()">Отмена</button>
-                        <button class="btn btn-primary" ng-click="confirmInvoiceStep1(invoice, step1_form)">Дальше
+                        <button class="btn btn-default" ng-click="cancelCreateOffer()">Отмена</button>
+                        <button class="btn btn-primary" ng-click="confirmOfferStep1(offer, step1_form)">Дальше
                         </button>
                     </div>
                 </div>
@@ -154,8 +91,8 @@
                         <tr ng-class="{'has-error':step2_form.acc_1.$invalid}">
                             <td><label>Счет выплат</label></td>
                             <td>
-                                <select name="acc_1" required ng-model="invoice.acc_1"
-                                        ng-options="item as item.acc_num + '  (' + item.acc_name + ')' for item in getAccForCur1() track by item.id"
+                                <select name="acc_1" required ng-model="offer.acc_dt"
+                                        ng-options="item as item.acc_num + '  (' + item.acc_name + ')' for item in getAccForCur1() track by item.acc_id"
                                         class="form-control" style="width: 200px;"></select>
                             </td>
                         </tr>
@@ -163,7 +100,7 @@
                             <td><label>Счет получения средств:</label></td>
                             <td>
                                 <select name="acc_2" required ng-model="invoice.acc_2"
-                                        ng-options="item as item.acc_num + '  (' + item.acc_name + ')' for item in getAccForCur2() track by item.id"
+                                        ng-options="item as item.acc_num + '  (' + item.acc_name + ')' for item in getAccForCur2() track by item.acc_id"
                                         class="form-control" style="width: 200px;"></select>
                             </td>
                         </tr>
@@ -174,7 +111,7 @@
                 <div class="text-center ">
                     <div class="btn-group">
                         <button class="btn btn-default" ng-click="selectStep(1)">Назад</button>
-                        <button class="btn btn-primary" ng-click="confirmInvoiceStep2(invoice, step2_form)">Дальше</button>
+                        <button class="btn btn-primary" ng-click="confirmOfferStep2(offer, step2_form)">Дальше</button>
                     </div>
                 </div>
             </div>
@@ -186,55 +123,36 @@
     <div class="col-md-12">
         <div class="panel panel-default">
             <div class="panel-heading" style="padding: 15px;">
-                Укажите ограничения по сделке
+                Укажите ограничения по предложению
             </div>
 
             <div class="panel-body">
                 <form class="form" name="step3_form">
                     <table class="table">
                         <tr ng-class="{'has-error':step3_form.date_end.$invalid}">
-                            <td><label>Дата окончания сделки: </label></td>
+                            <td><label>Дата окончания предложения: </label></td>
                             <td>
                                 <div class="input-group date">
-                                    <input name="date_end" datetimepicker required ng-model="invoice.endDate" datetimepicker-options="{format: 'yyyy-mm-dd',language: 'ru'}" id="invoice-timeout" type="text" class="form-control"><span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                    <input name="date_end" datetimepicker required ng-model="offer.endDate" datetimepicker-options="{format: 'yyyy-mm-dd',language: 'ru'}" id="invoice-timeout" type="text" class="form-control"><span class="input-group-addon"><i class="fa fa-calendar"></i></span>
                                 </div>
                             </td>
                         </tr>
                         <tr>
-                            <td><label for="auto-confirm">Принемать предложения автоматически:</label></td>
+                            <td><label for="comment">Комментарий к предложению:</label></td>
                             <td>
-                                <input name="auto-confirm" ng-model="invoice.autoconfirm" icheck type="checkbox"  ng-true-value='1' ng-false-value='0' class="form-control" style="width: 20px;">
+                                <textarea name="comment" ng-model="offer.comment" class="form-control" >
+
+                                </textarea>
                             </td>
                         </tr>
 
                     </table>
                 </form>
-                <div class="table-responsive" ng-if="invoice.autoconfirm != 1">
-
-                    <table class="table">
-                        <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>Логин</th>
-                            <th>Имя</th>
-                            <th>Принемать сделки автоматически</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                            <tr ng-repeat="partner in getPartners()">
-                                <td>@{{ partner.id }}</td>
-                                <td>@{{ partner.email }}</td>
-                                <td>@{{ partner.name }}</td>
-                                <td><input type="checkbox" icheck ng-model="partner.autoconfirm" ng-true-value="'1'" ng-false-value="'0'"></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
 
                 <div class="text-center ">
                     <div class="btn-group">
                         <button class="btn btn-default" ng-click="selectStep(2)">Назад</button>
-                        <button class="btn btn-primary" ng-click="confirmInvoiceStep3(invoice, step3_form)">Дальше</button>
+                        <button class="btn btn-primary" ng-click="confirmOfferStep3(offer, step3_form)">Дальше</button>
                     </div>
                 </div>
             </div>

@@ -44,6 +44,11 @@ app.config(['$routeProvider', function($routeProvider) {
         controller: 'DashboardInvoices'
     });
 
+    $routeProvider.when('/dashboard/editOffer/:invoiceId/:offerId?', {
+        templateUrl: '/dashboard/offer-add',
+        controller: 'DashboardOffer'
+    });
+
     $routeProvider.when('/invoices', {
         redirectTo: '/invoices/lists'
     });
