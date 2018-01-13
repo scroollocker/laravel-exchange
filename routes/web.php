@@ -75,9 +75,15 @@ Route::group(['as'=>'user', 'middleware' => 'auth'], function() {
 
     Route::prefix('dashboard')->group(function() {
         Route::get('invoices-list', 'Dashboard@templateInvoiceList');
+        Route::get('offer-add', 'Dashboard@templateEditOffer');
 
         Route::get('currencies-get', 'Dashboard@getCurrencies');
+
         Route::post('invoices-list-get', 'Dashboard@getAvailibleInvoices');
+        Route::post('getInvoice', 'Dashboard@getInvoice');
+
+        Route::post('getAcc', 'Dashboard@getAcc');
+
     });
 
 });
