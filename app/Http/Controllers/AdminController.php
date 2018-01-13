@@ -392,6 +392,9 @@ class AdminController extends Controller
             \Log::info($newUser->toArray());
             \Log::info($userPin);
 
+            $smsStr = 'Пароль для входа - '.$userPin;
+            \Sms::sendSms($newUser->phone, $smsStr);
+
             return response()->json(array(
                 'status' => true
             ));
