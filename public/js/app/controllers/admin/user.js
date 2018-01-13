@@ -90,16 +90,16 @@ app.controller('UserController', ['$scope', '$http', 'AppUtils', function($scope
             return;
         }
 
-        var active_date = $('#activeDate').val();
+        //var active_date = $('#activeDate').val();
 
-        if (active_date === null || active_date === undefined || active_date === '') {
+        if (editedUser.active_date === null || editedUser.active_date === undefined || editedUser.active_date === '') {
             $scope.userError.message = 'Не выбрана дата';
             AppUtils.showAlertBox($scope.userError);
             return;
         }
 
         var request = $scope.editedUser;
-        request.active_date = active_date;
+        //request.active_date = editedUser.active_date;
 
         $http.post('/user/edit', request).then(function (response) {
             response = response.data;
@@ -128,16 +128,16 @@ app.controller('UserController', ['$scope', '$http', 'AppUtils', function($scope
             return;
         }
 
-        var active_date = $('#activeDate').val();
+        //var active_date = $('#activeDate').val();
 
-        if (active_date === null || active_date === undefined || active_date === '') {
+        if (editedUser.active_date === null || editedUser.active_date === undefined || editedUser.active_date === '') {
             $scope.userError.message = 'Не выбрана дата';
             AppUtils.showAlertBox($scope.userError);
             return;
         }
 
         var request = $scope.editedUser;
-        request.active_date = active_date;
+        //request.active_date = active_date;
 
         $http.post('/user/add', request).then(function (response) {
             response = response.data;
