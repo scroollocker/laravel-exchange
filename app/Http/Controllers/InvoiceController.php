@@ -355,7 +355,7 @@ class InvoiceController extends Controller
             DB::beginTransaction();
             $result = DB::select('select create_declare_2(?,?,?,?,?,?,?,?,?,?,?,?,?) as declare_id;', $params);
 
-            if (!$result && !$result[0]) {
+            if (!$result and !$result[0]) {
                 DB::rollBack();
                 throw new Exception('Произошла системная ошибка создания Заявки');
             }
