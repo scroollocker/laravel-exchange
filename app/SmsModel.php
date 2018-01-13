@@ -121,7 +121,7 @@ class SmsModel {
                 ->post();
 
         \Log::info($data);
-        dd($data);
+        //dd($data);
 
         return $data;
     }

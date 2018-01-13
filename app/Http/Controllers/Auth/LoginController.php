@@ -49,8 +49,13 @@ class LoginController extends Controller
         $exp_time = time() + (int)(env('SMS_TIMEOUT', '2') * 60);
 
         $request->session()->put('exp_time', $exp_time);
-//        $request->session()->put('code', '12345');
-        $request->session()->put('code', $pin);
+        $smsDebug = env('SMS_DEBUG', false);
+        if ($smsDebug === true) {
+            $request->session()->put('code', '12345');
+        }
+        else {
+            $request->session()->put('code', $pin);
+        }
 
         \Sms::sendPin($pin, $user);
     }
