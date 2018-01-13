@@ -4,7 +4,9 @@ angular
     .module('datetimepicker', [])
 
     .provider('datetimepicker', function () {
-        var default_options = {};
+        var default_options = {
+            autoclose: true
+        };
 
         this.setOptions = function (options) {
             default_options = options;
@@ -66,7 +68,11 @@ angular
                                 date = ngModelCtrl.$viewValue;
                             }
 
-                            $element.datepicker('setDate', moment(date, 'yyyy-mm-dd'));
+                            console.log(date);
+                            if (date !== null) {
+                                $element.datepicker('setDate', moment(date, 'yyyy-mm-dd'));
+                            }
+
 
                         }
 
