@@ -70,8 +70,18 @@ app.controller('InvoicesListController', ['$scope', '$http', 'AppUtils','$locati
     };
 
     $scope.openInvoice = function(invoice) {
-        $location.path('/offers/byInvoice/'+invoice.id);
-        $location.replace();
+        console.log(invoice);
+
+        if (invoice.step == 1) {
+            $location.path('/offers/byInvoice/'+invoice.id);
+            $location.replace();
+        }
+        else if (invoice.step == 6) {
+            $location.path('/invoice/inBank/'+invoice.id);
+            $location.replace();
+        }
+
+
     };
 
     $scope.init = function () {

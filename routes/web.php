@@ -24,10 +24,7 @@ Route::post('/login-step-2', 'Auth\LoginController@confirmPin')->name('login-con
 Route::get('/resend-pin', 'Auth\LoginController@showSecondStep');
 
 Route::get('/test', function(){
-    $pin = \Sms::generatePin();
-    $user = \Auth::user();
-
-    \Sms::sendPin($pin, $user);
+    return response()->json(\Api::execute('getCourses', new StdClass()));
 });
 
 Route::group(['as'=>'user', 'middleware' => 'auth'], function() {
@@ -62,7 +59,7 @@ Route::group(['as'=>'user', 'middleware' => 'auth'], function() {
         Route::post('getAccounts', 'InvoiceController@getAccounts');
         Route::post('getInvoiceById', 'InvoiceController@getInvoiceById');
         Route::post('save', 'InvoiceController@saveInvoice');
-        Route::post('remove', 'InvoiceController@removeInvoice');
+        Route::post('remove', 'InvoiceController@closeDeclare');
         Route::get('offers', 'InvoiceController@getOffersInvoice');
         Route::get('offersDetail', 'InvoiceController@getOffersDetail');
         Route::post('getOfferById', 'InvoiceController@getOfferDetail');
@@ -70,6 +67,9 @@ Route::group(['as'=>'user', 'middleware' => 'auth'], function() {
 
         Route::post('agreeOffer', 'InvoiceController@agreeOffer');
         Route::post('disagreeOffer', 'InvoiceController@disagreeOffer');
+
+        Route::get('inBank', 'InvoiceController@getInBankView');
+        Route::post('getState', 'InvoiceController@getInvoiceState');
 
     });
 

@@ -253,7 +253,9 @@ app.controller('InvoicesController', ['$scope', '$http', 'AppUtils', '$filter', 
 
     $scope.computeCursSum = function () {
         if ($scope.invoice.cur_sum !== undefined && $scope.invoice.cur_curs !== undefined) {
-            return $scope.invoice.cur_sum * $scope.invoice.cur_curs;
+            var result = $scope.invoice.cur_sum * $scope.invoice.cur_curs;
+
+            return result;
         }
         else {
             return 0;

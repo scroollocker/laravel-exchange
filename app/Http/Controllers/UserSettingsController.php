@@ -6,6 +6,7 @@ use App\User;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 
 class UserSettingsController extends Controller
@@ -145,6 +146,7 @@ class UserSettingsController extends Controller
     }
 
     public function accountsView() {
+
         return view('settings.user-accounts');
     }
 
@@ -154,6 +156,32 @@ class UserSettingsController extends Controller
 
             if (is_null($user)) {
                 throw new Exception('Вы не авторизованы');
+            }
+
+            $params = array(
+                'Customer' => $user->id
+            );
+
+            $adbAccounts = \Api::execute('getAccounts', $params);
+
+            if (isset($adbAccounts['errorno'])) {
+                throw new Exception($adbAccounts['error']);
+            }
+
+
+            $acc = isset($adbAccounts['response']['Accounts']) ? $adbAccounts['response']['Accounts'] : array();
+
+            foreach($acc as $item) {
+                DB::select('call update_acc(?,?,?,?,?,?,?,?);', array(
+                    $user->id,
+                    $item['num_v'],
+                    $item['cur_id'],
+                    $item['saldo_nd'],
+                    $item['limit_nd'],
+                    $item['name_v'],
+                    $item['state_id'],
+                    $item['is_loan_n']
+                ));
             }
 
             $accounts = \AccountDb::getAccounts($user->id);

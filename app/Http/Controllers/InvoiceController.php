@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Offer;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -403,6 +404,7 @@ class InvoiceController extends Controller
                 ->select('d.approve_auto_n as autoconfirm',
                     'd.course_nd as cur_curs',
                     'd.declare_id AS id',
+                    'd.step_n as step',
                     'd.created_dt AS created_date',
                     'd.sum_sell_nd as cur_sum',
                     'd.sum_buy_nd as final_sum',
@@ -425,7 +427,9 @@ class InvoiceController extends Controller
                 ->join('currencies AS cu1', 'd.cur_buy_id', '=', 'cu1.id')
                 ->join('currencies AS cu2', 'd.cur_sell_id', '=', 'cu2.id')
                 ->join('tb_deal_state AS tbs', 'd.state_id', '=', 'tbs.deal_state_id')
+                ->join('tb_declare_type AS tdt', 'd.type_id', '=', 'tdt.declare_type_id')
                 ->where('d.user_id', $user->id)
+                ->where('tdt.code_v', 'DECLARE')
                 ->get();
 
             return response()->json(array(
@@ -550,7 +554,7 @@ class InvoiceController extends Controller
                 ->join('currencies AS cur2', 'cur2.id', '=', 'td.cur_buy_id')
                 ->join('tb_deal_state as tds', 'o.state_id', '=', 'tds.deal_state_id')
                 ->where('o.declare_id', $request->invoice_id)
-                ->where('tds.code_v', 'OPENED')
+                ->where('tds.code_v', 'OFFER_NEW')
                 ->where('tdo.user_id', $user->id)
                 ->get();
 
@@ -663,13 +667,41 @@ class InvoiceController extends Controller
                 throw new Exception('Пользователь не авторизован');
             }
 
-            $offer = DB::table('tb_offer')
-                ->select('offer_id', 'declare_id', 'details_id')
-                ->where('offer_id', $request->offer_id)
-                ->first();
+//            $offer = DB::table('tb_offer')
+//                ->select('offer_id', 'declare_id', 'details_id')
+//                ->where('offer_id', $request->offer_id)
+//
+//                ->first();
+
+            $offer = Offer::where('offer_id', $request->offer_id)
+                        ->with('detail')
+                        ->with('origin')
+                        ->first();
 
             if (is_null($offer)) {
                 throw new Exception('Предложение не найдено');
+            }
+
+            $params = array(
+                'Deal' => $offer->declare_id,
+                'SellSum' => $offer->origin->sum_sell_nd,
+                'SellCur' => $offer->origin->cur_sell_id,
+                'SellAccDt' => $offer->origin->acc_dt_id,
+                'SellAccCt' => $offer->origin->acc_ct_id,
+                'BuySum' => $offer->detail->sum_buy_nd,
+                'BuyCur' => $offer->detail->cur_buy_id,
+                'BuyAccDt' => $offer->detail->acc_dt_id,
+                'BuyAccCt' => $offer->detail->acc_ct_id
+            );
+
+            $result = \Api::execute('createDeal', $params);
+
+            if (is_null($result) or empty($result)) {
+                throw new Exception('Ошибка получения данных от банка');
+            }
+
+            if (isset($result['errorno'])) {
+                throw new Exception($result['error']);
             }
 
             DB::select('call exec_offer_in_bank(?)', array($request->offer_id));
@@ -782,14 +814,14 @@ class InvoiceController extends Controller
 
     public function closeDeclare(Request $request) {
         $rules = array(
-            'invoice_id' => array(
+            'id' => array(
                 'required', 'integer'
             )
         );
 
         $messages = array(
-            'invoice_id.required' => 'Неверный запрос',
-            'invoice_id.integer' => 'Неверный запрос'
+            'id.required' => 'Неверный запрос',
+            'id.integer' => 'Неверный запрос'
         );
 
         $validator = Validator::make($request->all(), $rules, $messages);
@@ -808,7 +840,7 @@ class InvoiceController extends Controller
                 throw new Exception('Пользователь не авторизован');
             }
 
-            DB::select('call exec_declare_close(?)', array($request->invoice_id));
+            DB::select('call exec_declare_close(?)', array($request->id));
 
             return response()->json(array(
                 'status' => true
@@ -816,6 +848,90 @@ class InvoiceController extends Controller
         }
         catch (Exception $ex) {
             \Log::error('Close declare error');
+            \Log::error($ex);
+
+            return response()->json(array(
+                'status' => false,
+                'message' => $ex->getMessage()
+            ));
+        }
+    }
+
+    public function getInBankView() {
+        return view('invoices.invoices-inbank');
+    }
+
+    public function getInvoiceState(Request $request) {
+        $rules = array(
+            'invoice_id' => array(
+                'required', 'integer'
+            )
+        );
+
+        $messages = array(
+            'invoice_id.required' => 'Неверный запрос',
+            'invoice_id.integer' => 'Неверный запрос',
+        );
+
+        $validator = Validator::make($request->all(), $rules, $messages);
+
+        try {
+            if ($validator->fails()) {
+                $errMsg = '';
+                foreach ($validator->errors()->all() as $error) {
+                    $errMsg .= $error;
+                }
+                throw new Exception($errMsg);
+            }
+
+            $params = array(
+                'Deal' => $request->invoice_id
+            );
+
+
+            $result = \Api::execute('getDealState', $params);
+
+            if (empty($result) or (isset($result['response']) and empty($result['response']))) {
+                throw new Exception('Сделка не найдена');
+            }
+
+            if (isset($result['errorno'])) {
+                throw new Exception($result['error']);
+            }
+
+            $status = false;
+            $message = '';
+
+            if ($result['msg'] !== 'Ok') {
+
+                $offer = \Offer::where('declare_id', $request->invoice_id)
+                    ->with('detail', 'origin')
+                    ->whereHas('state', function($q){
+                        $q->where('code_v', 'IN_BANK');
+                    })
+                    ->first();
+
+                if (is_null($offer)) {
+                    throw new Exception('Произошла ошибка. Предложения не найдены');
+                }
+
+                DB::select('call exec_offer_refuse_bank(?)', array($offer->detail_id));
+                DB::select('call exec_declare_refuse_bank(?)', array($offer->declare_id));
+
+                $message = 'Отклонено банком';
+
+            }
+            else {
+                $status = true;
+            }
+
+            return response()->json(array(
+                'status' => $status,
+                'message' => $message
+            ));
+        }
+        catch(Exception $ex) {
+            \Log::error('get state error');
             \Log::error($ex);
 
             return response()->json(array(

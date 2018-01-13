@@ -180,6 +180,7 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         App\Providers\SmsServiceProvider::class,
+        App\Providers\ApiServiceProvider::class,
         App\Providers\AccountProvider::class,
 
     ],
@@ -231,6 +232,7 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
         'Sms' => App\Facades\SmsFacade::class,
+        'Api' => App\Facades\ApiFacade::class,
         'AccountDb' => App\Facades\AccountFacade::class,
         'Curl' => Ixudra\Curl\Facades\Curl::class,
     ],

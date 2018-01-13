@@ -38,8 +38,8 @@
                                 <tr ng-repeat="account in getAccounts()">
                                     <td>@{{ account.num_v }}</td>
                                     <td>@{{ account.cur_name }}</td>
-                                    <td>@{{ account.saldo_nd }}</td>
-                                    <td>@{{ account.saldo_limit_nd }}</td>
+                                    <td class="text-right">@{{ account.saldo_nd }}</td>
+                                    <td class="text-right">@{{ account.saldo_limit_nd }}</td>
                                     <td>@{{ account.account_name }}</td>
                                     <td>@{{ account.account_status }}</td>
                                     <td><input icheck type="checkbox" disabled ng-true-value="1" ng-false-value="0" ng-model="account.for_deal_n"></td>
