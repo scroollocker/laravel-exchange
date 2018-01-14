@@ -55,9 +55,10 @@ class LoginController extends Controller
         }
         else {
             $request->session()->put('code', $pin);
+            \Sms::sendPin($pin, $user);
         }
 
-        \Sms::sendPin($pin, $user);
+
     }
 
     public function firstStepAuth(Request $request) {
