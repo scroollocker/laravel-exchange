@@ -78,6 +78,7 @@ Route::group(['as'=>'user', 'middleware' => 'auth'], function() {
         Route::post('getInvoice', 'Dashboard@getInvoice');
 
         Route::post('getAcc', 'Dashboard@getAcc');
+        Route::post('createOffer', 'Dashboard@saveOffer');
 
     });
 

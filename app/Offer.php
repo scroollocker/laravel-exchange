@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class Offer extends Model
 {
@@ -19,5 +20,15 @@ class Offer extends Model
 
     public function detail() {
         return $this->belongsTo('App\Invoice', 'details_id', 'declare_id');
+    }
+
+    public static function createOffer($invoiceId, $offerId, $userId, $sumSell, $sumBuy, $curSell, $curBuy, $course, $acc_dt, $acc_ct, $endDate, $comment) {
+        DB::select('select create_offer(?,?,?,?,?,?,?,?,?,?,?,?);', array(
+            $invoiceId, $offerId, $userId, $sumSell, $sumBuy, $curSell, $curBuy, $course, $acc_dt, $acc_ct, $endDate, $comment
+        ));
+
+        \Log::info(array(
+            $invoiceId, $offerId, $userId, $sumSell, $sumBuy, $curSell, $curBuy, $course, $acc_dt, $acc_ct, $endDate, $comment
+        ));
     }
 }
