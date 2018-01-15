@@ -83,9 +83,11 @@
                                     </li>
                                 </ul>
                             </li>
-                        @else
-                                <li><a href="#">Заявки</a></li>
+
                         @endcan
+                                <li><a href="home/#!/dashboard/invoices">Все заявки</a></li>
+                                <li><a href="home/#!/">Мои заявки</a></li>
+                                <li><a href="home/#!/my-offers">Мои предложения</a></li>
                                 <li class="dropdown">
                                     <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
                                         <i class="fa fa-gears"></i> Настройки<span class="caret"></span>
