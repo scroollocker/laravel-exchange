@@ -1,4 +1,4 @@
-app.controller('DashboardInvoices', ['$scope', '$http', 'AppUtils', function($scope, $http, AppUtils) {
+app.controller('DashboardInvoices', ['$scope', '$http', 'AppUtils', '$location', function($scope, $http, AppUtils, $location) {
 
     $scope.invoices = [];
     $scope.currencies = [];
@@ -71,6 +71,11 @@ app.controller('DashboardInvoices', ['$scope', '$http', 'AppUtils', function($sc
             $scope.invoiceError.message = 'Произошла системная ошибка. Повторите позднее';
             AppUtils.showAlertBox($scope.invoiceError);
         });
+    };
+
+    $scope.sendOffer = function(invoice) {
+        $location.path('/dashboard/editOffer/'+invoice.declare_id);
+        $location.replace();
     };
 
     $scope.init = function() {

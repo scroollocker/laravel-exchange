@@ -7,6 +7,7 @@ use App\Chat;
 use App\Currency;
 use App\Invoice;
 use App\Offer;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
@@ -93,7 +94,10 @@ class Dashboard extends Controller
                 $q->select('declare_type_id', 'name_v');
             }))->with(array('state' => function($q) {
                 $q->select('deal_state_id', 'name_v');
-            }));
+            }))->where('private_n', '<>', '1')
+               ->where('end_dt', '>=', Carbon::today()->toDateString())
+               ->orderBy('end_dt');
+
 
             if (isset($request->buy_cur) && $request->buy_cur != null) {
                 $builder->whereHas('currency_buy', function($q) use ($request) {
@@ -160,7 +164,9 @@ class Dashboard extends Controller
                 throw new \Exception('Пользователь не авторизован');
             }
 
-            $currencies = Currency::where('cur_enable', 1)->select('id', 'cur_name', 'cur_code')->get();
+            $currencies = Currency::where('cur_enable', 1)
+                ->select('id', 'cur_name', 'cur_code')
+                ->get();
 
             return response()->json(array(
                 'status' => true,
@@ -270,6 +276,8 @@ class Dashboard extends Controller
             'currency_sell.integer' => 'Неверный запрос'
         );
 
+        $user = Auth::user();
+
         try {
             $validator = Validator::make($request->all(), $rules, $messages);
 
@@ -283,11 +291,13 @@ class Dashboard extends Controller
 
             $acc_sell = Account::where('cur_id', $request->currency_sell)
                 ->where('for_deal_n', 1)
+                ->where('user_id', $user->id)
                 ->select('acc_id', 'name_v as acc_name', 'num_v as acc_num')
                 ->get();
 
             $acc_buy = Account::where('cur_id', $request->currency_buy)
                 ->where('for_deal_n', 1)
+                ->where('user_id', $user->id)
                 ->select('acc_id', 'name_v as acc_name', 'num_v as acc_num')
                 ->get();
 
@@ -399,7 +409,7 @@ class Dashboard extends Controller
             if (!is_null($request->offer_id)) {
                 $offer = Offer::where('offer_id', $request->offer_id)->first();
 
-                if (is_null($invoice)) {
+                if (is_null($offer)) {
                     throw new \Exception('Предложение не найдено');
                 }
             }
