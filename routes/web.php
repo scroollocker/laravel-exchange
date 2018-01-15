@@ -85,6 +85,9 @@ Route::group(['as'=>'user', 'middleware' => 'auth'], function() {
         Route::post('getAcc', 'Dashboard@getAcc');
         Route::post('createOffer', 'Dashboard@saveOffer');
 
+        Route::get('getOffers', 'Dashboard@getOffers');
+        Route::get('getOffers-template', 'Dashboard@getOffersTemplate');
+
     });
 
 });

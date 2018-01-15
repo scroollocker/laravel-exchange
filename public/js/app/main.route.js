@@ -54,6 +54,11 @@ app.config(['$routeProvider', function($routeProvider) {
         controller: 'DashboardOffer'
     });
 
+    $routeProvider.when('/my-offers', {
+        templateUrl: '/dashboard/getOffers-template',
+        controller: 'DashboardMyOffers'
+    });
+
     $routeProvider.when('/invoices', {
         redirectTo: '/invoices/lists'
     });

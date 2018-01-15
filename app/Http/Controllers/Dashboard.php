@@ -443,6 +443,35 @@ class Dashboard extends Controller
                 'message' => $ex->getMessage()
             ));
         }
+    }
 
+    public function getOffers(Request $request) {
+
+        try {
+            $user = Auth::user();
+
+            $offers = Offer::whereHas('detail', function ($q) use ($user) {
+                $q->where('user_id', $user->id)->orderBy('end_dt');
+            })->with('origin', 'state', 'detail', 'detail.currency_sell', 'detail.currency_buy', 'detail.acc_dt', 'detail.acc_ct')
+                ->get();
+
+            return response()->json(array(
+                'status' => true,
+                'offers' => $offers->toArray()
+            ));
+        }
+        catch (\Exception $ex) {
+            \Log::error('get offer Error');
+            \Log::error($ex);
+
+            return response()->json(array(
+                'status' => false,
+                'message' => 'Произошла системная ошибка'
+            ));
+        }
+    }
+
+    public function getOffersTemplate() {
+        return view('dashboard.offers-list');
     }
 }
