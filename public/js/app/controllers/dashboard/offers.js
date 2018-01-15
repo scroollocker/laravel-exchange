@@ -127,9 +127,21 @@ app.controller('DashboardOffer', ['$scope', '$http', 'AppUtils', '$routeParams',
             return;
         }
 
+        if (offer.sum_sell_nd > 0 && offer.sum_buy_nd > 0) {
+            $scope.invoiceError.message = 'Сумма продажи и сумма покупки не должны быть отрицательными';
+            AppUtils.showAlertBox($scope.invoiceError);
+            return;
+        }
+
+        $scope.isInvoiceLoading = true;
         $scope.loadAccounts().then(function () {
+            $scope.isInvoiceLoading = false;
+            $scope.offer.sum_buy_nd = $scope.getFinalSum();
+            $scope.offer.currency_buy = $scope.invoice.currency_buy;
+            $scope.offer.currency_sell = $scope.invoice.currency_sell;
             $scope.selectStep(2);
         }, function (err) {
+            $scope.isInvoiceLoading = false;
             $scope.invoiceError.message = err;
             AppUtils.showAlertBox($scope.invoiceError);
         });
@@ -152,13 +164,58 @@ app.controller('DashboardOffer', ['$scope', '$http', 'AppUtils', '$routeParams',
             return;
         }
 
-        if (!moment(invoice.endDate).isAfter(new Date())) {
+        if (!moment(offer.endDate).isAfter(new Date())) {
             $scope.invoiceError.message = 'Дата должна быть больше текущей';
             AppUtils.showAlertBox($scope.invoiceError);
             return;
         }
 
+
+        console.log($scope.offer);
+
         $scope.selectStep(4);
+    };
+
+    $scope.createOffer = function (offer) {
+
+        $scope.isInvoiceLoading = true;
+
+        var requst = {
+            invoice_id: $scope.invoice.declare_id,
+            sum_sell_nd: offer.sum_sell_nd,
+            sum_buy_nd: offer.sum_buy_nd,
+            course_nd: offer.course_nd,
+            currency_buy: offer.currency_buy.id,
+            currency_sell: offer.currency_sell.id,
+            acc_dt: offer.acc_dt.acc_id,
+            acc_ct: offer.acc_ct.acc_id,
+            endDate: offer.endDate,
+            comment: offer.comment
+        };
+
+        if (offer.id !== undefined && offer.id !== null) {
+            offer_id: offer.offer_id
+        }
+
+        $http.post('/dashboard/createOffer', requst).then(function (response) {
+            $scope.isInvoiceLoading = false;
+            response = response.data;
+
+            if (response.status) {
+                /* TODO: REDIRECT TO MY OFFERS */
+                $location.path('/dashboard/invoices');
+                $location.replace();
+            }
+            else {
+                $scope.invoiceError.message = response.message;
+                AppUtils.showAlertBox($scope.invoiceError);
+            }
+        }, function () {
+            $scope.isInvoiceLoading = false;
+            $scope.invoiceError.message = 'Произошла системная ошибка, попробуйте позднее';
+            AppUtils.showAlertBox($scope.invoiceError);
+        });
+
     };
 
     $scope.cancelCreateOffer = function () {

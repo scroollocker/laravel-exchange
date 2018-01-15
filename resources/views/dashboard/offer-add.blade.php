@@ -99,7 +99,7 @@
                         <tr ng-class="{'has-error':step2_form.acc_2.$invalid}">
                             <td><label>Счет получения средств:</label></td>
                             <td>
-                                <select name="acc_2" required ng-model="invoice.acc_2"
+                                <select name="acc_2" required ng-model="offer.acc_ct"
                                         ng-options="item as item.acc_num + '  (' + item.acc_name + ')' for item in getAccForCur2() track by item.acc_id"
                                         class="form-control" style="width: 200px;"></select>
                             </td>
@@ -164,85 +164,64 @@
     <div class="col-md-12">
         <div class="panel panel-default">
             <div class="panel-heading" style="padding: 15px;">
-                Оформление сделки
+                Оформление предложения
             </div>
 
             <div class="panel-body">
                 <table class="table">
                     <tr>
-                        <td><label>Вид сделки: </label></td>
-                        <td ng-if="invoice.type == 1">
-                            <p>Покупка</p>
-                        </td>
-                        <td ng-if="invoice.type == 2">
-                            <p>Продажа</p>
-                        </td>
-                    </tr>
-                    <tr>
                         <td><label>Валюта: </label></td>
                         <td>
-                            <p>@{{ invoice.cur_1.cur_name }}</p>
+                            <p>@{{ offer.currency_sell.cur_name }}</p>
                         </td>
                     </tr>
                     <tr>
                         <td><label>Контр валюта: </label></td>
                         <td>
-                            <p>@{{ invoice.cur_2.cur_name }}</p>
+                            <p>@{{ offer.currency_buy.cur_name }}</p>
                         </td>
                     </tr>
                     <tr>
                         <td><label>Сумма: </label></td>
                         <td>
-                            <p>@{{ invoice.cur_sum }}</p>
+                            <p>@{{ offer.sum_sell_nd }}</p>
                         </td>
                     </tr>
                     <tr>
                         <td><label>Курс: </label></td>
                         <td>
-                            <p>@{{ invoice.cur_curs }}</p>
+                            <p>@{{ offer.course_nd }}</p>
                         </td>
                     </tr>
                     <tr>
                         <td><label>Сумма по курсу: </label></td>
                         <td>
-                            <p>@{{ invoice.final_sum }}</p>
+                            <p>@{{ offer.sum_buy_nd }}</p>
                         </td>
                     </tr>
                     <tr>
                         <td><label>Счет выплат: </label></td>
                         <td>
-                            <p>@{{ invoice.acc_1.acc_num }} (@{{ invoice.acc_1.acc_name }})</p>
+                            <p>@{{ offer.acc_dt.acc_num }} (@{{ offer.acc_dt.acc_name }})</p>
                         </td>
                     </tr>
                     <tr>
                         <td><label>Счет получения средств: </label></td>
                         <td>
-                            <p>@{{ invoice.acc_2.acc_num }} (@{{ invoice.acc_2.acc_name }})</p>
+                            <p>@{{ offer.acc_ct.acc_num }} (@{{ offer.acc_ct.acc_name }})</p>
                         </td>
                     </tr>
 
                     <tr>
                         <td><label> Дата окончания сделки: </label></td>
                         <td>
-                            <p>@{{ invoice.endDate }}</p>
+                            <p>@{{ offer.endDate }}</p>
                         </td>
                     </tr>
                     <tr>
-                        <td><label>Принемать сделки автоматически: </label></td>
+                        <td><label>Комментарий: </label></td>
                         <td>
-                            <p ng-if="invoice.autoconfirm == 1">Да</p>
-                            <p ng-if="invoice.autoconfirm == 0">Нет</p>
-                        </td>
-                    </tr>
-                    <tr ng-if="invoice.autoconfirm == 0 && getPartnersAutoconfirm().length > 0">
-                        <td colspan="2">
-                            <p>Автоматически принемать от:</p>
-                            <table class="table">
-                                <tr ng-repeat="partner in getPartnersAutoconfirm()">
-                                    <td>@{{ partner.email }}</td>
-                                    <td>@{{ partner.name }}</td>
-                                </tr>
-                            </table>
+                            <p>@{{ offer.comment }}</p>
                         </td>
                     </tr>
 
@@ -251,7 +230,7 @@
                 <div class="text-center ">
                     <div class="btn-group">
                         <button class="btn btn-default" ng-click="selectStep(3)">Изменить</button>
-                        <button class="btn btn-primary" ng-click="saveInvoice(invoice)">Создать</button>
+                        <button class="btn btn-primary" ng-click="createOffer(offer)">Создать</button>
                     </div>
                 </div>
             </div>

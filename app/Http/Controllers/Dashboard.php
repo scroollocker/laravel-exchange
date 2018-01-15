@@ -3,10 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Account;
+use App\Chat;
 use App\Currency;
 use App\Invoice;
 use App\Offer;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
 class Dashboard extends Controller
@@ -218,6 +220,18 @@ class Dashboard extends Controller
             if (isset($request->offer_id) && !is_null($request->offer_id)) {
                 $offer = Offer::where($request->offer_id)
                     ->with('origin', 'state', 'detail', 'detail.currency_sell', 'detail.currency_buy', 'detail.acc_dt', 'detail.acc_ct')
+                    ->with('detail.acc_dt', function ($q) {
+                        $q->select('acc_id', 'name_v as acc_name', 'num_v as acc_num');
+                    })
+                    ->with('detail.acc_ct', function ($q) {
+                        $q->select('acc_id', 'name_v as acc_name', 'num_v as acc_num');
+                    })
+                    ->with('detail.currency_sell', function ($q) {
+                        $q->select('id', 'cur_name', 'cur_code');
+                    })
+                    ->with('detail.currency_buy', function ($q) {
+                        $q->select('id', 'cur_name', 'cur_code');
+                    })
                     ->first();
 
             }
@@ -286,6 +300,132 @@ class Dashboard extends Controller
         }
         catch (\Exception $ex) {
             \Log::error('get acc error');
+            \Log::error($ex);
+
+            return response()->json(array(
+                'status' => false,
+                'message' => $ex->getMessage()
+            ));
+        }
+
+    }
+
+    public function saveOffer(Request $request) {
+        $rules = array(
+            'invoice_id' => array(
+                'required', 'integer'
+            ),
+            'offer_id' => array(
+                'integer', 'nullable'
+            ),
+            'sum_sell_nd' => array(
+                'required', 'numeric', 'min: 1'
+            ),
+            'sum_buy_nd' => array(
+                 'required', 'numeric', 'min: 1'
+            ),
+            'course_nd' => array(
+                 'required', 'numeric'
+            ),
+            'currency_buy' => array(
+                'required', 'integer'
+            ),
+            'currency_sell' => array(
+                'required', 'integer'
+            ),
+            'acc_dt' => array(
+                'required', 'integer'
+            ),
+            'acc_ct' => array(
+                'required', 'integer'
+            ),
+            'endDate' => array(
+                'required', 'date'
+            ),
+            'comment' => array(
+                'nullable'
+            )
+        );
+
+        $messages = array(
+            'invoice_id.required' => 'Нет обязательного поля Заявка',
+            'sum_sell_nd.required' => 'Нет обязательного поля Сумма продажи',
+            'sum_buy_nd.required' => 'Нет обязательного поля Сумма покупки',
+            'course_nd.required' => 'Нет обязательного поля Курс',
+            'currency_sell.required' => 'Нет обязательного поля Валюта продажи',
+            'currency_buy.required' => 'Нет обязательного поля Валюта покупки',
+            'acc_dt.required' => 'Нет обязательного поля Счет покупки',
+            'acc_ct.required' => 'Нет обязательного поля Счет продажи',
+            'endDate.required' => 'Нет обязательного поля Дата окончания',
+            'sum_sell_nd.numeric' => 'Неверный формат поля Сумма продажи',
+            'sum_buy_nd.numeric' => 'Неверный формат поля Сумма покупки',
+            'course_nd.numeric' => 'Неверный формат поля Курс',
+            'currency_sell.integer' => 'Неверный формат поля Валюта продажи',
+            'currency_buy.integer' => 'Неверный формат поля Валюта покупки',
+            'acc_dt.integer' => 'Неверный формат поля Счет покупки',
+            'acc_ct.integer' => 'Неверный формат поля Счет продажи',
+            'endDate.date' => 'Неверный формат поля Дата окончания',
+            'sum_sell_nd.min' => 'Неверный формат поля Сумма продажи',
+            'sum_buy_nd.min' => 'Неверный формат поля Сумма покупки',
+            'invoice_id.integer' => 'Неверный формат поля Заявка',
+            'offer_id.integer' => 'Неверный формат поля Предложение',
+        );
+
+        try {
+            $validator = Validator::make($request->all(), $rules, $messages);
+
+            if ($validator->fails()) {
+                $errMsg = '';
+                foreach ($validator->errors()->all() as $error) {
+                    $errMsg .= $error;
+                }
+                throw new \Exception($errMsg);
+            }
+
+            $user = Auth::user();
+
+            if (is_null($user)) {
+                throw new \Exception('Пользователь не авторизован');
+            }
+
+            $invoice = Invoice::where('declare_id', $request->invoice_id)->first();
+
+            if (is_null($invoice)) {
+                throw new \Exception('Заявка не найдена');
+            }
+
+            $offer = null;
+
+            if (!is_null($request->offer_id)) {
+                $offer = Offer::where('offer_id', $request->offer_id)->first();
+
+                if (is_null($invoice)) {
+                    throw new \Exception('Предложение не найдено');
+                }
+            }
+
+            Offer::createOffer($request->invoice_id,
+                $request->offer_id,
+                $user->id,
+                $request->sum_sell_nd,
+                $request->sum_buy_nd,
+                $request->currency_sell,
+                $request->currency_buy,
+                $request->course_nd,
+                $request->acc_dt,
+                $request->acc_ct,
+                $request->endDate,
+                $request->comment);
+
+            Chat::createChat($user->id, $request->invoice_id, $request->comment);
+
+            return response()->json(array(
+                'status' => true
+            ));
+
+        }
+        catch (\Exception $ex) {
+            \Log::error('Save offfer error');
             \Log::error($ex);
 
             return response()->json(array(
