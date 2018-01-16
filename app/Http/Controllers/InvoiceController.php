@@ -371,6 +371,15 @@ class InvoiceController extends Controller
                 }
             }
 
+            $params = array(
+                'Acc' => $request->acc_1,
+                'Sum' => $request->sum_1
+            );
+
+
+            /* TODO: Add confirm */
+            \Api::execute('lockAccount', $params);
+
             DB::commit();
 
             return response()->json(array(
@@ -891,20 +900,19 @@ class InvoiceController extends Controller
 
             $result = \Api::execute('getDealState', $params);
 
-            if (empty($result) or (isset($result['response']) and empty($result['response']))) {
-                throw new Exception('Сделка не найдена');
-            }
-
-            if (isset($result['errorno'])) {
-                throw new Exception($result['error']);
+            if (!isset($result) or is_null($result) or empty($result) or (!isset($result['response']) or empty($result['response']))) {
+                throw new Exception('Произошла системная ошибка');
             }
 
             $status = false;
             $message = '';
 
-            if ($result['msg'] !== 'Ok') {
+            $msg = trim(strtolower($result['response']['msg']));
 
-                $offer = \Offer::where('declare_id', $request->invoice_id)
+
+
+            if ($msg == null or ($msg != 'ok' and $msg != 'work')) {
+                $offer = Offer::where('declare_id', $request->invoice_id)
                     ->with('detail', 'origin')
                     ->whereHas('state', function($q){
                         $q->where('code_v', 'IN_BANK');
@@ -927,6 +935,7 @@ class InvoiceController extends Controller
 
             return response()->json(array(
                 'status' => $status,
+                'msg' => $msg,
                 'message' => $message
             ));
         }

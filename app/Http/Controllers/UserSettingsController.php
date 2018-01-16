@@ -159,7 +159,7 @@ class UserSettingsController extends Controller
             }
 
             $params = array(
-                'Customer' => $user->id
+                'Customer' => $user->ibs_id
             );
 
             $adbAccounts = \Api::execute('getAccounts', $params);

@@ -24,10 +24,14 @@ app.controller('InvoiceBankController', ['$scope', '$http', '$routeParams', '$lo
             $scope.isInvoiceLoading = false;
             response = response.data;
             if (response.status) {
-                $location.path('/invoice/bank/detail/'+$scope.invoiceId);
-                $location.replace();
+                if (response.msg === 'ok') {
+                    $interval.cancel($scope.interval);
+                    $location.path('/invoice/bank/detail/' + $scope.invoiceId);
+                    $location.replace();
+                }
             }
             else {
+                $interval.cancel($scope.interval);
                 $scope.invoiceError.message = response.message;
                 AppUtils.showAlertBox($scope.invoiceError);
                 $timeout(function() {
@@ -46,7 +50,7 @@ app.controller('InvoiceBankController', ['$scope', '$http', '$routeParams', '$lo
 
     $scope.init = function() {
         $scope.loadInvoiceState();
-        $interval(function() {
+        $scope.interval = $interval(function() {
             $scope.loadInvoiceState();
         }, 10000);
     };

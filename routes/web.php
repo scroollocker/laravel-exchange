@@ -23,9 +23,7 @@ Route::get('/login-step-2', 'Auth\LoginController@showSecondStep');
 Route::post('/login-step-2', 'Auth\LoginController@confirmPin')->name('login-confirm');
 Route::get('/resend-pin', 'Auth\LoginController@showSecondStep');
 
-Route::get('/test', function(){
-    return response()->json(\Api::execute('getCourses', new StdClass()));
-});
+Route::get('/test', 'Dashboard@getPayments');
 
 Route::group(['as'=>'user', 'middleware' => 'auth'], function() {
     Route::get('/home', 'HomeController@index')->name('home');
