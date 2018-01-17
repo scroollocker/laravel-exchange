@@ -119,8 +119,8 @@
             </div>
 
             <div class="panel-body">
-                <form name="step2_form">
-                    <table class="table">
+                <form name="step2_form" >
+                    <table class="table" ng-if='invoice.type == 1'>
                         <tr ng-class="{'has-error':step2_form.acc_1.$invalid}">
                             <td><label>Счет выплат</label></td>
                             <td>
@@ -134,6 +134,25 @@
                             <td>
                                 <select name="acc_2" required ng-model="invoice.acc_2"
                                         ng-options="item as item.acc_num + '  (' + item.acc_name + ')' for item in getAccForCur2() track by item.id"
+                                        class="form-control" style="width: 200px;"></select>
+                            </td>
+                        </tr>
+
+                    </table>
+                    <table class="table" ng-if='invoice.type == 2'>
+                        <tr ng-class="{'has-error':step2_form.acc_1.$invalid}">
+                            <td><label>Счет выплат</label></td>
+                            <td>
+                                <select name="acc_1" required ng-model="invoice.acc_1"
+                                        ng-options="item as item.acc_num + '  (' + item.acc_name + ')' for item in getAccForCur2() track by item.id"
+                                        class="form-control" style="width: 200px;"></select>
+                            </td>
+                        </tr>
+                        <tr ng-class="{'has-error':step2_form.acc_2.$invalid}">
+                            <td><label>Счет получения средств:</label></td>
+                            <td>
+                                <select name="acc_2" required ng-model="invoice.acc_2"
+                                        ng-options="item as item.acc_num + '  (' + item.acc_name + ')' for item in getAccForCur1() track by item.id"
                                         class="form-control" style="width: 200px;"></select>
                             </td>
                         </tr>

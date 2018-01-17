@@ -171,6 +171,9 @@ app.controller('InvoicesController', ['$scope', '$http', 'AppUtils', '$filter', 
 
         $scope.invoice.final_sum = $scope.computeCursSum();
 
+        $scope.invoice.acc_1 = null;
+        $scope.invoice.acc_2 = null;
+
         $scope.loadAccounts();
 
         $scope.selectStep(2);
