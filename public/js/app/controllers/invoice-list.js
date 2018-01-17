@@ -80,6 +80,10 @@ app.controller('InvoicesListController', ['$scope', '$http', 'AppUtils','$locati
             $location.path('/invoice/inBank/'+invoice.id);
             $location.replace();
         }
+        else if (invoice.step == 7) {
+            $location.path('/invoice/bank/detail/'+invoice.id);
+            $location.replace();
+        }
 
 
     };

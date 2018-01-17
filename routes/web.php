@@ -69,6 +69,9 @@ Route::group(['as'=>'user', 'middleware' => 'auth'], function() {
         Route::get('inBank', 'InvoiceController@getInBankView');
         Route::post('getState', 'InvoiceController@getInvoiceState');
 
+        Route::get('bankPayments', 'InvoiceController@getPaymentsView');
+        Route::post('getPayments', 'InvoiceController@getPayments');
+
     });
 
     Route::prefix('dashboard')->group(function() {
@@ -85,6 +88,7 @@ Route::group(['as'=>'user', 'middleware' => 'auth'], function() {
 
         Route::get('getOffers', 'Dashboard@getOffers');
         Route::get('getOffers-template', 'Dashboard@getOffersTemplate');
+
 
     });
 

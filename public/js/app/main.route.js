@@ -29,6 +29,11 @@ app.config(['$routeProvider', function($routeProvider) {
         controller: 'InvoiceBankController'
     });
 
+    $routeProvider.when('/invoice/bank/detail/:invoiceId?',  {
+        templateUrl: '/invoices/bankPayments',
+        controller: 'InvoiceBankController'
+    });
+
     $routeProvider.when('/offers/byInvoice/:invoiceId',  {
         templateUrl: '/invoices/offers',
         controller: 'OffersController'

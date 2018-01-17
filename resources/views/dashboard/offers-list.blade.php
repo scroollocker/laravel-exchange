@@ -44,7 +44,7 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <tr ng-repeat="offer in getOffers()" style="cursor:pointer;">
+                            <tr ng-repeat="offer in getOffers()" style="cursor:pointer;" ng-dblclick="openInvoice(offer)">
                                 <td>@{{ offer.declare_id }}</td>
                                 <td>@{{ offer.detail.created_dt }}</td>
                                 <td>@{{ offer.detail.end_dt }}</td>
@@ -55,7 +55,7 @@
                                 <td>@{{ offer.detail.currency_buy.cur_name }}</td>
                                 <td>@{{ offer.state.name_v }}</td>
                                 <td>
-                                    {{--<button class="btn btn-warning btn-sm" ng-click="sendOffer(invoice)"><i class="fa fa-handshake-o"></i></button>--}}
+                                    {{--<button class="btn btn-warning btn-sm" ng-click=""><i class="fa fa-inf"></i></button>--}}
 
                                 </td>
                             </tr>
