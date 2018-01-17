@@ -27,6 +27,7 @@ app.controller('ChatTemplate', ['$scope', '$http', '$routeParams', '$timeout', f
 
     $scope.selectedChat = 0;
     $scope.chatMessage = '';
+    $scope.selected_chat = null;
 
     $scope.getChatList = function () {
         return $scope.chatList;
@@ -70,7 +71,8 @@ app.controller('ChatTemplate', ['$scope', '$http', '$routeParams', '$timeout', f
         });
     };
 
-    $scope.loadMessages = function (chat_id) {
+    $scope.loadMessages = function (chat) {
+        var chat_id = chat.chat_id;
         $scope.chatMessages = [];
         $scope.selectedChat = 0;
         $scope.chatMessage = '';
@@ -78,6 +80,10 @@ app.controller('ChatTemplate', ['$scope', '$http', '$routeParams', '$timeout', f
         if (chat_id === null || chat_id === undefined) {
             return;
         }
+
+        $scope.selected_chat = chat;
+
+        console.log($scope.selected_chat);
 
         $scope.isLoading = true;
         $http.get('/chat/messages?chat_id='+chat_id).then(function (response) {
@@ -129,7 +135,7 @@ app.controller('ChatTemplate', ['$scope', '$http', '$routeParams', '$timeout', f
                 response = response.data;
                 if (response.status === true) {
                     $scope.chatMessage = '';
-                    $scope.loadMessages($scope.selectedChat);
+                    $scope.loadMessages($scope.selected_chat);
                 }
                 else {
                     alert(response.message);

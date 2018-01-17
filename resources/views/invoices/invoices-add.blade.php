@@ -120,7 +120,7 @@
 
             <div class="panel-body">
                 <form name="step2_form" >
-                    <table class="table" ng-if='invoice.type == 1'>
+                    <table class="table" ng-if='invoice.type == 2'>
                         <tr ng-class="{'has-error':step2_form.acc_1.$invalid}">
                             <td><label>Счет выплат</label></td>
                             <td>
@@ -139,7 +139,7 @@
                         </tr>
 
                     </table>
-                    <table class="table" ng-if='invoice.type == 2'>
+                    <table class="table" ng-if='invoice.type == 1'>
                         <tr ng-class="{'has-error':step2_form.acc_1.$invalid}">
                             <td><label>Счет выплат</label></td>
                             <td>

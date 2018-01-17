@@ -51,6 +51,9 @@
 </style>
 
 <div class="container">
+
+
+
     <div class="row">
         <div class="col-md-3 col-sm-3" style="background-color: #fff; padding: 10px;">
             <div class="panel panel-default">
@@ -78,8 +81,8 @@
                 <div class="table-responsive" ng-if="!isChatLoading && getChatList().length > 0">
                     <table class="table table-bordered">
                         <tr ng-repeat="chat in getChatList()">
-                            <td><a href="" ng-click="loadMessages(chat.chat_id)"><i
-                                            class="fa fa-user"></i> @{{ chat.author.name }}</a></td>
+                            <td><a href="" ng-click="loadMessages(chat)"><i
+                                            class="fa fa-user"></i> Заявка #@{{ chat.invoice.declare_id }}</a></td>
                         </tr>
                     </table>
                 </div>
@@ -88,6 +91,24 @@
         </div>
         <div class="col-md-8 col-sm-8">
             <div class="chat-panel panel panel-primary">
+                <div class="row" ng-if="selected_chat !== null" style="padding: 15px; border-radius: 3px;">
+                    <div class="col-md-12">
+                        <table class="table table-bordered">
+                            <tr>
+                                <td>Сделка: </td>
+                                <td>#@{{ selected_chat.invoice.declare_id }}</td>
+                            </tr>
+                            <tr>
+                                <td>Сумма продажи: </td>
+                                <td>@{{ selected_chat.invoice.sum_sell_nd }} @{{ selected_chat.invoice.currency_sell.cur_code }}</td>
+                            </tr>
+                            <tr>
+                                <td>Сумма покупки: </td>
+                                <td>@{{ selected_chat.invoice.sum_buy_nd }} @{{ selected_chat.invoice.currency_buy.cur_code }}</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
                 <div class="chat-empty text-center" style="font-size: 30px; color: #BDBDBD;" ng-if="isLoading">
                     <p>
                         <i class="fa fa-circle-o-notch fa-spin"></i>

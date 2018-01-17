@@ -27,6 +27,11 @@ class Chat extends Model
         return $this->belongsTo('App\User', 'recipient_id', 'id');
     }
 
+    public function invoice()
+    {
+        return $this->belongsTo('App\Invoice', 'invoice_id', 'declare_id');
+    }
+
     public static function createChat($author, $invoice_id, $message = null)
     {
         $chat = new Chat();

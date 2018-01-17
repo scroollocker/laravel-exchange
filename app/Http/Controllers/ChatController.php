@@ -34,6 +34,7 @@ class ChatController extends Controller
 
             $chats->load('author');
             $chats->load('recipient');
+            $chats->load('invoice', 'invoice.currency_buy', 'invoice.currency_sell');
 
             return response()->json(array(
                 'status' => true,
