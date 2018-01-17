@@ -1,4 +1,4 @@
-app.controller('InvoiceBankController', ['$scope', '$http', '$routeParams', '$location', 'AppUtils', '$timeout', '$interval', function($scope, $http, $routeParams, $location, AppUtils, $timeout, $interval) {
+app.controller('InvoiceBankController', ['$scope', '$http', '$routeParams', '$location', 'AppUtils', '$timeout', '$interval', '$q', '$filter', function($scope, $http, $routeParams, $location, AppUtils, $timeout, $interval, $q, $filter) {
 
     $scope.invoiceId = $routeParams.invoiceId;
     $scope.invoiceError = {
@@ -6,6 +6,13 @@ app.controller('InvoiceBankController', ['$scope', '$http', '$routeParams', '$lo
         message: ''
     };
     $scope.isInvoiceLoading = false;
+
+    $scope.currencies = [];
+    $scope.payments = [];
+
+    $scope.getPayments = function () {
+        return $scope.payments;
+    };
 
     $scope.loadInvoiceState = function() {
         if ($scope.invoiceId === undefined || $scope.invoiceId === null) {
@@ -48,11 +55,93 @@ app.controller('InvoiceBankController', ['$scope', '$http', '$routeParams', '$lo
         });
     };
 
+    $scope.loadCurrencies = function() {
+
+        var deffer = $q.defer();
+        $scope.currencies = [];
+
+        $http.get('/dashboard/currencies-get').then(function(response){
+            response = response.data;
+            if (response.status) {
+                $scope.currencies = response.currencies;
+                deffer.resolve(true);
+            }
+            else {
+                deffer.reject(response.message);
+            }
+        }, function() {
+            deffer.reject('Произошла системная ошибка. Повторите позднее');
+        });
+
+        return deffer.promise;
+    };
+
+    $scope.loadPayments = function() {
+
+        var deffer = $q.defer();
+        $scope.payments = [];
+
+        if ($scope.invoiceId === undefined || $scope.invoiceId === null) {
+            deffer.reject('Неверный запрос. Не все параметры переданы корректно');
+        }
+        else {
+            var request = {
+                'invoice_id' : $scope.invoiceId
+            };
+
+            $http.post('/invoices/getPayments', request).then(function(response){
+                response = response.data;
+                if (response.status) {
+                    $scope.payments = response.payments;
+                    console.log($scope.payments);
+                    deffer.resolve(true);
+                }
+                else {
+                    deffer.reject(response.message);
+                }
+            }, function() {
+                deffer.reject('Произошла системная ошибка. Повторите позднее');
+            });
+        }
+
+        return deffer.promise;
+    };
+
+    $scope.getCurName = function (id) {
+        if ($scope.currencies.length > 0) {
+            var items = $filter('filter')($scope.currencies, {'id':id});
+            if (items.length > 0) {
+                return items[0].cur_name + ' (' + items[0].cur_code + ')';
+            }
+        }
+
+        return '';
+    };
+
     $scope.init = function() {
         $scope.loadInvoiceState();
         $scope.interval = $interval(function() {
             $scope.loadInvoiceState();
         }, 10000);
     };
+
+    $scope.paymentInit = function () {
+
+        $scope.isInvoiceLoading = true;
+
+        $scope.loadCurrencies().then(function () {
+            $scope.loadPayments().then(function () {
+                $scope.isInvoiceLoading = false;
+            }, function (message) {
+                $scope.isInvoiceLoading = false;
+                $scope.invoiceError.message = message;
+                AppUtils.showAlertBox($scope.invoiceError);
+            })
+        }, function (message) {
+            $scope.isInvoiceLoading = false;
+            $scope.invoiceError.message = message;
+            AppUtils.showAlertBox($scope.invoiceError);
+        });
+    }
 
 }]);
