@@ -9,7 +9,7 @@ class Invoice extends Model
     protected $table = 'tb_declare';
     protected $primaryKey = 'declare_id';
 
-    protected $dateFormat = 'Y-m-d';
+    protected $dateFormat = 'Y-m-d H:i:s';
 
     protected $dates = [
         'end_dt',

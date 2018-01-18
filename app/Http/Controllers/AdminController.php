@@ -353,7 +353,7 @@ class AdminController extends Controller
                 'required', 'integer'
             ),
             'active_date' => array(
-                'date_format:Y-m-d'
+                'date_format:Y-m-d H:i:s'
             ),
             'comment' => array(
                 'max:500'
@@ -447,7 +447,7 @@ class AdminController extends Controller
                 'required', 'integer'
             ),
             'active_date' => array(
-                'date_format:Y-m-d'
+                'date_format:Y-m-d H:i:s'
             ),
             'comment' => array(
                 'max:500'
