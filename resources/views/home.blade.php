@@ -2,11 +2,11 @@
 
 @section('content')
 
-    <link href="{{ asset('css/bootstrap-datepicker.min.css') }}" rel="stylesheet">
-    <link href="{{ asset('css/bootstrap-datepicker.standalone.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/bootstrap-datetimepicker.min.css') }}" rel="stylesheet">
+    {{--<link href="{{ asset('css/bootstrap-datepicker.standalone.min.css') }}" rel="stylesheet">--}}
 
-    <script src="{{ asset('js/bootstrap-datepicker.min.js') }}"></script>
-    <script src="{{ asset('locales/bootstrap-datepicker.ru.min.js') }}"></script>
+    <script src="{{ asset('js/bootstrap-datetimepicker.min.js') }}"></script>
+    <script src="{{ asset('locales/bootstrap-datetimepicker.ru.js') }}"></script>
 
     <script src="{{ asset('js/angular-datetimepicker-directive.js') }}"></script>
 

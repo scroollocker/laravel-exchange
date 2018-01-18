@@ -25,7 +25,9 @@ class ApiModel {
         \Log::info('Execute api');
         \Log::info($url);
 
-        $result = \Curl::to($url)->get();
+        $result = \Curl::to($url)
+            ->withProxy('10.230.143.9', 3128, 'https://')
+            ->get();
 
         $result = json_decode($result, true);
         \Log::info($result);

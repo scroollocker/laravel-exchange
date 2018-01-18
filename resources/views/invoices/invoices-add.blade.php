@@ -185,7 +185,7 @@
                             <td><label>Дата окончания сделки: </label></td>
                             <td>
                                 <div class="input-group date">
-                                    <input name="date_end" datetimepicker required ng-model="invoice.endDate" datetimepicker-options="{format: 'yyyy-mm-dd',language: 'ru'}" id="invoice-timeout" type="text" class="form-control"><span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                    <input name="date_end" datetimepicker required ng-model="invoice.endDate" datetimepicker-options="{language: 'ru'}" id="invoice-timeout" type="text" class="form-control"><span class="input-group-addon"><i class="fa fa-calendar"></i></span>
                                 </div>
                             </td>
                         </tr>

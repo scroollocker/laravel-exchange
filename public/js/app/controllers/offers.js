@@ -77,8 +77,9 @@ app.controller('OffersController', ['$scope', '$routeParams', 'AppUtils', '$loca
         });
     };
 
-    $scope.openOffer = function(id) {
-        $location.path('/offers/open/'+id);
+    $scope.openOffer = function(offer) {
+        //$location.path('/offers/open/'+offer.id);
+        $location.path('/invoices/chat/'+offer.declare_id);
         $location.replace();
     };
     

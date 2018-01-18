@@ -51,7 +51,6 @@ app.controller('DashboardMyOffers', ['$scope', '$http', 'AppUtils', '$location',
             $location.replace();
         }
 
-
     };
 
     $scope.init = function() {

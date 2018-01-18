@@ -60,7 +60,7 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <tr ng-repeat="offer in getOffers()" ng-dblclick="openOffer(offer.id)" style="cursor:pointer;">
+                            <tr ng-repeat="offer in getOffers()" ng-dblclick="openOffer(offer)" style="cursor:pointer;">
                                 <td>@{{ offer.id }}</td>
                                 <td>@{{ offer.created_date }}</td>
                                 <td>@{{ offer.endDate }}</td>

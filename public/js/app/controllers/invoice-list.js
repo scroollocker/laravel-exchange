@@ -74,6 +74,7 @@ app.controller('InvoicesListController', ['$scope', '$http', 'AppUtils','$locati
 
         if (invoice.step == 1) {
             $location.path('/offers/byInvoice/'+invoice.id);
+            // $location.path('/invoices/chat/'+invoice.id);
             $location.replace();
         }
         else if (invoice.step == 6) {

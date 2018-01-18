@@ -104,7 +104,7 @@
                                     <td><label>До какой даты осуществляет сделки: </label></td>
                                     <td>
                                         <div class="input-group date">
-                                            <input id="activeDate" name="date_end" datetimepicker required ng-model="editedUser.active_date" datetimepicker-options="{format: 'yyyy-mm-dd',language: 'ru'}" type="text" class="form-control"><span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                            <input id="activeDate" name="date_end" datetimepicker required ng-model="editedUser.active_date" datetimepicker-options="{language: 'ru'}" type="text" class="form-control"><span class="input-group-addon"><i class="fa fa-calendar"></i></span>
                                         </div>
                                     </td>
                                 </tr>

@@ -5,7 +5,9 @@ angular
 
     .provider('datetimepicker', function () {
         var default_options = {
-            autoclose: true
+            autoclose: true,
+            format: 'yyyy-mm-dd hh:ii:ss',
+            startDate: new Date()
         };
 
         this.setOptions = function (options) {
@@ -59,7 +61,7 @@ angular
                                     //});
                                 }
                             })
-                            .datepicker(options);
+                            .datetimepicker(options);
 
                         function setPickerValue() {
                             var date = options.defaultDate || null;
@@ -70,7 +72,7 @@ angular
 
                             console.log(date);
                             if (date !== null) {
-                                $element.datepicker('setDate', moment(date, 'yyyy-mm-dd'));
+                                $element.datetimepicker('setDate', moment(date, 'yyyy-mm-dd hh:ii:ss'));
                             }
 
 
