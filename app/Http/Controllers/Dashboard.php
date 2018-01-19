@@ -431,9 +431,10 @@ class Dashboard extends Controller
             $sum = $request->sum_sell_nd;
 
             if ($saldo < $sum) {
-                throw new Exception('У вас нет доступных средств на счете');
+                throw new \Exception('У вас нет доступных средств на счете');
             }
 
+            DB::beginTransaction();
             $offerResult = Offer::createOffer($request->invoice_id,
                 $request->offer_id,
                 $user->id,
@@ -448,7 +449,8 @@ class Dashboard extends Controller
                 $request->comment);
 
             if (!$offerResult and !isset($offerResult[0])) {
-                throw new Exception('Не найден счет для снятия средств');
+                DB::rollBack();
+                throw new \Exception('Не удалось создать предложение');
             }
 
             $offerId = $offerResult[0]->offer_id;
@@ -461,11 +463,17 @@ class Dashboard extends Controller
             );
 
             /* TODO: Add confirm */
-            \Api::execute('lockAccount', $params);
+            $result = \Api::execute('lockAccount', $params);
+
+            if ($result['status'] == false) {
+                DB::rollBack();
+                throw new \Exception('Ошибка АБС: '.$result['message']);
+            }
 
             if ($invoice->approve_auto_n == false) {
                 $offer = Offer::where('offer_id', $offerId)->with('detail', 'origin')->first();
                 if (is_null($offer)) {
+                    DB::rollBack();
                     throw new \Exception('Произошла системная ошибка при создании предложения');
                 }
                 DB::select('call auto_approve_offer(?);', array($offer->offer_id));
@@ -483,11 +491,14 @@ class Dashboard extends Controller
 
                 $result = \Api::execute('createDeal', $params);
 
-                if (is_null($result) or empty($result)) {
-                    throw new \Exception('Ошибка получения данных от банка');
+                if ($result['status'] == false) {
+                    DB::rollBack();
+                    throw new \Exception('Ошибка АБС: '.$result['message']);
                 }
 
             }
+
+            DB::commit();
 
             return response()->json(array(
                 'status' => true

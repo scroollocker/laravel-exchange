@@ -392,10 +392,15 @@ class InvoiceController extends Controller
                 'Sum' => $request->sum_1
             );
 
-            DB::commit();
-
             /* TODO: Add confirm */
-            \Api::execute('lockAccount', $params);
+            $result = \Api::execute('lockAccount', $params);
+
+            if ($result['status'] == false) {
+                DB::rollBack();
+                throw new \Exception('Ошибка АБС: '.$result['message']);
+            }
+
+            DB::commit();
 
             return response()->json(array(
                 'status' => true,
@@ -720,12 +725,9 @@ class InvoiceController extends Controller
 
             $result = \Api::execute('createDeal', $params);
 
-            if (is_null($result) or empty($result)) {
-                throw new Exception('Ошибка получения данных от банка');
-            }
+            if ($result['status'] == false) {
 
-            if (isset($result['errorno'])) {
-                throw new Exception($result['error']);
+                throw new \Exception('Ошибка АБС: '.$result['message']);
             }
 
             DB::select('call exec_offer_in_bank(?)', array($request->offer_id));
@@ -915,16 +917,14 @@ class InvoiceController extends Controller
 
             $result = \Api::execute('getDealState', $params);
 
-            if (!isset($result) or is_null($result) or empty($result) or (!isset($result['response']) or empty($result['response']))) {
-                throw new Exception('Произошла системная ошибка');
+            if ($result['status'] == false) {
+                throw new \Exception('Ошибка АБС: '.$result['message']);
             }
 
             $status = false;
             $message = '';
 
             $msg = trim(strtolower($result['response']['msg']));
-
-
 
             if ($msg == null or ($msg != 'ok' and $msg != 'work')) {
                 $offer = Offer::where('declare_id', $request->invoice_id)
@@ -996,23 +996,16 @@ class InvoiceController extends Controller
                 'Deal' => $request->invoice_id
             );
 
-            $pay_res = \Api::execute('getPayments', $params);
+            $result = \Api::execute('getPayments', $params);
+
+            if ($result['status'] == false) {
+                throw new \Exception('Ошибка АБС: '.$result['message']);
+            }
 
             $payments = array();
 
-            if (is_null($pay_res) or empty($pay_res)) {
-                throw new \Exception('Ошибка получения данных от АБС');
-            }
-
-            if (isset($pay_res['response']) and !empty($pay_res['response'])) {
-                if (isset($pay_res['response']['errorno']) and !is_null($pay_res['response']['errorno'])) {
-                    throw new \Exception($pay_res['response']['error']);
-                }
-                else {
-                    if (isset($pay_res['response']['Payments']) and !is_null($pay_res['response']['Payments']) and !empty($pay_res['response']['Payments'])) {
-                        $payments = $pay_res['response']['Payments'];
-                    }
-                }
+            if (isset($result['response']['Payments']) and !is_null($result['response']['Payments']) and !empty($result['response']['Payments'])) {
+                $payments = $result['response']['Payments'];
             }
 
             return response()->json(array(

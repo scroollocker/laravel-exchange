@@ -203,7 +203,7 @@ app.controller('DashboardOffer', ['$scope', '$http', 'AppUtils', '$routeParams',
 
             if (response.status) {
                 /* TODO: REDIRECT TO MY OFFERS */
-                $location.path('/dashboard/invoices');
+                $location.path('/my-offers');
                 $location.replace();
             }
             else {

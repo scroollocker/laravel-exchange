@@ -162,14 +162,13 @@ class UserSettingsController extends Controller
                 'Customer' => $user->ibs_id
             );
 
-            $adbAccounts = \Api::execute('getAccounts', $params);
+            $result = \Api::execute('getAccounts', $params);
 
-            if (isset($adbAccounts['errorno'])) {
-                throw new Exception($adbAccounts['error']);
+            if ($result['status'] == false) {
+                throw new \Exception('Ошибка АБС: '.$result['message']);
             }
 
-
-            $acc = isset($adbAccounts['response']['Accounts']) ? $adbAccounts['response']['Accounts'] : array();
+            $acc = isset($result['response']['Accounts']) ? $result['response']['Accounts'] : array();
 
             foreach($acc as $item) {
                 DB::select('call update_acc(?,?,?,?,?,?,?,?);', array(

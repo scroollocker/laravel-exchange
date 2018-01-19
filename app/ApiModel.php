@@ -14,6 +14,37 @@ class ApiModel {
         echo 'Hello';
     }
 
+    private function parseResult($result) {
+        $response_object = array(
+            'status' => false,
+            'message' => ''
+        );
+
+        if (!$result or !isset($result['response'])) {
+            return $response_object;
+        }
+
+        $result = $result['response'];
+
+        if (isset($result['errorno'])) {
+            $response_object = array(
+                'status' => false,
+                'message' => $result['error']
+            );
+
+            return $response_object;
+        }
+
+        $response_object = array(
+            'status' => true,
+            'response' => $result
+        );
+
+        \Log::info($response_object);
+
+        return $response_object;
+    }
+
     public function execute($name, $params) {
         $url = env('API_URL', '');
         if (empty($url)) {
@@ -26,12 +57,12 @@ class ApiModel {
         \Log::info($url);
 
         $result = \Curl::to($url)
-            //->withProxy('10.230.143.9', 3128, 'https://')
+            ->withProxy('10.230.143.9', 3128, 'https://')
             ->get();
 
         $result = json_decode($result, true);
         \Log::info($result);
 
-        return $result;
+        return $this->parseResult($result);
     }
 }
