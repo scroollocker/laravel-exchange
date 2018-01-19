@@ -353,6 +353,22 @@ class InvoiceController extends Controller
                 $request->autoconfirm
             );
 
+            $result = DB::select('select get_enable_saldo(?) as saldo_sum;', array($request->acc_1));
+
+            if (!$result and !isset($result[0])) {
+                throw new Exception('Не найден счет для снятия средств');
+            }
+
+            \Log::info('saldo');
+            \Log::info($result);
+
+            $saldo = (int)$result[0]->saldo_sum;
+            $sum = $request->sum_1;
+
+            if ($saldo < $sum) {
+                throw new Exception('У вас нет доступных средств на счете');
+            }
+
             DB::beginTransaction();
             $result = DB::select('select create_declare_2(?,?,?,?,?,?,?,?,?,?,?,?,?) as declare_id;', $params);
 
@@ -376,11 +392,10 @@ class InvoiceController extends Controller
                 'Sum' => $request->sum_1
             );
 
+            DB::commit();
 
             /* TODO: Add confirm */
             \Api::execute('lockAccount', $params);
-
-            DB::commit();
 
             return response()->json(array(
                 'status' => true,

@@ -10,6 +10,7 @@ use App\Offer;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 
 class Dashboard extends Controller
@@ -398,7 +399,10 @@ class Dashboard extends Controller
                 throw new \Exception('Пользователь не авторизован');
             }
 
+
             $invoice = Invoice::where('declare_id', $request->invoice_id)->first();
+
+            //var_dump($invoice->approve_auto_n); die();
 
             if (is_null($invoice)) {
                 throw new \Exception('Заявка не найдена');
@@ -414,7 +418,23 @@ class Dashboard extends Controller
                 }
             }
 
-            Offer::createOffer($request->invoice_id,
+            $result = DB::select('select get_enable_saldo(?) as saldo_sum;', array($request->acc_dt));
+
+            if (!$result and !isset($result[0])) {
+                throw new Exception('Не найден счет для снятия средств');
+            }
+
+            \Log::info('saldo');
+            \Log::info($result);
+
+            $saldo = (int)$result[0]->saldo_sum;
+            $sum = $request->sum_sell_nd;
+
+            if ($saldo < $sum) {
+                throw new Exception('У вас нет доступных средств на счете');
+            }
+
+            $offerResult = Offer::createOffer($request->invoice_id,
                 $request->offer_id,
                 $user->id,
                 $request->sum_sell_nd,
@@ -427,16 +447,47 @@ class Dashboard extends Controller
                 $request->endDate,
                 $request->comment);
 
+            if (!$offerResult and !isset($offerResult[0])) {
+                throw new Exception('Не найден счет для снятия средств');
+            }
+
+            $offerId = $offerResult[0]->offer_id;
+
             Chat::createChat($user->id, $request->invoice_id, $request->comment);
 
             $params = array(
                 'Acc' => $request->acc_ct,
-                'Sum' => $request->sum_buy
+                'Sum' => $request->sum_buy_nd
             );
-
 
             /* TODO: Add confirm */
             \Api::execute('lockAccount', $params);
+
+            if ($invoice->approve_auto_n == false) {
+                $offer = Offer::where('offer_id', $offerId)->with('detail', 'origin')->first();
+                if (is_null($offer)) {
+                    throw new \Exception('Произошла системная ошибка при создании предложения');
+                }
+                DB::select('call auto_approve_offer(?);', array($offer->offer_id));
+                $params = array(
+                    'Deal' => $offer->declare_id,
+                    'SellSum' => $offer->origin->sum_sell_nd,
+                    'SellCur' => $offer->origin->cur_sell_id,
+                    'SellAccDt' => $offer->origin->acc_dt_id,
+                    'SellAccCt' => $offer->origin->acc_ct_id,
+                    'BuySum' => $offer->detail->sum_buy_nd,
+                    'BuyCur' => $offer->detail->cur_buy_id,
+                    'BuyAccDt' => $offer->detail->acc_dt_id,
+                    'BuyAccCt' => $offer->detail->acc_ct_id
+                );
+
+                $result = \Api::execute('createDeal', $params);
+
+                if (is_null($result) or empty($result)) {
+                    throw new \Exception('Ошибка получения данных от банка');
+                }
+
+            }
 
             return response()->json(array(
                 'status' => true

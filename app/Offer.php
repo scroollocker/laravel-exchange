@@ -23,12 +23,14 @@ class Offer extends Model
     }
 
     public static function createOffer($invoiceId, $offerId, $userId, $sumSell, $sumBuy, $curSell, $curBuy, $course, $acc_dt, $acc_ct, $endDate, $comment) {
-        DB::select('select create_offer(?,?,?,?,?,?,?,?,?,?,?,?);', array(
+        $result = DB::select('select create_offer(?,?,?,?,?,?,?,?,?,?,?,?) as offer_id;', array(
             $invoiceId, $offerId, $userId, $sumSell, $sumBuy, $curSell, $curBuy, $course, $acc_dt, $acc_ct, $endDate, $comment
         ));
 
         \Log::info(array(
             $invoiceId, $offerId, $userId, $sumSell, $sumBuy, $curSell, $curBuy, $course, $acc_dt, $acc_ct, $endDate, $comment
         ));
+
+        return $result;
     }
 }
