@@ -421,7 +421,7 @@ class Dashboard extends Controller
             $result = DB::select('select get_enable_saldo(?) as saldo_sum;', array($request->acc_dt));
 
             if (!$result and !isset($result[0])) {
-                throw new Exception('Не найден счет для снятия средств');
+                throw new \Exception('Не найден счет для снятия средств');
             }
 
             \Log::info('saldo');
