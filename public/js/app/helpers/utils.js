@@ -42,12 +42,22 @@ app.service('AppUtils', ['$timeout', function ($timeout) {
         });
 
         return result;
-    }
+    };
+
+    var normalizeDate = function (date) {
+        return moment(date, 'YYYY-MM-DD HH:mm:ss').format('DD.MM.YYYY HH:mm:ss');
+    };
+
+    var mysqlDate = function (date) {
+        return moment(date, 'DD.MM.YYYY HH:mm:ss').format('YYYY-MM-DD HH:mm:ss');
+    };
 
     return {
         'showAlertBox': showAlertBox,
         'pushKey': pushKey,
         'pushKeys': pushKeys,
+        'normalizeDate': normalizeDate,
+        'mysqlDate': mysqlDate
     }
 
 

@@ -164,7 +164,7 @@ app.controller('DashboardOffer', ['$scope', '$http', 'AppUtils', '$routeParams',
             return;
         }
 
-        if (!moment(offer.endDate).isAfter(new Date())) {
+        if (!moment(offer.endDate, 'DD.MM.YYYY HH:mm:ss').isAfter(new Date())) {
             $scope.invoiceError.message = 'Дата должна быть больше текущей';
             AppUtils.showAlertBox($scope.invoiceError);
             return;
@@ -189,7 +189,7 @@ app.controller('DashboardOffer', ['$scope', '$http', 'AppUtils', '$routeParams',
             currency_sell: offer.currency_sell.id,
             acc_dt: offer.acc_dt.acc_id,
             acc_ct: offer.acc_ct.acc_id,
-            endDate: offer.endDate,
+            endDate: AppUtils.mysqlDate(offer.endDate),
             comment: offer.comment
         };
 

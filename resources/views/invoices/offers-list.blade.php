@@ -62,8 +62,8 @@
                             <tbody>
                             <tr ng-repeat="offer in getOffers()" ng-dblclick="openOffer(offer)" style="cursor:pointer;">
                                 <td>@{{ offer.id }}</td>
-                                <td>@{{ offer.created_date }}</td>
-                                <td>@{{ offer.endDate }}</td>
+                                <td>@{{ normalizeDate(offer.created_date) }}</td>
+                                <td>@{{ normalizeDate(offer.endDate) }}</td>
                                 <td>@{{ offer.sum_1 }}</td>
                                 <td>@{{ offer.cur_1.name }}</td>
                                 <td>@{{ offer.course }}</td>

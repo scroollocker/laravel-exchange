@@ -89,6 +89,10 @@ app.controller('InvoicesListController', ['$scope', '$http', 'AppUtils','$locati
 
     };
 
+    $scope.normalizeDate = function(date) {
+        return AppUtils.normalizeDate(date);
+    };
+
     $scope.init = function () {
         $scope.loadInvoices();
     };

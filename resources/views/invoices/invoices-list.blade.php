@@ -48,13 +48,13 @@
                             <tbody>
                             <tr ng-repeat="invoice in getInvoices()" ng-dblclick="openInvoice(invoice)" style="cursor:pointer;">
                                 <td>@{{ invoice.id }}</td>
-                                <td>@{{ invoice.created_date }}</td>
-                                <td>@{{ invoice.endDate }}</td>
+                                <td>@{{ normalizeDate(invoice.created_date) }}</td>
+                                <td>@{{ normalizeDate(invoice.endDate) }}</td>
                                 <td>@{{ invoice.cur_sum }}</td>
-                                <td>@{{ invoice.cur_1.cur_name }}</td>
+                                <td>@{{ invoice.cur_2.cur_name }}</td>
                                 <td>@{{ invoice.cur_curs }}</td>
                                 <td>@{{ invoice.final_sum }}</td>
-                                <td>@{{ invoice.cur_2.cur_name }}</td>
+                                <td>@{{ invoice.cur_1.cur_name }}</td>
                                 <td>@{{ invoice.state.name }}</td>
                                 <td ng-if="invoice.state.code === 'OPENED'">
                                     {{--<button class="btn btn-warning btn-sm" ng-click="editInvoice(invoice.id)"><i class="fa fa-edit"></i></button>--}}

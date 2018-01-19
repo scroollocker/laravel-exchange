@@ -372,6 +372,8 @@ class InvoiceController extends Controller
             DB::beginTransaction();
             $result = DB::select('select create_declare_2(?,?,?,?,?,?,?,?,?,?,?,?,?) as declare_id;', $params);
 
+            $dec_id = $result[0]->declare_id;
+
             \Log::info($result);
 
             if (!$result and !isset($result[0])) {
@@ -404,7 +406,7 @@ class InvoiceController extends Controller
 
             return response()->json(array(
                 'status' => true,
-                'declare_id' => $result[0]->declare_id
+                'declare_id' => $dec_id
             ));
         }
         catch (Exception $ex) {

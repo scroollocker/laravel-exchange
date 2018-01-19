@@ -141,6 +141,10 @@ app.controller('OffersController', ['$scope', '$routeParams', 'AppUtils', '$loca
         });
     };
 
+    $scope.normalizeDate = function(date) {
+        return AppUtils.normalizeDate(date);
+    };
+
     $scope.init = function() {
         if ($scope.invoiceId === undefined || $scope.invoiceId === null) {
             $location.path('/invoices');

@@ -78,6 +78,10 @@ app.controller('DashboardInvoices', ['$scope', '$http', 'AppUtils', '$location',
         $location.replace();
     };
 
+    $scope.normalizeDate = function(date) {
+        return AppUtils.normalizeDate(date);
+    };
+
     $scope.init = function() {
         $scope.loadCurrencies();
         $scope.loadInvoices();

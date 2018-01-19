@@ -198,7 +198,7 @@ app.controller('InvoicesController', ['$scope', '$http', 'AppUtils', '$filter', 
             return;
         }
 
-        if (!moment(invoice.endDate).isAfter(new Date())) {
+        if (!moment(invoice.endDate, 'DD.MM.YYYY HH:mm:ss').isAfter(new Date())) {
             $scope.invoiceError.message = 'Дата должна быть больше текущей';
             AppUtils.showAlertBox($scope.invoiceError);
             return;
@@ -219,7 +219,7 @@ app.controller('InvoicesController', ['$scope', '$http', 'AppUtils', '$filter', 
             'sum_1': invoice.cur_sum,
             'sum_2': invoice.final_sum,
             'type': invoice.type,
-            'endDate': invoice.endDate
+            'endDate': AppUtils.mysqlDate(invoice.endDate)
 
         };
         if (invoice.id !== undefined && invoice.id !== null) {

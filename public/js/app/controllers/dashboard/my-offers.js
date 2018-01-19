@@ -53,6 +53,10 @@ app.controller('DashboardMyOffers', ['$scope', '$http', 'AppUtils', '$location',
 
     };
 
+    $scope.normalizeDate = function(date) {
+        return AppUtils.normalizeDate(date);
+    };
+
     $scope.init = function() {
         $scope.loadOffers();
     }

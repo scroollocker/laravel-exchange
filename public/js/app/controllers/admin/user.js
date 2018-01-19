@@ -99,6 +99,7 @@ app.controller('UserController', ['$scope', '$http', 'AppUtils', function($scope
         }
 
         var request = $scope.editedUser;
+        request.active_date = AppUtils.mysqlDate(request.active_date);
         //request.active_date = editedUser.active_date;
 
         $http.post('/user/edit', request).then(function (response) {
@@ -137,6 +138,8 @@ app.controller('UserController', ['$scope', '$http', 'AppUtils', function($scope
         }
 
         var request = $scope.editedUser;
+
+        request.active_date = AppUtils.mysqlDate(request.active_date);
         //request.active_date = active_date;
 
         $http.post('/user/add', request).then(function (response) {

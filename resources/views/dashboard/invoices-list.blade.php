@@ -110,8 +110,8 @@
                             <tbody>
                             <tr ng-repeat="invoice in getInvoices()" style="cursor:pointer;">
                                 <td>@{{ invoice.declare_id }}</td>
-                                <td>@{{ invoice.created_dt }}</td>
-                                <td>@{{ invoice.end_dt }}</td>
+                                <td>@{{ normalizeDate(invoice.created_dt) }}</td>
+                                <td>@{{ normalizeDate(invoice.end_dt) }}</td>
                                 <td>@{{ invoice.user.email }}</td>
                                 <td>@{{ invoice.sum_sell_nd }}</td>
                                 <td>@{{ invoice.currency_sell.cur_name }}</td>
