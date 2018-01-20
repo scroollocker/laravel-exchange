@@ -190,7 +190,7 @@
                             </td>
                         </tr>
                         <tr>
-                            <td><label for="auto-confirm">Принемать предложения автоматически:</label></td>
+                            <td><label for="auto-confirm">Принимать предложения автоматически:</label></td>
                             <td>
                                 <input name="auto-confirm" ng-model="invoice.autoconfirm" icheck type="checkbox"  ng-true-value='1' ng-false-value='0' class="form-control" style="width: 20px;">
                             </td>
