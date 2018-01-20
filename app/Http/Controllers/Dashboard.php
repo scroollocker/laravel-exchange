@@ -470,7 +470,7 @@ class Dashboard extends Controller
                 throw new \Exception('Ошибка АБС: '.$result['message']);
             }
 
-            if ($invoice->approve_auto_n == false) {
+            if ($invoice->approve_auto_n == true) {
                 $offer = Offer::where('offer_id', $offerId)->with('detail', 'origin')->first();
                 if (is_null($offer)) {
                     DB::rollBack();
