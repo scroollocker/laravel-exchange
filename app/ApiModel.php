@@ -29,8 +29,12 @@ class ApiModel {
         if (isset($result['errorno'])) {
             $response_object = array(
                 'status' => false,
-                'message' => $result['error']
+                'message' => 'Произошла системная ошибка'
             );
+
+            if (isset($result['error'])) {
+                $response_object['message'] = $result['error'];
+            }
 
             return $response_object;
         }

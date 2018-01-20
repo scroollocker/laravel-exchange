@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Account;
 use App\Offer;
 use Exception;
 use Illuminate\Http\Request;
@@ -84,18 +85,33 @@ class InvoiceController extends Controller
                 throw new Exception('Пользователь не авторизован');
             }
 
-            $account1 = \DB::table('tb_acc')
+            /*$account1 = \DB::table('tb_acc')
                 ->select('name_v as acc_name', 'num_v as acc_num', 'acc_id as id')
                 ->where('user_id', $user->id)
                 ->where('for_deal_n', '1')
                 ->where('cur_id', $request->cur_1_id)
                 ->get();
+            */
+            $account1 = Account::selectRaw('name_v as acc_name, num_v as acc_num, acc_id as id, (saldo_nd - saldo_limit_nd) as saldo')
+                ->where('user_id', $user->id)
+                ->where('for_deal_n', '1')
+                ->where('cur_id', $request->cur_1_id)
 
-            $account2 = \DB::table('tb_acc')
+                ->get();
+
+            /*$account2 = \DB::table('tb_acc')
                 ->select('name_v as acc_name', 'num_v as acc_num', 'acc_id as id')
                 ->where('user_id', $user->id)
                 ->where('for_deal_n', '1')
                 ->where('cur_id', $request->cur_2_id)
+                ->get();
+            */
+
+            $account2 = Account::selectRaw('name_v as acc_name, num_v as acc_num, acc_id as id, (saldo_nd - saldo_limit_nd) as saldo')
+                ->where('user_id', $user->id)
+                ->where('for_deal_n', '1')
+                ->where('cur_id', $request->cur_2_id)
+
                 ->get();
 
             return response()->json(array(

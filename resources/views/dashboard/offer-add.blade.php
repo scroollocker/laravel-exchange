@@ -92,7 +92,7 @@
                             <td><label>Счет выплат</label></td>
                             <td>
                                 <select name="acc_1" required ng-model="offer.acc_dt"
-                                        ng-options="item as item.acc_num + '  (' + item.acc_name + ')' for item in getAccForCur1() track by item.acc_id"
+                                        ng-options="item as item.acc_num + '  (' + item.acc_name + ') ('+ item.saldo + ')' for item in getAccForCur1() track by item.acc_id"
                                         class="form-control" style="width: 200px;"></select>
                             </td>
                         </tr>
@@ -100,7 +100,7 @@
                             <td><label>Счет получения средств:</label></td>
                             <td>
                                 <select name="acc_2" required ng-model="offer.acc_ct"
-                                        ng-options="item as item.acc_num + '  (' + item.acc_name + ')' for item in getAccForCur2() track by item.acc_id"
+                                        ng-options="item as item.acc_num + '  (' + item.acc_name + ') ('+ item.saldo + ')' for item in getAccForCur2() track by item.acc_id"
                                         class="form-control" style="width: 200px;"></select>
                             </td>
                         </tr>

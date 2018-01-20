@@ -293,13 +293,13 @@ class Dashboard extends Controller
             $acc_sell = Account::where('cur_id', $request->currency_sell)
                 ->where('for_deal_n', 1)
                 ->where('user_id', $user->id)
-                ->select('acc_id', 'name_v as acc_name', 'num_v as acc_num')
+                ->selectRaw('acc_id, name_v as acc_name, num_v as acc_num, (saldo_nd - saldo_limit_nd) as saldo')
                 ->get();
 
             $acc_buy = Account::where('cur_id', $request->currency_buy)
                 ->where('for_deal_n', 1)
                 ->where('user_id', $user->id)
-                ->select('acc_id', 'name_v as acc_name', 'num_v as acc_num')
+                ->selectRaw('acc_id, name_v as acc_name, num_v as acc_num, (saldo_nd - saldo_limit_nd) as saldo')
                 ->get();
 
             return response()->json(array(

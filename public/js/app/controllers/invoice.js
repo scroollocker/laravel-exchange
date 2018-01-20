@@ -75,8 +75,17 @@ app.controller('InvoicesController', ['$scope', '$http', 'AppUtils', '$filter', 
             $scope.isInvoiceLoading = false;
             response = response.data;
             if (response.status) {
-                $scope.accounts.cur_1 = response.accounts_cur_1;
+                var items = [];
+
+                for (var i = 0; i < response.accounts_cur_1.length; i++) {
+                    var accItem = response.accounts_cur_1[i];
+                    if ($scope.invoice.cur_sum <= accItem.saldo) {
+                        items.push(accItem);
+                    }
+                }
+                $scope.accounts.cur_1 = items;
                 $scope.accounts.cur_2 = response.accounts_cur_2;
+
             }
             else {
                 $scope.invoiceError.message = response.message;
