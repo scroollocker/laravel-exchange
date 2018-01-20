@@ -47,7 +47,7 @@ app.controller('DashboardMyOffers', ['$scope', '$http', 'AppUtils', '$location',
             $location.replace();
         }
         else if (offer.detail.step_n == 7) {
-            $location.path('/invoice/bank/detail/'+offer.detail.declare_id);
+            $location.path('/invoice/bank/detail/'+offer.origin.declare_id);
             $location.replace();
         }
 
