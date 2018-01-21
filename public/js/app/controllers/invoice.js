@@ -77,14 +77,28 @@ app.controller('InvoicesController', ['$scope', '$http', 'AppUtils', '$filter', 
             if (response.status) {
                 var items = [];
 
-                for (var i = 0; i < response.accounts_cur_1.length; i++) {
-                    var accItem = response.accounts_cur_1[i];
-                    if ($scope.invoice.cur_sum <= accItem.saldo) {
-                        items.push(accItem);
+                if ($scope.invoice.type == '2') {
+                    for (var i = 0; i < response.accounts_cur_1.length; i++) {
+                        var accItem = response.accounts_cur_1[i];
+                        if (parseFloat($scope.invoice.cur_sum) <= parseFloat(accItem.saldo)) {
+                            items.push(accItem);
+                        }
                     }
+
+                    $scope.accounts.cur_1 = items;
+                    $scope.accounts.cur_2 = response.accounts_cur_2;
                 }
-                $scope.accounts.cur_1 = items;
-                $scope.accounts.cur_2 = response.accounts_cur_2;
+                if ($scope.invoice.type == '1') {
+                    for (var i = 0; i < response.accounts_cur_2.length; i++) {
+                        var accItem = response.accounts_cur_2[i];
+                        if (parseFloat($scope.invoice.final_sum) <= parseFloat(accItem.saldo)) {
+                            items.push(accItem);
+                        }
+                    }
+
+                    $scope.accounts.cur_1 = response.accounts_cur_1;
+                    $scope.accounts.cur_2 = items;
+                }
 
             }
             else {

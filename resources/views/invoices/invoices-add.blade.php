@@ -198,7 +198,7 @@
 
                     </table>
                 </form>
-                <div class="table-responsive" ng-if="invoice.autoconfirm != 1">
+                <!--<div class="table-responsive" ng-if="invoice.autoconfirm != 1">
 
                     <table class="table">
                         <thead>
@@ -219,6 +219,7 @@
                         </tbody>
                     </table>
                 </div>
+                -->
 
                 <div class="text-center ">
                     <div class="btn-group">

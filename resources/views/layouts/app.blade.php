@@ -32,10 +32,14 @@
 
     <script src="{{ asset('js/app/helpers/utils.js') }}"></script>
 
+    <!-- Navbar -->
+
+    <script src="{{ asset('js/app/controllers/navbar.js') }}"></script>
+
 </head>
 <body ng-app="ExchangeApp">
     <div id="app">
-        <nav class="navbar navbar-default navbar-static-top">
+        <nav class="navbar navbar-default navbar-static-top" ng-controller="NavbarController">
             <div class="container">
                 <div class="navbar-header">
 
@@ -67,40 +71,40 @@
                         @else
                         @can('is-admin')
                             <li class="dropdown">
-                                <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+                                <a class="dropdown-toNavbarControllerggle" data-toggle="dropdown" role="button" aria-expanded="false">
                                     <i class="fa fa-dashboard"></i> Панель администратора<span class="caret"></span>
                                 </a>
 
                                 <ul class="dropdown-menu" role="menu">
-                                    <li>
+                                    <li ng-class="{'active': isActive('/admin/users/list')}">
                                         <a href="dashboard/#!/admin/users/list"><i class="fa fa-users"></i> Список пользователей</a>
                                     </li>
-                                    <li>
+                                    <li ng-class="{'active': isActive('/admin/currency/list')}">
                                         <a href="dashboard/#!/admin/currency/list"><i class="fa fa-money"></i> Список валют</a>
                                     </li>
-                                    <li>
+                                    <li ng-class="{'active': isActive('/admin/settings/list')}">
                                         <a href="dashboard/#!/admin/settings/list"><i class="fa fa-gears"></i> Список настроек</a>
                                     </li>
                                 </ul>
                             </li>
 
                         @endcan
-                                <li><a href="home/#!/dashboard/invoices">Все заявки</a></li>
-                                <li><a href="home/#!/">Мои заявки</a></li>
-                                <li><a href="home/#!/my-offers">Мои предложения</a></li>
+                                <li ng-class="{'active': isActive('/dashboard/invoices')}"><a href="home/#!/dashboard/invoices">Все заявки</a></li>
+                                <li ng-class="{'active': isActive('/invoices/lists')}"><a href="home/#!/invoices/lists">Мои заявки</a></li>
+                                <li ng-class="{'active': isActive('/my-offers')}"><a href="home/#!/my-offers">Мои предложения</a></li>
                                 <li class="dropdown">
                                     <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
                                         <i class="fa fa-gears"></i> Настройки<span class="caret"></span>
                                     </a>
 
                                     <ul class="dropdown-menu" role="menu">
-                                        <li>
+                                        <li ng-class="{'active': isActive('/user/settings')}">
                                             <a href="home/#!/user/settings"><i class="fa fa-user"></i> Мои настройки</a>
                                         </li>
-                                        <li>
+                                        <li ng-class="{'active': isActive('/user/accounts')}">
                                             <a href="home/#!/user/accounts"><i class="fa fa-credit-card"></i> Мои счета</a>
                                         </li>
-                                        <li>
+                                        <li ng-class="{'active': isActive('/user/partners')}">
                                             <a href="home/#!/user/partners"><i class="fa fa-users"></i> Мои партнеры</a>
                                         </li>
                                     </ul>
