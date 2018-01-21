@@ -458,7 +458,7 @@ class Dashboard extends Controller
             Chat::createChat($user->id, $request->invoice_id, $request->comment);
 
             $params = array(
-                'Acc' => $request->acc_ct,
+                'Acc' => $request->acc_dt,
                 'Sum' => $request->sum_buy_nd
             );
 

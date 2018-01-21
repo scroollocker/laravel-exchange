@@ -90,8 +90,8 @@ app.controller('DashboardOffer', ['$scope', '$http', 'AppUtils', '$routeParams',
 
     $scope.loadAccounts = function () {
         var request = {
-            currency_buy: $scope.invoice.currency_buy.id,
-            currency_sell: $scope.invoice.currency_sell.id
+            currency_buy: $scope.invoice.currency_sell.id,
+            currency_sell: $scope.invoice.currency_buy.id
         };
 
         var deffer = $q.defer();
@@ -135,7 +135,10 @@ app.controller('DashboardOffer', ['$scope', '$http', 'AppUtils', '$routeParams',
             return;
         }
 
-        if (offer.sum_sell_nd > 0 && offer.sum_buy_nd > 0) {
+        var a = parseFloat(offer.sum_sell_nd);
+        var b = parseFloat(offer.sum_buy_nd);
+        console.log(a, b);
+        if (a <= 0 && b <= 0) {
             $scope.invoiceError.message = 'Сумма продажи и сумма покупки не должны быть отрицательными';
             AppUtils.showAlertBox($scope.invoiceError);
             return;
@@ -145,8 +148,8 @@ app.controller('DashboardOffer', ['$scope', '$http', 'AppUtils', '$routeParams',
         $scope.loadAccounts().then(function () {
             $scope.isInvoiceLoading = false;
             $scope.offer.sum_buy_nd = $scope.getFinalSum();
-            $scope.offer.currency_buy = $scope.invoice.currency_buy;
-            $scope.offer.currency_sell = $scope.invoice.currency_sell;
+            $scope.offer.currency_buy = $scope.invoice.currency_sell;
+            $scope.offer.currency_sell = $scope.invoice.currency_buy;
             $scope.selectStep(2);
         }, function (err) {
             $scope.isInvoiceLoading = false;
