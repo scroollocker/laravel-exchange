@@ -11,30 +11,30 @@
     <title>{{ config('app.name', 'Laravel') }}</title>
 
     <!-- Styles -->
-    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-    <link href="{{ asset('css/font-awesome.min.css') }}" rel="stylesheet">
-    <link href="{{ asset('css/breadcrumbs.css') }}" rel="stylesheet">
-    <link href="{{ asset('css/icheck/skins/square/blue.css') }}" rel="stylesheet">
+    <link href="{{ assetV('css/app.css') }}" rel="stylesheet">
+    <link href="{{ assetV('css/font-awesome.min.css') }}" rel="stylesheet">
+    <link href="{{ assetV('css/breadcrumbs.css') }}" rel="stylesheet">
+    <link href="{{ assetV('css/icheck/skins/square/blue.css') }}" rel="stylesheet">
 
 
     <!-- Scripts -->
-    <script src="{{ asset('js/moment.min.js') }}"></script>
-    <script src="{{ asset('js/app.js') }}"></script>
-    <script src="{{ asset('js/angular.min.js') }}"></script>
-    <script src="{{ asset('js/angular-sanitize.min.js') }}"></script>
-    <script src="{{ asset('js/angular-route.min.js') }}"></script>
-    <script src="{{ asset('js/underscore-min.js') }}"></script>
-    <script src="{{ asset('js/patch.js') }}"></script>
-    <script src="{{ asset('js/icheck.min.js') }}"></script>
-    <script src="{{ asset('js/app/main.js') }}"></script>
+    <script src="{{ assetV('js/moment.min.js') }}"></script>
+    <script src="{{ assetV('js/app.js') }}"></script>
+    <script src="{{ assetV('js/angular.min.js') }}"></script>
+    <script src="{{ assetV('js/angular-sanitize.min.js') }}"></script>
+    <script src="{{ assetV('js/angular-route.min.js') }}"></script>
+    <script src="{{ assetV('js/underscore-min.js') }}"></script>
+    <script src="{{ assetV('js/patch.js') }}"></script>
+    <script src="{{ assetV('js/icheck.min.js') }}"></script>
+    <script src="{{ assetV('js/app/main.js') }}"></script>
 
     <!-- UTILS -->
 
-    <script src="{{ asset('js/app/helpers/utils.js') }}"></script>
+    <script src="{{ assetV('js/app/helpers/utils.js') }}"></script>
 
     <!-- Navbar -->
 
-    <script src="{{ asset('js/app/controllers/navbar.js') }}"></script>
+    <script src="{{ assetV('js/app/controllers/navbar.js') }}"></script>
 
 </head>
 <body ng-app="ExchangeApp">

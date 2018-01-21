@@ -2,26 +2,26 @@
 
 @section('content')
 
-    <link href="{{ asset('css/bootstrap-datetimepicker.min.css') }}" rel="stylesheet">
+    <link href="{{ assetV('css/bootstrap-datetimepicker.min.css') }}" rel="stylesheet">
     {{--<link href="{{ asset('css/bootstrap-datepicker.standalone.min.css') }}" rel="stylesheet">--}}
 
-    <script src="{{ asset('js/bootstrap-datetimepicker.min.js') }}"></script>
-    <script src="{{ asset('locales/bootstrap-datetimepicker.ru.js') }}"></script>
+    <script src="{{ assetV('js/bootstrap-datetimepicker.min.js') }}"></script>
+    <script src="{{ assetV('locales/bootstrap-datetimepicker.ru.js') }}"></script>
 
-    <script src="{{ asset('js/angular-datetimepicker-directive.js') }}"></script>
+    <script src="{{ assetV('js/angular-datetimepicker-directive.js') }}"></script>
 
-    <script src="{{ asset('js/app/main.route.js') }}"></script>
-    <script src="{{ asset('js/app/controllers/invoice.js') }}"></script>
-    <script src="{{ asset('js/app/controllers/invoice-list.js') }}"></script>
-    <script src="{{ asset('js/app/controllers/chat.js') }}"></script>
-    <script src="{{ asset('js/app/controllers/settings.js') }}"></script>
-    <script src="{{ asset('js/app/controllers/accounts.js') }}"></script>
-    <script src="{{ asset('js/app/controllers/partners.js') }}"></script>
-    <script src="{{ asset('js/app/controllers/offers.js') }}"></script>
-    <script src="{{ asset('js/app/controllers/invoice-bank.js') }}"></script>
-    <script src="{{ asset('js/app/controllers/dashboard/invoices.js') }}"></script>
-    <script src="{{ asset('js/app/controllers/dashboard/offers.js') }}"></script>
-    <script src="{{ asset('js/app/controllers/dashboard/my-offers.js') }}"></script>
+    <script src="{{ assetV('js/app/main.route.js') }}"></script>
+    <script src="{{ assetV('js/app/controllers/invoice.js') }}"></script>
+    <script src="{{ assetV('js/app/controllers/invoice-list.js') }}"></script>
+    <script src="{{ assetV('js/app/controllers/chat.js') }}"></script>
+    <script src="{{ assetV('js/app/controllers/settings.js') }}"></script>
+    <script src="{{ assetV('js/app/controllers/accounts.js') }}"></script>
+    <script src="{{ assetV('js/app/controllers/partners.js') }}"></script>
+    <script src="{{ assetV('js/app/controllers/offers.js') }}"></script>
+    <script src="{{ assetV('js/app/controllers/invoice-bank.js') }}"></script>
+    <script src="{{ assetV('js/app/controllers/dashboard/invoices.js') }}"></script>
+    <script src="{{ assetV('js/app/controllers/dashboard/offers.js') }}"></script>
+    <script src="{{ assetV('js/app/controllers/dashboard/my-offers.js') }}"></script>
 
 <div class="container">
     <!--<div class="row">
