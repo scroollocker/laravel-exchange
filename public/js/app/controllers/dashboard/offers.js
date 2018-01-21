@@ -105,15 +105,15 @@ app.controller('DashboardOffer', ['$scope', '$http', 'AppUtils', '$routeParams',
             response = response.data;
 
             if (response.status) {
-                var items = [];
-
-                for (var i = 0; i < response.acc_sell.length; i++) {
-                    var accItem = response.acc_sell[i];
-                    if ($scope.offer.sum_sell_nd <= accItem.saldo) {
-                        items.push(accItem);
-                    }
-                }
-                $scope.acc.sell = items;
+                //var items = [];
+                //
+                //for (var i = 0; i < response.acc_sell.length; i++) {
+                //    var accItem = response.acc_sell[i];
+                //    if ($scope.offer.sum_sell_nd <= accItem.saldo) {
+                //        items.push(accItem);
+                //    }
+                //}
+                $scope.acc.sell = response.acc_sell;
                 $scope.acc.buy = response.acc_buy;
 
                 deffer.resolve(true);
