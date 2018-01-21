@@ -6,7 +6,7 @@ angular
     .provider('datetimepicker', function () {
         var default_options = {
             autoclose: true,
-            format: 'dd.mm.yyyy hh:ii:ss',
+            format: 'dd.mm.yyyy hh:ii',
             startDate: new Date()
         };
 

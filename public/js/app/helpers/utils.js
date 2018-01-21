@@ -45,11 +45,11 @@ app.service('AppUtils', ['$timeout', function ($timeout) {
     };
 
     var normalizeDate = function (date) {
-        return moment(date, 'YYYY-MM-DD HH:mm:ss').format('DD.MM.YYYY HH:mm:ss');
+        return moment(date, 'YYYY-MM-DD HH:mm:ss').format('DD.MM.YYYY HH:mm');
     };
 
     var mysqlDate = function (date) {
-        return moment(date, 'DD.MM.YYYY HH:mm:ss').format('YYYY-MM-DD HH:mm:ss');
+        return moment(date, 'DD.MM.YYYY HH:mm').format('YYYY-MM-DD HH:mm:ss');
     };
 
     return {

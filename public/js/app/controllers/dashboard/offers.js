@@ -105,15 +105,15 @@ app.controller('DashboardOffer', ['$scope', '$http', 'AppUtils', '$routeParams',
             response = response.data;
 
             if (response.status) {
-                //var items = [];
-                //
-                //for (var i = 0; i < response.acc_sell.length; i++) {
-                //    var accItem = response.acc_sell[i];
-                //    if ($scope.offer.sum_sell_nd <= accItem.saldo) {
-                //        items.push(accItem);
-                //    }
-                //}
-                $scope.acc.sell = response.acc_sell;
+                var items = [];
+
+                for (var i = 0; i < response.acc_sell.length; i++) {
+                   var accItem = response.acc_sell[i];
+                   if (parseFloat($scope.offer.sum_sell_nd) <= parseFloat(accItem.saldo)) {
+                        items.push(accItem);
+                    }
+                }
+                $scope.acc.sell = items;
                 $scope.acc.buy = response.acc_buy;
 
                 deffer.resolve(true);
@@ -143,6 +143,9 @@ app.controller('DashboardOffer', ['$scope', '$http', 'AppUtils', '$routeParams',
             AppUtils.showAlertBox($scope.invoiceError);
             return;
         }
+
+        $scope.offer.acc_dt = undefined;
+        $scope.offer.acc_ct = undefined;
 
         $scope.isInvoiceLoading = true;
         $scope.loadAccounts().then(function () {

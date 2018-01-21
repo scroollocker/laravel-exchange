@@ -89,6 +89,8 @@
                             </li>
 
                         @endcan
+
+                                <li><a href="home/#!/invoices/invoice"><i class="fa fa-plus-circle"></i> Добавить заявку</a></li>
                                 <li ng-class="{'active': isActive('/dashboard/invoices')}"><a href="home/#!/dashboard/invoices">Все заявки</a></li>
                                 <li ng-class="{'active': isActive('/invoices/lists')}"><a href="home/#!/invoices/lists">Мои заявки</a></li>
                                 <li ng-class="{'active': isActive('/my-offers')}"><a href="home/#!/my-offers">Мои предложения</a></li>
