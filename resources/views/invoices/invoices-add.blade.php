@@ -106,6 +106,63 @@
                         </button>
                     </div>
                 </div>
+
+                <div class="row form-group">
+                    <div class="col-md-12">
+
+                        <div  ng-if="isAvalibleLoading">
+                            <div class="invoice-loading text-center" style="font-size: 20px;">
+                                <p><i class="fa fa-circle-o-notch fa-spin"></i></p>
+                                <p>Производится загрузка... Ждите.</p>
+                            </div>
+                        </div>
+                        <div ng-if="!isAvalibleLoading && getAvalible().length == 0">
+                            <div class="invoice-loading text-center" style="font-size: 20px;">
+                                <p><i class="fa fa-flag"></i></p>
+                                <p>Похожие заявки не найдены</p>
+                            </div>
+                        </div>
+                        <div class="table-responsive" ng-if="!isAvalibleLoading && getAvalible().length > 0">
+                            <p>Найдено похожих заявок: <span class="label label-warning">@{{ getAvalible().length }}</span></p>
+                            <table class="table table-striped table-condensed">
+                                <thead>
+                                <tr>
+                                    <th>id</th>
+                                    <th>Создана</th>
+                                    <th>Заканчивается</th>
+                                    <th>Автор</th>
+                                    <th>Сумма продажи</th>
+                                    <th>Валюта продажи</th>
+                                    <th>Курс</th>
+                                    <th>Сумма</th>
+                                    <th>Валюта</th>
+                                    <th>Статус</th>
+                                    <th>Действия</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr ng-repeat="invoice in getAvalible()" style="cursor:pointer;">
+                                    <td>@{{ invoice.declare_id }}</td>
+                                    <td>@{{ normalizeDate(invoice.created_dt) }}</td>
+                                    <td>@{{ normalizeDate(invoice.end_dt) }}</td>
+                                    <td>@{{ invoice.user.email }}</td>
+                                    <td>@{{ invoice.sum_sell_nd }}</td>
+                                    <td>@{{ invoice.currency_sell.cur_name }}</td>
+                                    <td>@{{ invoice.course_nd }}</td>
+                                    <td>@{{ invoice.sum_buy_nd }}</td>
+                                    <td>@{{ invoice.currency_buy.cur_name }}</td>
+                                    <td>@{{ invoice.state.name_v }}</td>
+                                    <td>
+                                        <button class="btn btn-warning btn-sm" ng-click="sendOffer(invoice)"><i class="fa fa-handshake-o"></i></button>
+
+                                    </td>
+                                </tr>
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

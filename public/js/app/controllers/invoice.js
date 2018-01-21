@@ -24,6 +24,14 @@ app.controller('InvoicesController', ['$scope', '$http', 'AppUtils', '$filter', 
         cur_2: []
     };
 
+    $scope.isAvalibleLoading = false;
+
+    $scope.avalibleInvoices = [];
+
+    $scope.getAvalible = function() {
+        return $scope.avalibleInvoices;
+    }
+
     $scope.getAccForCur1 = function () {
         return $scope.accounts.cur_1;
     };
@@ -166,6 +174,55 @@ app.controller('InvoicesController', ['$scope', '$http', 'AppUtils', '$filter', 
         })
     };
 
+    $scope.loadAvalible = function() {
+        var request = {};
+        if ($scope.invoice.type == '1') {
+            if ($scope.invoice.cur_1) {
+                request.buy_cur = $scope.invoice.cur_1;
+            }
+            if ($scope.invoice.cur_2) {
+                request.sell_cur = $scope.invoice.cur_2;
+            }
+            if ($scope.invoice.cur_sum !== undefined && $scope.invoice.cur_sum !== null && parseFloat($scope.invoice.cur_sum) > 0) {
+                request.buy_from = $scope.invoice.cur_sum;
+            }
+            if ($scope.invoice.cur_curs !== undefined && $scope.invoice.cur_curs !== null && parseFloat($scope.invoice.cur_curs) > 0) {
+                request.course_from = $scope.invoice.cur_curs;
+            }
+        }
+        else {
+            if ($scope.invoice.cur_1) {
+                request.sell_cur = $scope.invoice.cur_1;
+            }
+            if ($scope.invoice.cur_2) {
+                request.buy_cur = $scope.invoice.cur_2;
+            }
+            if ($scope.invoice.cur_sum !== undefined && $scope.invoice.cur_sum !== null && parseFloat($scope.invoice.cur_sum) > 0) {
+                request.sell_from = $scope.invoice.cur_sum;
+            }
+            if ($scope.invoice.cur_curs !== undefined && $scope.invoice.cur_curs !== null && parseFloat($scope.invoice.cur_curs) > 0) {
+                request.course_from = $scope.invoice.cur_curs;
+            }
+        }
+        console.log(request);
+        if (Object.keys(request).length == 0) return;
+
+
+        //$scope.avalibleInvoices = [];
+        $scope.isAvalibleLoading = true;
+        $http.post('/dashboard/invoices-list-get', request).then(function(response) {
+            $scope.avalibleInvoices = [];
+            $scope.isAvalibleLoading = false;
+            response = response.data;
+            if (response.status) {
+                $scope.avalibleInvoices = response.invoices;
+            }
+        }, function() {
+            $scope.avalibleInvoices = [];
+            $scope.isAvalibleLoading = false;
+        });
+    };
+
     $scope.cancelCreateInvoice = function () {
         if (confirm('Все изменения будут потеряны. Вы уверены?')) {
             $location.path('/invoices');
@@ -288,6 +345,15 @@ app.controller('InvoicesController', ['$scope', '$http', 'AppUtils', '$filter', 
         }
     };
 
+    $scope.sendOffer = function(invoice) {
+        $location.path('/dashboard/editOffer/'+invoice.declare_id);
+        $location.replace();
+    };
+
+    $scope.normalizeDate = function(date) {
+        return AppUtils.normalizeDate(date);
+    };
+
     $scope.initAdd = function () {
 
         if ($routeParams.invoiceId !== undefined) {
@@ -296,6 +362,10 @@ app.controller('InvoicesController', ['$scope', '$http', 'AppUtils', '$filter', 
         else {
             $scope.loadCurrencies();
         }
+
+        $scope.$watch('invoice', function() {
+            $scope.loadAvalible();
+        }, true);
 
     };
 
