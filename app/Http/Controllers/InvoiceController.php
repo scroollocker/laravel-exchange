@@ -944,23 +944,29 @@ class InvoiceController extends Controller
 
             $msg = trim(strtolower($result['response']['msg']));
 
+            $offer = Offer::where('declare_id', $request->invoice_id)
+                ->with('detail', 'origin')
+                ->whereHas('state', function($q){
+                    $q->where('code_v', 'IN_BANK');
+                })
+                ->first();
+
+            if (is_null($offer)) {
+                throw new Exception('Произошла ошибка. Предложения не найдены');
+            }
+
             if ($msg == null or ($msg != 'ok' and $msg != 'work')) {
-                $offer = Offer::where('declare_id', $request->invoice_id)
-                    ->with('detail', 'origin')
-                    ->whereHas('state', function($q){
-                        $q->where('code_v', 'IN_BANK');
-                    })
-                    ->first();
 
-                if (is_null($offer)) {
-                    throw new Exception('Произошла ошибка. Предложения не найдены');
-                }
-
-                DB::select('call exec_offer_refuse_bank(?)', array($offer->detail_id));
+                DB::select('call exec_offer_refuse_bank(?)', array($offer->details_id));
                 DB::select('call exec_declare_refuse_bank(?)', array($offer->declare_id));
 
                 $message = 'Отклонено банком';
 
+            }
+            else if ($msg == 'ok') {
+                $status = true;
+                DB::select('call exec_offer_close(?)', array($offer->offer_id));
+                DB::select('call exec_declare_close(?)', array($offer->declare_id));
             }
             else {
                 $status = true;

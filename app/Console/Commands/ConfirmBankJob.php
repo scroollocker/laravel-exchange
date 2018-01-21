@@ -48,7 +48,6 @@ class ConfirmBankJob extends Command
                     'Deal' => $offer->declare_id
                 );
 
-
                 $result = \Api::execute('getDealState', $params);
 
                 if ($result['status'] == false) {
@@ -59,18 +58,19 @@ class ConfirmBankJob extends Command
 
                 if ($msg == null or ($msg != 'ok' and $msg != 'work')) {
 
-                    DB::select('call exec_offer_refuse_bank(?)', array($offer->detail_id));
+                    DB::select('call exec_offer_refuse_bank(?)', array($offer->details_id));
                     DB::select('call exec_declare_refuse_bank(?)', array($offer->declare_id));
 
                 }
                 else if ($msg == 'ok') {
-
+                    DB::select('call exec_offer_close(?)', array($offer->offer_id));
+                    DB::select('call exec_declare_close(?)', array($offer->declare_id));
                 }
             }
 
         }
         catch(\Exception $ex) {
-            \Log::error('Job error');
+            \Log::error('JOB :: Close by state error');
             \Log::error($ex);
         }
 

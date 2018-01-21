@@ -45,7 +45,7 @@
                                <td><input name="new_password" ng-model="editSettings.new_password" class="form-control" required type="password"></td>
                            </tr>
                            <tr ng-class="{'has-error': settingsForm.new_password_confirmation.$invalid}">
-                               <td><label>Старый пароль:</label></td>
+                               <td><label>Новый пароль еще раз:</label></td>
                                <td><input name="new_password_confirmation" ng-model="editSettings.new_password_confirmation" class="form-control" required type="password"></td>
                            </tr>
                        </tbody>

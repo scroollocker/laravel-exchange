@@ -13,7 +13,9 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
-        'App\Console\Commands\ConfirmBankJob'
+        'App\Console\Commands\ConfirmBankJob',
+        'App\Console\Commands\CloseByDate',
+        'App\Console\Commands\CloseUserByDate'
     ];
 
     /**
@@ -28,6 +30,8 @@ class Kernel extends ConsoleKernel
         //          ->hourly();
 
         $schedule->command('bank:confirm')->everyFiveMinutes();
+        $schedule->command('bank:date')->everyMinute();
+        $schedule->command('bank:user')->everyFiveMinutes();
     }
 
     /**
