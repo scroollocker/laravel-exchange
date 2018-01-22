@@ -20,7 +20,7 @@
                     </div>
                    <table class="table">
                        <tr>
-                           <td><label>Принемать сделки автоматически</label></td>
+                           <td><label>Принимать сделки автоматически</label></td>
                            <td><input  name="autoconfirm" icheck type="checkbox" ng-true-value="1" ng-false-value="0" ng-model="editSettings.autoconfirm" class="form-control"></td>
                        </tr>
                        <tr ng-class="{'has-error': settingsForm.phone.$invalid}">

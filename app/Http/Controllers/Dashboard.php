@@ -482,11 +482,11 @@ class Dashboard extends Controller
                     'SellSum' => $offer->origin->sum_sell_nd,
                     'SellCur' => $offer->origin->cur_sell_id,
                     'SellAccDt' => $offer->origin->acc_dt_id,
-                    'SellAccCt' => $offer->origin->acc_ct_id,
-                    'BuySum' => $offer->detail->sum_buy_nd,
-                    'BuyCur' => $offer->detail->cur_buy_id,
+                    'SellAccCt' => $offer->detail->acc_ct_id,
+                    'BuySum' => $offer->origin->sum_buy_nd,
+                    'BuyCur' => $offer->origin->cur_buy_id,
                     'BuyAccDt' => $offer->detail->acc_dt_id,
-                    'BuyAccCt' => $offer->detail->acc_ct_id
+                    'BuyAccCt' => $offer->origin->acc_ct_id
                 );
 
                 $result = \Api::execute('createDeal', $params);

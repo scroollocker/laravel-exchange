@@ -171,7 +171,7 @@
                             </td>
                         </tr>
                         <tr>
-                            <td><label for="auto-confirm">Принемать предложения автоматически:</label></td>
+                            <td><label for="auto-confirm">Принимать предложения автоматически:</label></td>
                             <td>
                                 <input name="auto-confirm" ng-model="invoice.autoconfirm" icheck type="checkbox"  ng-true-value='1' ng-false-value='0' class="form-control" style="width: 20px;">
                             </td>
@@ -187,7 +187,7 @@
                             <th>#</th>
                             <th>Логин</th>
                             <th>Имя</th>
-                            <th>Принемать сделки автоматически</th>
+                            <th>Принимать сделки автоматически</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -280,7 +280,7 @@
                         </td>
                     </tr>
                     <tr>
-                        <td><label>Принемать сделки автоматически: </label></td>
+                        <td><label>Принимать сделки автоматически: </label></td>
                         <td>
                             <p ng-if="invoice.autoconfirm == 1">Да</p>
                             <p ng-if="invoice.autoconfirm == 0">Нет</p>
@@ -288,7 +288,7 @@
                     </tr>
                     <tr ng-if="invoice.autoconfirm == 0 && getPartnersAutoconfirm().length > 0">
                         <td colspan="2">
-                            <p>Автоматически принемать от:</p>
+                            <p>Автоматически принимать от:</p>
                             <table class="table">
                                 <tr ng-repeat="partner in getPartnersAutoconfirm()">
                                     <td>@{{ partner.email }}</td>

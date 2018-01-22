@@ -357,7 +357,7 @@
                         </td>
                     </tr>
                     <tr>
-                        <td><label>Принемать сделки автоматически: </label></td>
+                        <td><label>Принимать сделки автоматически: </label></td>
                         <td>
                             <p ng-if="invoice.autoconfirm == 1">Да</p>
                             <p ng-if="invoice.autoconfirm == 0">Нет</p>
@@ -365,7 +365,7 @@
                     </tr>
                     <tr ng-if="invoice.autoconfirm == 0 && getPartnersAutoconfirm().length > 0">
                         <td colspan="2">
-                            <p>Автоматически принемать от:</p>
+                            <p>Автоматически принимать от:</p>
                             <table class="table">
                                 <tr ng-repeat="partner in getPartnersAutoconfirm()">
                                     <td>@{{ partner.email }}</td>
