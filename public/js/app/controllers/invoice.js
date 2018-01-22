@@ -186,8 +186,8 @@ app.controller('InvoicesController', ['$scope', '$http', 'AppUtils', '$filter', 
             if ($scope.invoice.cur_sum !== undefined && $scope.invoice.cur_sum !== null && parseFloat($scope.invoice.cur_sum) > 0) {
                 request.buy_from = $scope.invoice.cur_sum;
             }
-            if ($scope.invoice.cur_curs !== undefined && $scope.invoice.cur_curs !== null && parseFloat($scope.invoice.cur_curs) > 0) {
-                request.course_from = $scope.invoice.cur_curs;
+            if ($scope.invoice.final_sum !== undefined && $scope.invoice.final_sum !== null && parseFloat($scope.invoice.final_sum) > 0) {
+                request.sell_from = $scope.invoice.final_sum;
             }
         }
         else {
@@ -200,8 +200,8 @@ app.controller('InvoicesController', ['$scope', '$http', 'AppUtils', '$filter', 
             if ($scope.invoice.cur_sum !== undefined && $scope.invoice.cur_sum !== null && parseFloat($scope.invoice.cur_sum) > 0) {
                 request.sell_from = $scope.invoice.cur_sum;
             }
-            if ($scope.invoice.cur_curs !== undefined && $scope.invoice.cur_curs !== null && parseFloat($scope.invoice.cur_curs) > 0) {
-                request.course_from = $scope.invoice.cur_curs;
+            if ($scope.invoice.final_sum !== undefined && $scope.invoice.final_sum !== null && parseFloat($scope.invoice.final_sum) > 0) {
+                request.buy_from = $scope.invoice.final_sum;
             }
         }
         console.log(request);
