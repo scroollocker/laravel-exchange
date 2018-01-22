@@ -168,8 +168,7 @@ class LoginController extends Controller
             $this->sendPinCode($request, $user);
             \Log::error([
                 'action' => 'confirm-pin',
-                'type' => 'validation error',
-                'message' => $validator->errors->all()
+                'type' => 'validation error'
             ]);
             return response()->redirectTo('/login-step-2')->withInput()->withErrors($validator);
         }
