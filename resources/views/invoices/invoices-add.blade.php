@@ -153,7 +153,7 @@
                                     <td>@{{ invoice.currency_buy.cur_name }}</td>
                                     <td>@{{ invoice.state.name_v }}</td>
                                     <td>
-                                        <button class="btn btn-warning btn-sm" ng-click="sendOffer(invoice)"><i class="fa fa-handshake-o"></i></button>
+                                        <button  data-toggle="tooltip" data-placement="bottom" title="Сделать предложение" class="btn btn-warning btn-sm" ng-click="sendOffer(invoice)"><i class="fa fa-handshake-o"></i></button>
 
                                     </td>
                                 </tr>

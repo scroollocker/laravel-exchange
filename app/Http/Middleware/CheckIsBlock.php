@@ -3,8 +3,9 @@
 namespace App\Http\Middleware;
 
 use Closure;
+use Illuminate\Support\Facades\Auth;
 
-class AdminMiddleware
+class CheckIsBlock
 {
     /**
      * Handle an incoming request.
@@ -15,24 +16,21 @@ class AdminMiddleware
      */
     public function handle($request, Closure $next)
     {
-        $user = \Auth::user();
-
         try {
+
+            $user = Auth::user();
+
             if (is_null($user)) {
-                throw new \Exception('Вы не авторизованы');
+                throw new \Exception('Пользователь не авторизован');
             }
 
-            if (!$user->isAdmin) {
-                throw new \Exception('Вам запрещен доступ в данный раздел');
+            if ($user->blocked) {
+                throw new \Exception('Ваша учетная запись заблокирована');
             }
-
-
-            //dd($user->isAdmin);
 
             return $next($request);
-
         }
-        catch(\Exception $exception) {
+        catch (\Exception $exception) {
             \Log::error([
                 'action' => 'middleware-admin-exception',
                 'message' => $exception->getMessage()

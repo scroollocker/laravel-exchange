@@ -341,7 +341,7 @@ class AdminController extends Controller
                 'required', 'max:100'
             ),
             'email' => array(
-                'email', 'required','max:12', 'unique:users,email'
+                'email', 'required','max:150', 'unique:users,email'
             ),
             'phone' => array(
                 'required', 'max:60'

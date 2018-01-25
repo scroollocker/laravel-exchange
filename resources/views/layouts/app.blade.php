@@ -142,5 +142,11 @@
         @yield('content')
     </div>
 
+<script>
+$(document).on('mouseover','[data-toggle="tooltip"]',function(){
+    $(this).tooltip('show');
+});
+</script>
+
 </body>
 </html>

@@ -71,7 +71,7 @@
 
         <div class="panel panel-default">
             <div class="panel-heading" style="padding: 15px;">
-                Список заявок
+                Мои заявки
             </div>
 
             <div class="panel-body">
@@ -120,7 +120,7 @@
                                 <td>@{{ invoice.currency_buy.cur_name }}</td>
                                 <td>@{{ invoice.state.name_v }}</td>
                                 <td>
-                                    <button class="btn btn-warning btn-sm" ng-click="sendOffer(invoice)"><i class="fa fa-handshake-o"></i></button>
+                                    <button data-toggle="tooltip" data-placement="bottom" title="Отправить предложение" class="btn btn-warning btn-sm" ng-click="sendOffer(invoice)"><i class="fa fa-handshake-o"></i></button>
 
                                 </td>
                             </tr>

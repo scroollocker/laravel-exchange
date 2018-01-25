@@ -23,9 +23,9 @@ Route::get('/login-step-2', 'Auth\LoginController@showSecondStep');
 Route::post('/login-step-2', 'Auth\LoginController@confirmPin')->name('login-confirm');
 Route::get('/resend-pin', 'Auth\LoginController@showSecondStep');
 
-Route::get('/test', 'Dashboard@getPayments');
+//Route::get('/test', 'Dashboard@getPayments');
 
-Route::group(['as'=>'user', 'middleware' => 'auth'], function() {
+Route::group(['as'=>'user', 'middleware' => ['auth', 'blocked']], function() {
     Route::get('/home', 'HomeController@index')->name('home');
     Route::get('/chat/base', 'InvoiceController@chatBase');
 
@@ -94,7 +94,7 @@ Route::group(['as'=>'user', 'middleware' => 'auth'], function() {
 
 });
 
-Route::group(['as'=>'admin', 'middleware' => ['auth','admin']], function() {
+Route::group(['as'=>'admin', 'middleware' => ['auth','admin','blocked']], function() {
     Route::get('/dashboard', 'HomeController@admin')->name('dashboard');
 
     Route::get('/users/list', 'AdminController@userList');

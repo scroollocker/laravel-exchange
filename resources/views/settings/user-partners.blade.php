@@ -43,15 +43,15 @@
                                 <td class="text-center"><input type="checkbox" icheck disabled ng-true-value="1" ng-false-value="2"
                                            ng-model="partner.state"></td>
                                 <td>
-                                    <button ng-click="setPartnerState(partner)" ng-if="partner.state == 1"
+                                    <button  data-toggle="tooltip" data-placement="bottom" title="Отменить" ng-click="setPartnerState(partner)" ng-if="partner.state == 1"
                                             class="btn btn-warning btn-sm">
                                         <i class="fa fa-lock"></i>
                                     </button>
-                                    <button ng-click="setPartnerState(partner)" ng-if="partner.state == 2"
+                                    <button  data-toggle="tooltip" data-placement="bottom" title="Добавить" ng-click="setPartnerState(partner)" ng-if="partner.state == 2"
                                             class="btn btn-warning btn-sm">
                                         <i class="fa fa-unlock"></i>
                                     </button>
-                                    <button ng-click="removePartner(partner)" class="btn btn-danger btn-sm">
+                                    <button  data-toggle="tooltip" data-placement="bottom" title="Удалить" ng-click="removePartner(partner)" class="btn btn-danger btn-sm">
                                         <i class="fa fa-remove"></i>
                                     </button>
                                 </td>
@@ -144,7 +144,7 @@
                                     <td>@{{ user.name }}</td>
                                     <td>@{{ user.email }}</td>
                                     <td>
-                                        <button ng-click="showAddView(user)" class="btn btn-warning btn-sm">
+                                        <button  data-toggle="tooltip" data-placement="bottom" title="Добавить" ng-click="showAddView(user)" class="btn btn-warning btn-sm">
                                             <i class="fa fa-plus-circle"></i>
                                         </button>
                                     </td>

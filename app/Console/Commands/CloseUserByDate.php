@@ -39,11 +39,12 @@ class CloseUserByDate extends Command
      */
     public function handle()
     {
-        $users = User::where('active_date', '<=', Carbon::now())
-            ->where('blocked', '0')
-            ->where('isAdmin', '0')
-            ->get();
-
-        $this->info('Count users = '.count($users));
+        try {
+            DB::select('call auto_lock_users();');
+        }
+        catch(\Exception $ex) {
+            \Log::error('JOB :: Close by date error');
+            \Log::error($ex);
+        }
     }
 }

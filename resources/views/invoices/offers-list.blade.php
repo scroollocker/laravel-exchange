@@ -71,8 +71,8 @@
                                 <td>@{{ offer.cur_2.name }}</td>
                                 <td>@{{ offer.offer_state }}</td>
                                 <td>
-                                    <button class="btn btn-success btn-sm" ng-click="agreeOffer(offer.id)"><i class="fa fa-check"></i></button>
-                                    <button class="btn btn-danger btn-sm" ng-click="disagreeOffer(offer.id)"><i class="fa fa-remove"></i></button>
+                                    <button data-toggle="tooltip" data-placement="bottom" title="Принять" class="btn btn-success btn-sm" ng-click="agreeOffer(offer.id)"><i class="fa fa-check"></i></button>
+                                    <button data-toggle="tooltip" data-placement="bottom" title="Отменить" class="btn btn-danger btn-sm" ng-click="disagreeOffer(offer.id)"><i class="fa fa-remove"></i></button>
                                 </td>
                             </tr>
 

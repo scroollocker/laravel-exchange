@@ -42,9 +42,9 @@
                                     <td>@{{ currency.cur_name }}</td>
                                     <td><input icheck ng-model="currency.cur_enable" ng-true-value="1" ng-false-value="0" type="checkbox" disabled></td>
                                     <td>
-                                        <button class="btn btn-success btn-xs" ng-click="editCurrency(currency)"><i class="fa fa-edit"></i></button>
+                                        <button data-toggle="tooltip" data-placement="bottom" title="Изменить" class="btn btn-success btn-xs" ng-click="editCurrency(currency)"><i class="fa fa-edit"></i></button>
 
-                                        <button class="btn btn-warning btn-xs" ng-click="blockCurrency(currency)"><i class="fa fa-lock"></i></button>
+                                        <button data-toggle="tooltip" data-placement="bottom" title="Заблокировать" class="btn btn-warning btn-xs" ng-click="blockCurrency(currency)"><i class="fa fa-lock"></i></button>
                                     </td>
                                 </tr>
                             </tbody>
@@ -97,3 +97,9 @@
 
     </div>
 </div>
+
+<script>
+    $(document).ready(function(){
+        $('[data-toggle="tooltip"]').tooltip();
+    });
+</script>

@@ -58,7 +58,7 @@
                                 <td>@{{ invoice.state.name }}</td>
                                 <td ng-if="invoice.state.code === 'OPENED'">
                                     {{--<button class="btn btn-warning btn-sm" ng-click="editInvoice(invoice.id)"><i class="fa fa-edit"></i></button>--}}
-                                    <button class="btn btn-danger btn-sm" ng-click="removeInvoice(invoice.id)"><i class="fa fa-remove"></i></button>
+                                    <button  data-toggle="tooltip" data-placement="bottom" title="Отменить" class="btn btn-danger btn-sm" ng-click="removeInvoice(invoice.id)"><i class="fa fa-remove"></i></button>
                                 </td>
                                 <td ng-if="invoice.state.code !== 'OPENED'" class="text-center">
                                     <span>Управление не доступно</span>
