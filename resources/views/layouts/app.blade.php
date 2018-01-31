@@ -15,7 +15,7 @@
     <link href="{{ assetV('css/font-awesome.min.css') }}" rel="stylesheet">
     <link href="{{ assetV('css/breadcrumbs.css') }}" rel="stylesheet">
     <link href="{{ assetV('css/icheck/skins/square/blue.css') }}" rel="stylesheet">
-
+    <link href="{{ assetV('css/style.css') }}" rel="stylesheet">
 
     <!-- Scripts -->
     <script src="{{ assetV('js/moment.min.js') }}"></script>

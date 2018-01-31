@@ -37,20 +37,20 @@
                 <form name="step1_form">
                     <table class="table">
                         <tr>
-                            <td><label>Вид сделки:</label></td>
+                            <td><label>Я хочу:</label></td>
 
                             <td>
                                 <div class="form-inline">
                                     <div class="form-group">
                                         <input name="type" icheck type="radio" required ng-model="invoice.type" id="buy"
                                                value="1">
-                                        <label for="buy">Покупка</label>
+                                        <label for="buy">Купить</label>
                                     </div>
                                     <div class="form-group">
                                         <input name="type" icheck type="radio" required ng-model="invoice.type"
                                                id="sold"
                                                value="2">
-                                        <label for="sold">Продажа</label>
+                                        <label for="sold">Продать</label>
                                     </div>
                                 </div>
                             </td>
@@ -66,6 +66,13 @@
                                 </select>
                             </td>
                         </tr>
+                        <tr ng-class="{'has-error': step1_form.sum.$invalid}">
+                            <td><label>Сумма: </label></td>
+                            <td>
+                                <input type="text" name="sum" required ng-model="invoice.cur_sum" placeholder="1000"
+                                       class="form-control">
+                            </td>
+                        </tr>
                         <tr ng-class="{'has-error': step1_form.currence_two.$invalid}">
                             <td><label>Контр. валюта:</label></td>
                             <td>
@@ -74,13 +81,6 @@
                                         ng-options="item as item.cur_name for item in getCurrencies() track by item.id">
 
                                 </select>
-                            </td>
-                        </tr>
-                        <tr ng-class="{'has-error': step1_form.sum.$invalid}">
-                            <td><label>Сумма: </label></td>
-                            <td>
-                                <input type="text" name="sum" required ng-model="invoice.cur_sum" placeholder="1000"
-                                       class="form-control">
                             </td>
                         </tr>
                         <tr ng-class="{'has-error': step1_form.curs.$invalid}">
@@ -179,7 +179,7 @@
                 <form name="step2_form" >
                     <table class="table" ng-if='invoice.type == 2'>
                         <tr ng-class="{'has-error':step2_form.acc_1.$invalid}">
-                            <td><label>Счет выплат</label></td>
+                            <td><label>Счет выплат (@{{ invoice.cur_1.cur_name }})</label></td>
                             <td>
                                 <select name="acc_1" required ng-model="invoice.acc_1"
                                         ng-options="item as item.acc_num + '  (' + item.acc_name + ') (' + item.saldo + ') ' for item in getAccForCur1() track by item.id"
@@ -187,7 +187,7 @@
                             </td>
                         </tr>
                         <tr ng-class="{'has-error':step2_form.acc_2.$invalid}">
-                            <td><label>Счет получения средств:</label></td>
+                            <td><label>Счет получения средств (@{{ invoice.cur_2.cur_name }}):</label></td>
                             <td>
                                 <select name="acc_2" required ng-model="invoice.acc_2"
                                         ng-options="item as item.acc_num + '  (' + item.acc_name + ') (' + item.saldo + ') ' for item in getAccForCur2() track by item.id"
@@ -198,7 +198,7 @@
                     </table>
                     <table class="table" ng-if='invoice.type == 1'>
                         <tr ng-class="{'has-error':step2_form.acc_1.$invalid}">
-                            <td><label>Счет выплат</label></td>
+                            <td><label>Счет выплат (@{{ invoice.cur_2.cur_name }})</label></td>
                             <td>
                                 <select name="acc_1" required ng-model="invoice.acc_1"
                                         ng-options="item as item.acc_num + '  (' + item.acc_name + ')  (' + item.saldo + ') ' for item in getAccForCur2() track by item.id"
@@ -206,7 +206,7 @@
                             </td>
                         </tr>
                         <tr ng-class="{'has-error':step2_form.acc_2.$invalid}">
-                            <td><label>Счет получения средств:</label></td>
+                            <td><label>Счет получения средств (@{{ invoice.cur_1.cur_name }}):</label></td>
                             <td>
                                 <select name="acc_2" required ng-model="invoice.acc_2"
                                         ng-options="item as item.acc_num + '  (' + item.acc_name + ')  (' + item.saldo + ') ' for item in getAccForCur1() track by item.id"
@@ -246,12 +246,12 @@
                                 </div>
                             </td>
                         </tr>
-                        <tr>
-                            <td><label for="auto-confirm">Принимать предложения автоматически:</label></td>
-                            <td>
-                                <input name="auto-confirm" ng-model="invoice.autoconfirm" icheck type="checkbox"  ng-true-value='1' ng-false-value='0' class="form-control" style="width: 20px;">
-                            </td>
-                        </tr>
+                        {{--<tr>--}}
+                            {{--<td><label for="auto-confirm">Принимать предложения автоматически:</label></td>--}}
+                            {{--<td>--}}
+                                {{--<input name="auto-confirm" ng-model="invoice.autoconfirm" icheck type="checkbox"  ng-true-value='1' ng-false-value='0' class="form-control" style="width: 20px;">--}}
+                            {{--</td>--}}
+                        {{--</tr>--}}
 
                     </table>
                 </form>
@@ -299,32 +299,26 @@
             <div class="panel-body">
                 <table class="table">
                     <tr>
-                        <td><label>Вид сделки: </label></td>
+                        <td><label>Я хочу: </label></td>
                         <td ng-if="invoice.type == 1">
-                            <p>Покупка</p>
+                            <p>Купить</p>
                         </td>
                         <td ng-if="invoice.type == 2">
-                            <p>Продажа</p>
+                            <p>Продать</p>
                         </td>
                     </tr>
                     <tr>
-                        <td><label>Валюта: </label></td>
+                        <td><label>Сумму: </label></td>
                         <td>
-                            <p>@{{ invoice.cur_1.cur_name }}</p>
+                            <p>@{{ invoice.cur_sum }} (@{{ invoice.cur_1.cur_name }})</p>
                         </td>
                     </tr>
-                    <tr>
-                        <td><label>Контр валюта: </label></td>
-                        <td>
-                            <p>@{{ invoice.cur_2.cur_name }}</p>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td><label>Сумма: </label></td>
-                        <td>
-                            <p>@{{ invoice.cur_sum }}</p>
-                        </td>
-                    </tr>
+                    {{--<tr>--}}
+                        {{--<td><label>Валюта: </label></td>--}}
+                        {{--<td>--}}
+                            {{--<p>@{{ invoice.cur_1.cur_name }}</p>--}}
+                        {{--</td>--}}
+                    {{--</tr>--}}
                     <tr>
                         <td><label>Курс: </label></td>
                         <td>
@@ -334,9 +328,17 @@
                     <tr>
                         <td><label>Сумма по курсу: </label></td>
                         <td>
-                            <p>@{{ invoice.final_sum }}</p>
+                            <p>@{{ invoice.final_sum }} (@{{ invoice.cur_2.cur_name }})</p>
                         </td>
                     </tr>
+                    {{--<tr>--}}
+                        {{--<td><label>за: </label></td>--}}
+                        {{--<td>--}}
+                            {{--<p>@{{ invoice.cur_2.cur_name }}</p>--}}
+                        {{--</td>--}}
+                    {{--</tr>--}}
+
+
                     <tr>
                         <td><label>Счет выплат: </label></td>
                         <td>
@@ -356,24 +358,24 @@
                             <p>@{{ invoice.endDate }}</p>
                         </td>
                     </tr>
-                    <tr>
-                        <td><label>Принимать сделки автоматически: </label></td>
-                        <td>
-                            <p ng-if="invoice.autoconfirm == 1">Да</p>
-                            <p ng-if="invoice.autoconfirm == 0">Нет</p>
-                        </td>
-                    </tr>
-                    <tr ng-if="invoice.autoconfirm == 0 && getPartnersAutoconfirm().length > 0">
-                        <td colspan="2">
-                            <p>Автоматически принимать от:</p>
-                            <table class="table">
-                                <tr ng-repeat="partner in getPartnersAutoconfirm()">
-                                    <td>@{{ partner.email }}</td>
-                                    <td>@{{ partner.name }}</td>
-                                </tr>
-                            </table>
-                        </td>
-                    </tr>
+                    {{--<tr>--}}
+                        {{--<td><label>Принимать сделки автоматически: </label></td>--}}
+                        {{--<td>--}}
+                            {{--<p ng-if="invoice.autoconfirm == 1">Да</p>--}}
+                            {{--<p ng-if="invoice.autoconfirm == 0">Нет</p>--}}
+                        {{--</td>--}}
+                    {{--</tr>--}}
+                    {{--<tr ng-if="invoice.autoconfirm == 0 && getPartnersAutoconfirm().length > 0">--}}
+                        {{--<td colspan="2">--}}
+                            {{--<p>Автоматически принимать от:</p>--}}
+                            {{--<table class="table">--}}
+                                {{--<tr ng-repeat="partner in getPartnersAutoconfirm()">--}}
+                                    {{--<td>@{{ partner.email }}</td>--}}
+                                    {{--<td>@{{ partner.name }}</td>--}}
+                                {{--</tr>--}}
+                            {{--</table>--}}
+                        {{--</td>--}}
+                    {{--</tr>--}}
 
                 </table>
 

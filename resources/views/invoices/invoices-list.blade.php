@@ -46,7 +46,8 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <tr ng-repeat="invoice in getInvoices()" ng-dblclick="openInvoice(invoice)" style="cursor:pointer;">
+                            {{--<tr ng-repeat="invoice in getInvoices()" ng-dblclick="openInvoice(invoice)" >--}}
+                            <tr ng-repeat="invoice in getInvoices()" ng-dblclick="openInvoice(invoice)" ng-class="{'with-cursor':enableClick(invoice)}">
                                 <td>@{{ invoice.id }}</td>
                                 <td>@{{ normalizeDate(invoice.created_date) }}</td>
                                 <td>@{{ normalizeDate(invoice.endDate) }}</td>

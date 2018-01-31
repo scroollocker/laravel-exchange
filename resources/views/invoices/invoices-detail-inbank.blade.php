@@ -35,16 +35,23 @@
     </div>
 </div>
 
-<div class="row" ng-if="!isInvoiceLoading && getPayments().length > 0">
-    <div class="col-md-12">
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                Список проводок
-            </div>
-            <div class="panel-body">
-                <div class="table-responsive">
-                    <table class="table table-bordered">
-                        <thead>
+<div ng-if="!isInvoiceLoading && getPayments().length > 0">
+    <div style="font-size: 25px;" class="text-center alert alert-success">
+        <p><i class="fa fa-check-square"></i></p>
+        <p>Операции по сделке завершены</p>
+        <a href="#!/invoices/lists" class="btn btn-default">Вернуться к списку заявок</a>
+    </div>
+
+    <div class="row" >
+        <div class="col-md-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    Список проводок
+                </div>
+                <div class="panel-body">
+                    <div class="table-responsive">
+                        <table class="table table-bordered">
+                            <thead>
                             <tr>
                                 <th>#</th>
                                 <th>Счет получения ДС</th>
@@ -54,8 +61,8 @@
                                 <th>КНП</th>
                                 <th>Комментарий</th>
                             </tr>
-                        </thead>
-                        <tbody>
+                            </thead>
+                            <tbody>
                             <tr ng-repeat="payment in getPayments()">
                                 <td>@{{ payment.num }}</td>
                                 <td>@{{ payment.acc_ct }}</td>
@@ -65,14 +72,17 @@
                                 <td>@{{ payment.knp }}</td>
                                 <td>@{{ payment.comment }}</td>
                             </tr>
-                        </tbody>
-                    </table>
-                </div>
+                            </tbody>
+                        </table>
+                    </div>
 
+                </div>
             </div>
         </div>
     </div>
 </div>
+
+
 
 
 

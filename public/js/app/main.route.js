@@ -1,4 +1,15 @@
-app.config(['$routeProvider', function($routeProvider) {
+app.service('authInterceptor', function($q) {
+    var service = this;
+
+    service.responseError = function(response) {
+        if (response.status == 401){
+            window.location = "/login";
+        }
+        return $q.reject(response);
+    };
+});
+
+app.config(['$routeProvider', '$httpProvider', function($routeProvider, $httpProvider) {
     $routeProvider.when('/invoices/lists',  {
         templateUrl: '/invoices/list',
         controller: 'InvoicesListController'
@@ -71,4 +82,7 @@ app.config(['$routeProvider', function($routeProvider) {
     $routeProvider.otherwise({
         redirectTo: '/invoices/lists'
     });
+
+    $httpProvider.interceptors.push('authInterceptor');
+
 }]);

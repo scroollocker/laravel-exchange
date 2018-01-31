@@ -25,7 +25,7 @@ Route::get('/resend-pin', 'Auth\LoginController@showSecondStep');
 
 //Route::get('/test', 'Dashboard@getPayments');
 
-Route::group(['as'=>'user', 'middleware' => ['auth', 'blocked']], function() {
+Route::group(['as'=>'user', 'middleware' => ['cauth', 'blocked']], function() {
     Route::get('/home', 'HomeController@index')->name('home');
     Route::get('/chat/base', 'InvoiceController@chatBase');
 
@@ -88,13 +88,10 @@ Route::group(['as'=>'user', 'middleware' => ['auth', 'blocked']], function() {
 
         Route::get('getOffers', 'Dashboard@getOffers');
         Route::get('getOffers-template', 'Dashboard@getOffersTemplate');
-
-
     });
-
 });
 
-Route::group(['as'=>'admin', 'middleware' => ['auth','admin','blocked']], function() {
+Route::group(['as'=>'admin', 'middleware' => ['cauth','admin','blocked']], function() {
     Route::get('/dashboard', 'HomeController@admin')->name('dashboard');
 
     Route::get('/users/list', 'AdminController@userList');

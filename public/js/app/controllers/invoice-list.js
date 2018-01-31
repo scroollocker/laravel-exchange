@@ -72,12 +72,7 @@ app.controller('InvoicesListController', ['$scope', '$http', 'AppUtils','$locati
     $scope.openInvoice = function(invoice) {
         console.log(invoice);
 
-        if (invoice.step == 1) {
-            $location.path('/offers/byInvoice/'+invoice.id);
-            // $location.path('/invoices/chat/'+invoice.id);
-            $location.replace();
-        }
-        else if (invoice.step == 6) {
+        if (invoice.step == 6) {
             $location.path('/invoice/inBank/'+invoice.id);
             $location.replace();
         }
@@ -85,9 +80,17 @@ app.controller('InvoicesListController', ['$scope', '$http', 'AppUtils','$locati
             $location.path('/invoice/bank/detail/'+invoice.id);
             $location.replace();
         }
-
-
     };
+
+    $scope.enableClick = function(invoice) {
+        if (invoice.step == 6 || invoice.step == 7) {
+            return true;
+        }
+        else {
+            return false;
+        }
+
+    }
 
     $scope.normalizeDate = function(date) {
         return AppUtils.normalizeDate(date);

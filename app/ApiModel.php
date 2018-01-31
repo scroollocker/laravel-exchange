@@ -61,7 +61,7 @@ class ApiModel {
         \Log::info($url);
 
         $result = \Curl::to($url)
-            //->withProxy('10.230.143.9', 3128, 'https://')
+            ->withProxy('10.230.143.9', 3128, 'https://')
             ->get();
 
         $result = json_decode($result, true);

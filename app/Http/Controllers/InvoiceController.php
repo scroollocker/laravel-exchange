@@ -272,7 +272,6 @@ class InvoiceController extends Controller
             $messages = array(
                 'acc_1.required' => 'Неверный запрос',
                 'acc_2.required' => 'Неверный запрос',
-                'autoconfirm.required' => 'Неверный запрос',
                 'cur_1.required' => 'Неверный запрос',
                 'cur_2.required' => 'Неверный запрос',
                 'sum_1.required' => 'Неверный запрос',
@@ -282,7 +281,6 @@ class InvoiceController extends Controller
                 'id.required' => 'Неверный запрос',
                 'acc_1.integer' => 'Неверный запрос',
                 'acc_2.integer' => 'Неверный запрос',
-                'autoconfirm.regex' => 'Неверный запрос',
                 'cur_1.integer' => 'Неверный запрос',
                 'cur_2.integer' => 'Неверный запрос',
                 'sum_1.numeric' => 'Неверный запрос',
@@ -298,9 +296,6 @@ class InvoiceController extends Controller
                 ),
                 'acc_2' => array(
                     'required', 'integer'
-                ),
-                'autoconfirm' => array(
-                    'required', 'regex:/^[0|1]$/'
                 ),
                 'cur_1' => array(
                     'required', 'integer'
@@ -352,6 +347,7 @@ class InvoiceController extends Controller
 
             $declare_id = ($request->action == 'edit') ? $request->id : null;
             $isPrivate = ($partners) ? 0 : 0;
+            $autoconfirm = 1;
 
             $params = array(
                 $user->id,
@@ -366,7 +362,7 @@ class InvoiceController extends Controller
                 $request->endDate,
                 '',
                 $isPrivate,
-                $request->autoconfirm
+                $autoconfirm
             );
 
             $result = DB::select('select get_enable_saldo(?) as saldo_sum;', array($request->acc_1));
