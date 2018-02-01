@@ -46,3 +46,13 @@ app.directive('stringToNumber', function() {
         }
     };
 });
+
+app.filter('roundFilter', function () {
+
+    return function (item) {
+        var float = parseFloat(item);
+
+        return float.toFixed(2);
+    }
+
+});

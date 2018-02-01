@@ -1,16 +1,16 @@
 
 
-<nav ng-init="init()">
-    <ol class="cd-breadcrumb triangle">
-        <li><a>Шаг 1</a></li>
-        <li><a>Шаг 2</a></li>
-        <li><a>Шаг 3</a></li>
-        <li><a>Шаг 4</a></li>
-        <li><a>Шаг 5</a></li>
-        <li class="current"><a>Шаг 6</a></li>
-        <li><a>Шаг 7</a></li>
-    </ol>
-</nav>
+{{--<nav ng-init="init()">--}}
+    {{--<ol class="cd-breadcrumb triangle">--}}
+        {{--<li><a>Шаг 1</a></li>--}}
+        {{--<li><a>Шаг 2</a></li>--}}
+        {{--<li><a>Шаг 3</a></li>--}}
+        {{--<li><a>Шаг 4</a></li>--}}
+        {{--<li><a>Шаг 5</a></li>--}}
+        {{--<li class="current"><a>Шаг 6</a></li>--}}
+        {{--<li><a>Шаг 7</a></li>--}}
+    {{--</ol>--}}
+{{--</nav>--}}
 
 <div ng-if="invoiceError.show" class="alert alert-danger">
     <strong>Ошибка:</strong>

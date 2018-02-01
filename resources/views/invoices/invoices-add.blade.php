@@ -6,9 +6,9 @@
         <li ng-class="{'current':isSelect(2)}"><a>Шаг 2</a></li>
         <li ng-class="{'current':isSelect(3)}"><a>Шаг 3</a></li>
         <li ng-class="{'current':isSelect(4)}"><a>Шаг 4</a></li>
-        <li ng-class="{'current':isSelect(5)}"><a>Шаг 5</a></li>
-        <li ng-class="{'current':isSelect(6)}"><a>Шаг 6</a></li>
-        <li ng-class="{'current':isSelect(7)}"><a>Шаг 7</a></li>
+        {{--<li ng-class="{'current':isSelect(5)}"><a>Шаг 5</a></li>--}}
+        {{--<li ng-class="{'current':isSelect(6)}"><a>Шаг 6</a></li>--}}
+        {{--<li ng-class="{'current':isSelect(7)}"><a>Шаг 7</a></li>--}}
     </ol>
 </nav>
 

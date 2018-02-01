@@ -100,7 +100,8 @@
                                 <th>Автор</th>
                                 <th>Сумма продажи</th>
                                 <th>Валюта продажи</th>
-                                <th>Курс</th>
+                                <th>Курс продажи</th>
+                                <th>Курс покупки</th>
                                 <th>Сумма</th>
                                 <th>Валюта</th>
                                 <th>Статус</th>
@@ -115,7 +116,10 @@
                                 <td>@{{ invoice.user.email }}</td>
                                 <td>@{{ invoice.sum_sell_nd }}</td>
                                 <td>@{{ invoice.currency_sell.cur_name }}</td>
-                                <td>@{{ invoice.course_nd }}</td>
+                                <td>@{{ invoice.sum_sell_nd / invoice.sum_buy_nd | roundFilter }}</td>
+                                <td>@{{ invoice.sum_buy_nd / invoice.sum_sell_nd  | roundFilter }}</td>
+
+                                {{--<td>@{{ invoice.course_nd }}</td>--}}
                                 <td>@{{ invoice.sum_buy_nd }}</td>
                                 <td>@{{ invoice.currency_buy.cur_name }}</td>
                                 <td>@{{ invoice.state.name_v }}</td>

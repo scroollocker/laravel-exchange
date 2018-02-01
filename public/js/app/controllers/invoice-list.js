@@ -90,7 +90,8 @@ app.controller('InvoicesListController', ['$scope', '$http', 'AppUtils','$locati
             return false;
         }
 
-    }
+    };
+
 
     $scope.normalizeDate = function(date) {
         return AppUtils.normalizeDate(date);
