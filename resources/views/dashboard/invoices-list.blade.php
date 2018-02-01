@@ -59,6 +59,17 @@
             </div>
 
             <div class="row form-group">
+                <div class="col-md-1">Фильтр:</div>
+
+                <div class="col-md-6">
+                    <select class="form-control" ng-model="filter.sort" ng-options="item as item.name for item in getSortItems() track by item.id">
+
+                    </select>
+                </div>
+
+            </div>
+
+            <div class="row form-group">
 
                 <div class="col-md-6">
                     <button class="btn btn-primary" ng-click="doFilter()"><i class="fa fa-search"></i> Найти</button>

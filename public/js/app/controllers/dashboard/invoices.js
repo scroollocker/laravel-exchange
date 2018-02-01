@@ -27,6 +27,36 @@ app.controller('DashboardInvoices', ['$scope', '$http', 'AppUtils', '$location',
         $scope.filter = {};
     };
 
+    $scope.getSortItems = function () {
+        var sortable = [
+            {
+                'name': 'Дата создания',
+                'id': 'created_dt'
+            },
+            {
+                'name': 'Дата окончания',
+                'id': 'end_dt'
+            },
+            {
+                'name': 'Сумма продажи',
+                'id': 'sum_sell_nd'
+            },
+            {
+                'name': 'Сумма покупки',
+                'id': 'sum_buy_nd'
+            },
+            {
+                'name': 'Валюта покупки',
+                'id': 'cur_buy'
+            },
+            {
+                'name': 'Валюта продажи',
+                'id': 'cur_sell'
+            }
+        ];
+        return sortable;
+    };
+
     $scope.loadCurrencies = function() {
         $scope.isInvoiceLoading = true;
         $scope.currencies = [];

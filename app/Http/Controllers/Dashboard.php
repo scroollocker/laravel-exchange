@@ -49,6 +49,9 @@ class Dashboard extends Controller
             ),
             'course_to' => array(
                 'nullable', 'integer'
+            ),
+            'sort' => array(
+                'nullable'
             )
         );
 
@@ -134,6 +137,23 @@ class Dashboard extends Controller
 
             if (isset($request->course_to) && $request->course_to != null) {
                 $builder->where('course_nd', '<=', $request->course_to);
+            }
+
+            if (isset($request->sort) && $request->sort != null) {
+                if ($request->sort['id'] == 'cur_buy') {
+                    $builder->whereHas('currency_buy', function($q) use ($request) {
+                        $q->orderBy('cur_code', 'desc');
+                    });
+                }
+                else if ($request->sort['id'] == 'cur_sell') {
+                    $builder->whereHas('currency_sell', function($q) use ($request) {
+                        $q->orderBy('cur_code', 'desc');
+                    });
+                }
+                else {
+                    $builder->orderBy($request->sort['id'], 'desc');
+                }
+
             }
 
             $invoices = $builder->get();
