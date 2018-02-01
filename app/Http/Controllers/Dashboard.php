@@ -155,6 +155,10 @@ class Dashboard extends Controller
                 }
 
             }
+            else {
+                $builder->orderBy('end_dt', 'desc');
+                $builder->orderBy('state_id', 'desc');
+            }
 
             $invoices = $builder->get();
 
