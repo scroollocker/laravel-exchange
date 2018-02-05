@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Account;
+use App\Currency;
 use App\Offer;
 use Exception;
 use Illuminate\Http\Request;
@@ -31,8 +32,17 @@ class InvoiceController extends Controller
     public function getCurrences()
     {
         try {
-            $currences = \DB::table('currencies')
+            /*$currences = \DB::table('currencies')
                 ->select('id', 'cur_name')
+                ->where('cur_enable', '1')
+                ->get();
+
+            return response()->json(array(
+                'status' => true,
+                'currences' => $currences->toArray()
+            ));*/
+
+            $currences = Currency::select('id', 'cur_name', 'course_sell_nd', 'course_buy_nd')
                 ->where('cur_enable', '1')
                 ->get();
 
