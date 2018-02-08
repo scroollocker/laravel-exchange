@@ -29,6 +29,64 @@ class InvoiceController extends Controller
         return view('chat.chat-base');
     }
 
+    public function getCourse(Request $request) {
+        $rules = array(
+            'currency_1' => array(
+                'required', 'integer'
+            ),
+            'currency_2' => array(
+                'required', 'integer'
+            ),
+            'type' => array(
+                'required', 'regex:/^[1|2]$/'
+            )
+        );
+
+        $messages = array(
+            'currency_1.required' => 'Не выбрана первая валюта',
+            'currency_1.integer' => 'Не верный формат первой валюты',
+            'currency_2.required' => 'Не выбрана вторая валюта',
+            'currency_2.integer' => 'Не верный формат второй валюты',
+            'type.required' => 'Не выбран тип операции',
+            'type.regex' => 'Не верный формат типа операций',
+        );
+
+        $validator = Validator::make($request->all(), $rules, $messages);
+
+        try {
+            if ($validator->fails()) {
+                $errMsg = '';
+                foreach ($validator->errors()->all() as $error) {
+                    $errMsg .= $error;
+                }
+                throw new Exception($errMsg);
+            }
+
+            $result = DB::select('select get_course(?, ?, ?) as course_nd;',
+                array($request->currency_1, $request->currency_2, $request->type));
+
+            if (!$result and !isset($result[0])) {
+                throw new Exception('Ошибка получения курса');
+            }
+
+            $course = $result[0]->course_nd;
+
+            return response()->json(array(
+                'status' => true,
+                'course' => $course
+            ));
+        }
+        catch (Exception $ex) {
+            \Log::error('Get course error');
+            \Log::error($ex);
+            return response()->json(array(
+                'status' => false,
+                'message' => $ex->getMessage()
+            ));
+        }
+
+    }
+
     public function getCurrences()
     {
         try {

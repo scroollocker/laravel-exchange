@@ -42,12 +42,12 @@
                             <td>
                                 <div class="form-inline">
                                     <div class="form-group">
-                                        <input name="type" icheck type="radio" required ng-model="invoice.type" id="buy"
+                                        <input ng-change="getCurrentCourse()" name="type" icheck type="radio" required ng-model="invoice.type" id="buy"
                                                value="1">
                                         <label for="buy">Купить</label>
                                     </div>
                                     <div class="form-group">
-                                        <input name="type" icheck type="radio" required ng-model="invoice.type"
+                                        <input ng-change="getCurrentCourse()" name="type" icheck type="radio" required ng-model="invoice.type"
                                                id="sold"
                                                value="2">
                                         <label for="sold">Продать</label>
@@ -59,7 +59,7 @@
                         <tr ng-class="{'has-error': step1_form.currence_one.$invalid}">
                             <td><label>Валюта:</label></td>
                             <td>
-                                <select name="currence_one" required class="form-control" style="width: 200px;"
+                                <select ng-change="getCurrentCourse()" name="currence_one" required class="form-control" style="width: 200px;"
                                         ng-model="invoice.cur_1"
                                         ng-options="item as item.cur_name for item in getCurrencies() track by item.id">
 
@@ -76,7 +76,7 @@
                         <tr ng-class="{'has-error': step1_form.currence_two.$invalid}">
                             <td><label>Контр. валюта:</label></td>
                             <td>
-                                <select name="currence_two" required class="form-control" style="width: 200px;"
+                                <select ng-change="getCurrentCourse()" name="currence_two" required class="form-control" style="width: 200px;"
                                         ng-model="invoice.cur_2"
                                         ng-options="item as item.cur_name for item in getCurrencies() track by item.id">
 

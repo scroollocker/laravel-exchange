@@ -369,5 +369,31 @@ app.controller('InvoicesController', ['$scope', '$http', 'AppUtils', '$filter', 
 
     };
 
+    $scope.getCurrentCourse = function () {
+        if ($scope.invoice.cur_1 && $scope.invoice.cur_2) {
+
+            var request = {
+                type: $scope.invoice.type,
+                currency_1: $scope.invoice.cur_1.id,
+                currency_2: $scope.invoice.cur_2.id
+            };
+
+            $http.post('invoices/getCourse', request).then(function (response) {
+                response = response.data;
+
+                if (response.status) {
+                    $scope.invoice.cur_curs = response.course;
+                }
+                else {
+                    console.log(response.message);
+                }
+
+            }, function () {
+                $scope.invoiceError.message = "Произошла системная ошибка при получении курса";
+                AppUtils.showAlertBox($scope.invoiceError);
+            });
+        }
+    }
+
 
 }]);

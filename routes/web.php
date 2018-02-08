@@ -71,6 +71,7 @@ Route::group(['as'=>'user', 'middleware' => ['cauth', 'blocked']], function() {
 
         Route::get('bankPayments', 'InvoiceController@getPaymentsView');
         Route::post('getPayments', 'InvoiceController@getPayments');
+        Route::post('getCourse', 'InvoiceController@getCourse');
 
     });
 
