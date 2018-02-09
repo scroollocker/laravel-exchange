@@ -39,6 +39,7 @@
     <div style="font-size: 25px;" class="text-center alert alert-success">
         <p><i class="fa fa-check-square"></i></p>
         <p>Операции по сделке завершены</p>
+        <p>Выгода по сделке: @{{ $scope.income }}</p>
         <a href="#!/invoices/lists" class="btn btn-default">Вернуться к списку заявок</a>
     </div>
 

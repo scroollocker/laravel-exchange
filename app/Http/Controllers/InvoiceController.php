@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Account;
 use App\Currency;
+use App\Invoice;
 use App\Offer;
 use Exception;
 use Illuminate\Http\Request;
@@ -1071,6 +1072,8 @@ class InvoiceController extends Controller
 
         $validator = Validator::make($request->all(), $rules, $messages);
 
+        $user = Auth::user();
+
         try {
             if ($validator->fails()) {
                 $errMsg = '';
@@ -1078,6 +1081,18 @@ class InvoiceController extends Controller
                     $errMsg .= $error;
                 }
                 throw new \Exception($errMsg);
+            }
+
+            if (is_null($user)) {
+                throw new \Exception('Пользователь не авторизован');
+            }
+
+            $declare = Invoice::where('user_id', $user->id)
+                            ->where('declare_id', $request->invoice_id)
+                            ->first();
+
+            if (is_null($declare)) {
+                throw new \Exception('Заявка не найдена');
             }
 
             $params = array(
@@ -1098,7 +1113,8 @@ class InvoiceController extends Controller
 
             return response()->json(array(
                 'status' => true,
-                'payments' => $payments
+                'payments' => $payments,
+                'sum_income_nd' => $declare->sum_income_nd
             ));
         }
         catch(\Exception $ex) {

@@ -9,6 +9,7 @@ app.controller('InvoiceBankController', ['$scope', '$http', '$routeParams', '$lo
 
     $scope.currencies = [];
     $scope.payments = [];
+    $scope.income = 0;
 
     $scope.getPayments = function () {
         return $scope.payments;
@@ -93,7 +94,9 @@ app.controller('InvoiceBankController', ['$scope', '$http', '$routeParams', '$lo
                 response = response.data;
                 if (response.status) {
                     $scope.payments = response.payments;
+                    $scope.income = response.sum_income_nd;
                     console.log($scope.payments);
+                    console.log($scope.income);
                     deffer.resolve(true);
                 }
                 else {
