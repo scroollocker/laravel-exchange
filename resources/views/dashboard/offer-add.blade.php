@@ -1,16 +1,16 @@
 
 
-<nav ng-init="init()">
-    <ol class="cd-breadcrumb triangle">
-        <li ng-class="{'current':isSelect(1)}"><a>Шаг 1</a></li>
-        <li ng-class="{'current':isSelect(2)}"><a>Шаг 2</a></li>
-        <li ng-class="{'current':isSelect(3)}"><a>Шаг 3</a></li>
-        <li ng-class="{'current':isSelect(4)}"><a>Шаг 4</a></li>
-        <li ng-class="{'current':isSelect(5)}"><a>Шаг 5</a></li>
-        <li ng-class="{'current':isSelect(6)}"><a>Шаг 6</a></li>
-        <li ng-class="{'current':isSelect(7)}"><a>Шаг 7</a></li>
-    </ol>
-</nav>
+<div ng-init="init()">
+    {{--<ol class="cd-breadcrumb triangle">--}}
+        {{--<li ng-class="{'current':isSelect(1)}"><a>Шаг 1</a></li>--}}
+        {{--<li ng-class="{'current':isSelect(2)}"><a>Шаг 1</a></li>--}}
+        {{--<li ng-class="{'current':isSelect(3)}"><a>Шаг 3</a></li>--}}
+        {{--<li ng-class="{'current':isSelect(4)}"><a>Шаг 4</a></li>--}}
+        {{--<li ng-class="{'current':isSelect(5)}"><a>Шаг 5</a></li>--}}
+        {{--<li ng-class="{'current':isSelect(6)}"><a>Шаг 6</a></li>--}}
+        {{--<li ng-class="{'current':isSelect(7)}"><a>Шаг 7</a></li>--}}
+    {{--</ol>--}}
+</div>
 
 <div ng-if="invoiceError.show" class="alert alert-danger">
     <strong>Ошибка:</strong>
@@ -110,8 +110,8 @@
 
                 <div class="text-center ">
                     <div class="btn-group">
-                        <button class="btn btn-default" ng-click="selectStep(1)">Назад</button>
-                        <button class="btn btn-primary" ng-click="confirmOfferStep2(offer, step2_form)">Дальше</button>
+                        <button class="btn btn-default" ng-click="cancelCreateOffer()">Отмена</button>
+                        <button class="btn btn-primary" ng-click="confirmOfferStep2()">Далее</button>
                     </div>
                 </div>
             </div>
@@ -229,7 +229,7 @@
 
                 <div class="text-center ">
                     <div class="btn-group">
-                        <button class="btn btn-default" ng-click="selectStep(3)">Изменить</button>
+                        <button class="btn btn-default" ng-click="selectStep(2)">Изменить</button>
                         <button class="btn btn-primary" ng-click="createOffer(offer)">Создать</button>
                     </div>
                 </div>

@@ -1,5 +1,5 @@
 app.controller('DashboardOffer', ['$scope', '$http', 'AppUtils', '$routeParams', '$q', '$location', function($scope, $http, AppUtils, $routeParams, $q, $location) {
-    $scope.selectedStep = 1;
+    $scope.selectedStep = 2;
 
     $scope.isSelect = function(step) {
         return step == $scope.selectedStep;
@@ -128,12 +128,12 @@ app.controller('DashboardOffer', ['$scope', '$http', 'AppUtils', '$routeParams',
         return deffer.promise;
     };
 
-    $scope.confirmOfferStep1 = function (offer, form) {
-        if (form.$invalid) {
-            $scope.invoiceError.message = 'Не все поля заполнены корректно';
-            AppUtils.showAlertBox($scope.invoiceError);
-            return;
-        }
+    $scope.confirmOfferStep1 = function (offer) {
+        // if (form.$invalid) {
+        //     $scope.invoiceError.message = 'Не все поля заполнены корректно';
+        //     AppUtils.showAlertBox($scope.invoiceError);
+        //     return;
+        // }
 
         var a = parseFloat(offer.sum_sell_nd);
         var b = parseFloat(offer.sum_buy_nd);
@@ -161,14 +161,17 @@ app.controller('DashboardOffer', ['$scope', '$http', 'AppUtils', '$routeParams',
         });
     };
 
-    $scope.confirmOfferStep2 = function (offer, form) {
-        if (form.$invalid) {
-            $scope.invoiceError.message = 'Не все поля заполнены верно';
-            AppUtils.showAlertBox($scope.invoiceError);
-            return;
-        }
+    $scope.confirmOfferStep2 = function () {
+        // if (form.$invalid) {
+        //     $scope.invoiceError.message = 'Не все поля заполнены верно';
+        //     AppUtils.showAlertBox($scope.invoiceError);
+        //     return;
+        // }
 
-        $scope.selectStep(3);
+        // $scope.selectStep(4);
+        $scope.offer.endDate = '01.01.2030 00:00:00';
+        // $scope.createOffer($scope.offer);
+        $scope.selectStep(4);
     };
 
     $scope.confirmOfferStep3 = function (offer, form) {
@@ -244,6 +247,7 @@ app.controller('DashboardOffer', ['$scope', '$http', 'AppUtils', '$routeParams',
         $scope.isInvoiceLoading = true;
         $scope.loadInvoice().then(function (result) {
             $scope.isInvoiceLoading = false;
+            $scope.confirmOfferStep1($scope.offer);
 
         }, function (message) {
             $scope.isInvoiceLoading = false;
