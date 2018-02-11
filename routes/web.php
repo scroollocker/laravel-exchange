@@ -26,6 +26,7 @@ Route::get('/resend-pin', 'Auth\LoginController@showSecondStep');
 //Route::get('/test', 'Dashboard@getPayments');
 
 Route::group(['as'=>'user', 'middleware' => ['cauth', 'blocked']], function() {
+    Route::get('/get-courses', 'HomeController@getCurrencyCourse');
     Route::get('/home', 'HomeController@index')->name('home');
     Route::get('/chat/base', 'InvoiceController@chatBase');
 
