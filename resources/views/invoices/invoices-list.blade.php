@@ -5,7 +5,7 @@
         </div>
         <div class="panel panel-default">
             <div class="panel-heading" style="padding: 15px;">
-                Список заявок
+                Мои заявки
             </div>
 
             <div class="panel-body">

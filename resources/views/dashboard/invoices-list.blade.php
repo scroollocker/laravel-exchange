@@ -82,7 +82,7 @@
 
         <div class="panel panel-default">
             <div class="panel-heading" style="padding: 15px;">
-                Мои заявки
+                Все заявки
             </div>
 
             <div class="panel-body">
