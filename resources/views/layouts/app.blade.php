@@ -87,10 +87,10 @@
                                 <li ng-class="{'active': isActive('/admin/currency/list')}">
                                     <a href="dashboard/#!/admin/currency/list"><i class="fa fa-money"></i> Список валют</a>
                                 </li>
-                                <li ng-class="{'active': isActive('/admin/settings/list')}">
-                                    <a href="dashboard/#!/admin/settings/list"><i class="fa fa-gears"></i> Список
-                                        настроек</a>
-                                </li>
+                                {{--<<li ng-class="{'active': isActive('/admin/settings/list')}">--}}
+                                    {{--<a href="dashboard/#!/admin/settings/list"><i class="fa fa-gears"></i> Список--}}
+                                        {{--настроек</a>--}}
+                                {{--</li>--}}
                             </ul>
                         </li>
 

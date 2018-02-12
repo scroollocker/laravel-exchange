@@ -1,4 +1,6 @@
+<div ng-init="init()">
 
+</div>
 
 {{--<nav ng-init="init()">--}}
     {{--<ol class="cd-breadcrumb triangle">--}}
