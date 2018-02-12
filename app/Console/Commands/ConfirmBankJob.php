@@ -40,7 +40,7 @@ class ConfirmBankJob extends Command
     public function handle() {
         try {
             $offers = Offer::whereHas('state', function ($q) {
-                $q->where('IN_BANK');
+                $q->where('code_v','IN_BANK');
             })->with('detail', 'origin')->get();
 
             foreach ($offers as $offer) {
