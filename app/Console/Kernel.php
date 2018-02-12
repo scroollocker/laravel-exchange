@@ -15,7 +15,8 @@ class Kernel extends ConsoleKernel
     protected $commands = [
         'App\Console\Commands\ConfirmBankJob',
         'App\Console\Commands\CloseByDate',
-        'App\Console\Commands\CloseUserByDate'
+        'App\Console\Commands\CloseUserByDate',
+        'App\Console\Commands\UpdateCourse'
     ];
 
     /**
@@ -32,6 +33,7 @@ class Kernel extends ConsoleKernel
         $schedule->command('bank:confirm')->everyFiveMinutes();
         $schedule->command('bank:date')->everyMinute();
         $schedule->command('bank:user')->everyFiveMinutes();
+        $schedule->command('bank:course')->everyFiveMinutes();
     }
 
     /**
