@@ -15,6 +15,14 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('test', function() {
+   $invoice = \App\Invoice::where('declare_id', '22')
+       ->with('user', 'acc_dt', 'acc_ct', 'currency_buy', 'currency_sell')
+       ->first();
+
+    return view ('custom.check', $invoice->toArray());
+});
+
 Route::get('login', 'Auth\LoginController@showLoginForm')->name('login');
 Route::post('login', 'Auth\LoginController@firstStepAuth');
 Route::post('logout', 'Auth\LoginController@logout')->name('logout');

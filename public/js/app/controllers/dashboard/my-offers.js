@@ -38,15 +38,19 @@ app.controller('DashboardMyOffers', ['$scope', '$http', 'AppUtils', '$location',
     $scope.openInvoice = function(offer) {
         console.log(offer);
 
-        if (offer.detail.step_n == 1) {
-            $location.path('/invoices/chat/'+offer.origin.declare_id);
-            $location.replace();
-        }
-        else if (offer.detail.step_n == 6) {
-            $location.path('/invoices/chat/'+offer.origin.declare_id);
-            $location.replace();
-        }
-        else if (offer.detail.step_n == 7) {
+        //if (offer.detail.step_n == 1) {
+        //    $location.path('/invoices/chat/'+offer.origin.declare_id);
+        //    $location.replace();
+        //}
+        //else if (offer.detail.step_n == 6) {
+        //    $location.path('/invoices/chat/'+offer.origin.declare_id);
+        //    $location.replace();
+        //}
+        //else if (offer.detail.step_n == 7) {
+        //    $location.path('/invoice/bank/detail/'+offer.origin.declare_id);
+        //    $location.replace();
+        //}
+        if (offer.detail.step_n == 7) {
             $location.path('/invoice/bank/detail/'+offer.origin.declare_id);
             $location.replace();
         }
