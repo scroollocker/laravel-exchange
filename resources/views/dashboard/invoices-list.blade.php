@@ -120,18 +120,18 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <tr ng-repeat="invoice in getInvoices()" style="cursor:pointer;">
+                            <tr ng-repeat="invoice in getInvoices()" >
                                 <td>@{{ invoice.declare_id }}</td>
                                 <td>@{{ normalizeDate(invoice.created_dt) }}</td>
                                 <td>@{{ normalizeDate(invoice.end_dt) }}</td>
                                 <td>@{{ invoice.user.email }}</td>
-                                <td>@{{ invoice.sum_sell_nd }}</td>
+                                <td>@{{ invoice.sum_sell_nd | roundFilterSum }}</td>
                                 <td>@{{ invoice.currency_sell.cur_name }}</td>
                                 <td>@{{ invoice.sum_sell_nd / invoice.sum_buy_nd | roundFilter }}</td>
                                 <td>@{{ invoice.sum_buy_nd / invoice.sum_sell_nd  | roundFilter }}</td>
 
                                 {{--<td>@{{ invoice.course_nd }}</td>--}}
-                                <td>@{{ invoice.sum_buy_nd }}</td>
+                                <td>@{{ invoice.sum_buy_nd | roundFilterSum }}</td>
                                 <td>@{{ invoice.currency_buy.cur_name }}</td>
                                 <td>@{{ invoice.state.name_v }}</td>
                                 <td>

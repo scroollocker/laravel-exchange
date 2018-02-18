@@ -42,7 +42,8 @@
         <p><i class="fa fa-check-square"></i></p>
         <p>Операции по сделке завершены</p>
         <p>Выгода по сделке: @{{ income }}</p>
-        <a href="#!/invoices/lists" class="btn btn-default">Вернуться к списку заявок</a>
+        <button ng-click="sendCheck()" class="btn btn-primary btn-sm">Посмотреть чек</button>
+        <a href="#!/dashboard/invoices" class="btn btn-default">Вернуться к списку заявок</a>
     </div>
 
     <div class="row" >
@@ -71,7 +72,7 @@
                                 <td>@{{ payment.acc_ct }}</td>
                                 <td>@{{ payment.acc_dt }}</td>
                                 <td>@{{ getCurName(payment.cur) }}</td>
-                                <td>@{{ payment.sum }}</td>
+                                <td>@{{ payment.sum | roundFilterSum }}</td>
                                 <td>@{{ payment.knp }}</td>
                                 <td>@{{ payment.comment }}</td>
                             </tr>

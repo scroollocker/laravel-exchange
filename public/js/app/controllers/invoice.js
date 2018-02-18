@@ -176,7 +176,7 @@ app.controller('InvoicesController', ['$scope', '$http', 'AppUtils', '$filter', 
 
     $scope.loadAvalible = function() {
         var request = {};
-        if ($scope.invoice.type == '1') {
+        if ($scope.invoice.type == '2') {
             if ($scope.invoice.cur_1) {
                 request.buy_cur = $scope.invoice.cur_1;
             }

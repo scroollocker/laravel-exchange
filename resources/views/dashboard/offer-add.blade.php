@@ -80,6 +80,9 @@
 
 <div class="row" ng-if="isSelect(2)">
     <div class="col-md-12">
+        <div class="alert alert-info">
+            Заполните счета для сделки
+        </div>
         <div class="panel panel-default">
             <div class="panel-heading" style="padding: 15px;">
                 Укажите счета для расчетов
@@ -162,6 +165,9 @@
 
 <div class="row" ng-if="isSelect(4)">
     <div class="col-md-12">
+        <div class="alert alert-info">
+            Проверьте условия сделки.
+        </div>
         <div class="panel panel-default">
             <div class="panel-heading" style="padding: 15px;">
                 Оформление предложения
@@ -184,19 +190,19 @@
                     <tr>
                         <td><label>Сумма: </label></td>
                         <td>
-                            <p>@{{ offer.sum_sell_nd }}</p>
+                            <p>@{{ offer.sum_sell_nd | roundFilterSum }}</p>
                         </td>
                     </tr>
                     <tr>
                         <td><label>Курс: </label></td>
                         <td>
-                            <p>@{{ offer.course_nd }}</p>
+                            <p>@{{ offer.course_nd | roundFilter }}</p>
                         </td>
                     </tr>
                     <tr>
                         <td><label>Сумма по курсу: </label></td>
                         <td>
-                            <p>@{{ offer.sum_buy_nd }}</p>
+                            <p>@{{ offer.sum_buy_nd | roundFilterSum }}</p>
                         </td>
                     </tr>
                     <tr>
@@ -212,18 +218,18 @@
                         </td>
                     </tr>
 
-                    <tr>
-                        <td><label> Дата окончания сделки: </label></td>
-                        <td>
-                            <p>@{{ offer.endDate }}</p>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td><label>Комментарий: </label></td>
-                        <td>
-                            <p>@{{ offer.comment }}</p>
-                        </td>
-                    </tr>
+                    {{--<tr>--}}
+                        {{--<td><label> Дата окончания сделки: </label></td>--}}
+                        {{--<td>--}}
+                            {{--<p>@{{ offer.endDate }}</p>--}}
+                        {{--</td>--}}
+                    {{--</tr>--}}
+                    {{--<tr>--}}
+                        {{--<td><label>Комментарий: </label></td>--}}
+                        {{--<td>--}}
+                            {{--<p>@{{ offer.comment }}</p>--}}
+                        {{--</td>--}}
+                    {{--</tr>--}}
 
                 </table>
 

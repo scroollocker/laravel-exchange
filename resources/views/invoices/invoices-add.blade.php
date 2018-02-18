@@ -28,6 +28,9 @@
 
 <div class="row" ng-if="isSelect(1)">
     <div class="col-md-12">
+        <div class="alert alert-info">
+            Заполните условия сделки.
+        </div>
         <div class="panel panel-default">
             <div class="panel-heading" style="padding: 15px;">
                 Условия сделки
@@ -170,6 +173,9 @@
 
 <div class="row" ng-if="isSelect(2)">
     <div class="col-md-12">
+        <div class="alert alert-info">
+            Заполните счета для сделки
+        </div>
         <div class="panel panel-default">
             <div class="panel-heading" style="padding: 15px;">
                 Укажите счета для расчетов
@@ -230,6 +236,9 @@
 
 <div class="row" ng-if="isSelect(3)">
     <div class="col-md-12">
+        <div class="alert alert-info">
+            Заполните дату, до которой заявка будет действовать
+        </div>
         <div class="panel panel-default">
             <div class="panel-heading" style="padding: 15px;">
                 Укажите ограничения по сделке
@@ -291,6 +300,9 @@
 
 <div class="row" ng-if="isSelect(4)">
     <div class="col-md-12">
+        <div class="alert alert-info">
+            Проверьте условия сделки.
+        </div>
         <div class="panel panel-default">
             <div class="panel-heading" style="padding: 15px;">
                 Оформление сделки
@@ -310,7 +322,7 @@
                     <tr>
                         <td><label>Сумму: </label></td>
                         <td>
-                            <p>@{{ invoice.cur_sum }} (@{{ invoice.cur_1.cur_name }})</p>
+                            <p>@{{ invoice.cur_sum | roundFilterSum }} (@{{ invoice.cur_1.cur_name }})</p>
                         </td>
                     </tr>
                     {{--<tr>--}}
@@ -322,13 +334,13 @@
                     <tr>
                         <td><label>Курс: </label></td>
                         <td>
-                            <p>@{{ invoice.cur_curs }}</p>
+                            <p>@{{ invoice.cur_curs | roundFilter }}</p>
                         </td>
                     </tr>
                     <tr>
                         <td><label>Сумма по курсу: </label></td>
                         <td>
-                            <p>@{{ invoice.final_sum }} (@{{ invoice.cur_2.cur_name }})</p>
+                            <p>@{{ invoice.final_sum | roundFilterSum }} (@{{ invoice.cur_2.cur_name }})</p>
                         </td>
                     </tr>
                     {{--<tr>--}}

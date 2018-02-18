@@ -48,10 +48,10 @@
                                 <td>@{{ offer.declare_id }}</td>
                                 <td>@{{ normalizeDate(offer.detail.created_dt) }}</td>
                                 <td>@{{ normalizeDate(offer.detail.end_dt) }}</td>
-                                <td>@{{ offer.detail.sum_sell_nd }}</td>
+                                <td>@{{ offer.detail.sum_sell_nd | roundFilterSum }}</td>
                                 <td>@{{ offer.detail.currency_sell.cur_name }}</td>
-                                <td>@{{ offer.detail.course_nd }}</td>
-                                <td>@{{ offer.detail.sum_buy_nd }}</td>
+                                <td>@{{ offer.detail.course_nd | roundFilter}}</td>
+                                <td>@{{ offer.detail.sum_buy_nd | roundFilterSum }}</td>
                                 <td>@{{ offer.detail.currency_buy.cur_name }}</td>
                                 <td>@{{ offer.state.name_v }}</td>
                                 <td>

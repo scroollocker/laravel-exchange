@@ -52,6 +52,16 @@ app.filter('roundFilter', function () {
     return function (item) {
         var float = parseFloat(item);
 
+        return float.toFixed(4);
+    }
+
+});
+
+app.filter('roundFilterSum', function () {
+
+    return function (item) {
+        var float = parseFloat(item);
+
         return float.toFixed(2);
     }
 

@@ -43,19 +43,19 @@
                     <tr>
                         <td><label>Сумма: </label></td>
                         <td>
-                            <p>@{{ invoice.cur_sum }}</p>
+                            <p>@{{ invoice.cur_sum | roundFilterSum }}</p>
                         </td>
                     </tr>
                     <tr>
                         <td><label>Курс: </label></td>
                         <td>
-                            <p>@{{ invoice.cur_curs }}</p>
+                            <p>@{{ invoice.cur_curs | roundFilter }}</p>
                         </td>
                     </tr>
                     <tr>
                         <td><label>Сумма по курсу: </label></td>
                         <td>
-                            <p>@{{ invoice.final_sum }}</p>
+                            <p>@{{ invoice.final_sum | roundFilterSum }}</p>
                         </td>
                     </tr>
 
