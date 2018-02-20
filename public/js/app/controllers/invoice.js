@@ -337,8 +337,10 @@ app.controller('InvoicesController', ['$scope', '$http', 'AppUtils', '$filter', 
     $scope.computeCursSum = function () {
         if ($scope.invoice.cur_sum !== undefined && $scope.invoice.cur_curs !== undefined) {
             var result = $scope.invoice.cur_sum * $scope.invoice.cur_curs;
+            var float = parseFloat(result);
 
-            return result;
+            return float.toFixed(2);
+            //return result;
         }
         else {
             return 0;
@@ -382,7 +384,10 @@ app.controller('InvoicesController', ['$scope', '$http', 'AppUtils', '$filter', 
                 response = response.data;
 
                 if (response.status) {
-                    $scope.invoice.cur_curs = response.course;
+                    var float = parseFloat(response.course);
+
+                    $scope.invoice.cur_curs = float.toFixed(4);
+                    //$scope.invoice.cur_curs = response.course;
                 }
                 else {
                     console.log(response.message);

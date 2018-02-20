@@ -43,6 +43,7 @@ class HomeController extends Controller
 
             $currencies = Currency::select('cur_code', 'course_sell_nd', 'course_buy_nd')
                 ->where('cur_enable', '1')
+                ->where('cur_code', '<>', 'KGS')
                 ->get();
 
             return response()->json(array(

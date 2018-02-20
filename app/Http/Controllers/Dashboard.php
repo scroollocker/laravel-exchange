@@ -99,8 +99,8 @@ class Dashboard extends Controller
             }))->with(array('state' => function($q) {
                 $q->select('deal_state_id', 'name_v');
             }))->where('private_n', '<>', '1')
-               ->where('end_dt', '>=', Carbon::now()->toDateTimeString())
-               ->orderBy('end_dt');
+               ->where('end_dt', '>=', Carbon::now()->toDateTimeString());
+            //   ->orderBy('end_dt');
 
 
             if (isset($request->buy_cur) && $request->buy_cur != null) {

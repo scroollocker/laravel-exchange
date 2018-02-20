@@ -116,9 +116,9 @@
                                 <li ng-class="{'active': isActive('/user/accounts')}">
                                     <a href="home/#!/user/accounts"><i class="fa fa-credit-card"></i> Мои счета</a>
                                 </li>
-                                <li ng-class="{'active': isActive('/user/partners')}">
-                                    <a href="home/#!/user/partners"><i class="fa fa-users"></i> Мои партнеры</a>
-                                </li>
+                                {{--<li ng-class="{'active': isActive('/user/partners')}">--}}
+                                    {{--<a href="home/#!/user/partners"><i class="fa fa-users"></i> Мои партнеры</a>--}}
+                                {{--</li>--}}
                             </ul>
                         </li>
 
