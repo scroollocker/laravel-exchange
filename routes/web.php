@@ -16,11 +16,7 @@ Route::get('/', function () {
 });
 
 Route::get('test', function() {
-   $invoice = \App\Invoice::where('declare_id', '22')
-       ->with('user', 'acc_dt', 'acc_ct', 'currency_buy', 'currency_sell')
-       ->first();
 
-    return view ('custom.check', $invoice->toArray());
 });
 
 Route::get('login', 'Auth\LoginController@showLoginForm')->name('login');
@@ -63,6 +59,9 @@ Route::group(['as'=>'user', 'middleware' => ['cauth', 'blocked']], function() {
         Route::get('getCurrences', 'InvoiceController@getCurrences');
         Route::get('getPartners', 'InvoiceController@getPartners');
         Route::get('getInvoices', 'InvoiceController@getInvoiceList');
+
+        Route::get('show_check', 'InvoiceController@getCheck');
+
         Route::post('getAccounts', 'InvoiceController@getAccounts');
         Route::post('getInvoiceById', 'InvoiceController@getInvoiceById');
         Route::post('save', 'InvoiceController@saveInvoice');

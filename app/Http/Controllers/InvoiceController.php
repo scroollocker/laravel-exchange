@@ -1128,4 +1128,43 @@ class InvoiceController extends Controller
         }
     }
 
+    public function getCheck(Request $request) {
+
+        $rules = array(
+            'invoice_id' => array(
+                'integer', 'required'
+            )
+        );
+
+        $messages = array(
+            'invoice_id.integer' => 'Неверный формат запроса',
+            'invoice_id.required' => 'Неверный запрос'
+        );
+
+        $validator = Validator::make($request->all(), $rules, $messages);
+
+        if ($validator->fails()) {
+            abort(404);
+            return;
+        }
+
+        $user = Auth::user();
+
+        if (is_null($user)) {
+            abort(404);
+            return;
+        }
+
+        $invoice = \App\Invoice::where('declare_id', $request->invoice_id)
+            ->with('user', 'acc_dt', 'acc_ct', 'currency_buy', 'currency_sell')
+            ->first();
+
+        if (is_null($invoice)) {
+            abort(404);
+            return;
+        }
+
+        return view ('custom.check', $invoice->toArray());
+    }
+
 }

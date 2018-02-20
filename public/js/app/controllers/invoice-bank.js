@@ -121,6 +121,11 @@ app.controller('InvoiceBankController', ['$scope', '$http', '$routeParams', '$lo
         return '';
     };
 
+    $scope.sendCheck = function() {
+        var win = window.open('invoices/show_check?invoice_id='+$scope.invoiceId, '_blank');
+        win.focus();
+    };
+
     $scope.init = function() {
         $scope.loadInvoiceState();
         $scope.interval = $interval(function() {

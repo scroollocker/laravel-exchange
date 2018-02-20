@@ -30,10 +30,10 @@ class Kernel extends ConsoleKernel
         // $schedule->command('inspire')
         //          ->hourly();
 
-        $schedule->command('bank:confirm')->everyFiveMinutes();
+        $schedule->command('bank:confirm')->everyMinute();
         $schedule->command('bank:date')->everyMinute();
-        $schedule->command('bank:user')->everyFiveMinutes();
-        $schedule->command('bank:course')->everyFiveMinutes();
+        $schedule->command('bank:user')->everyThirtyMinutes();
+        $schedule->command('bank:course')->everyThirtyMinutes();
     }
 
     /**
