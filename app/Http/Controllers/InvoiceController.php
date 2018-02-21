@@ -949,7 +949,7 @@ class InvoiceController extends Controller
                 throw new Exception('Пользователь не авторизован');
             }
 
-            DB::select('call exec_declare_close(?)', array($request->id));
+            DB::select('call exec_declare_cancel(?)', array($request->id));
 
             return response()->json(array(
                 'status' => true
@@ -1111,10 +1111,17 @@ class InvoiceController extends Controller
                 $payments = $result['response']['Payments'];
             }
 
+
+            $income = DB::select('select get_income(?, ?) as income_sum;', array($declare->declare_id, $user->id));
+
+            if (!$income and !isset($income[0])) {
+                throw new Exception('Не удалось получить выгоду');
+            }
+
             return response()->json(array(
                 'status' => true,
                 'payments' => $payments,
-                'sum_income_nd' => $declare->sum_income_nd
+                'sum_income_nd' => $income[0]->income_sum
             ));
         }
         catch(\Exception $ex) {

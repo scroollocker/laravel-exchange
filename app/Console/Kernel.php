@@ -16,7 +16,8 @@ class Kernel extends ConsoleKernel
         'App\Console\Commands\ConfirmBankJob',
         'App\Console\Commands\CloseByDate',
         'App\Console\Commands\CloseUserByDate',
-        'App\Console\Commands\UpdateCourse'
+        'App\Console\Commands\UpdateCourse',
+        'App\Console\Commands\SenderJob'
     ];
 
     /**
@@ -34,6 +35,7 @@ class Kernel extends ConsoleKernel
         $schedule->command('bank:date')->everyMinute();
         $schedule->command('bank:user')->everyThirtyMinutes();
         $schedule->command('bank:course')->everyThirtyMinutes();
+        $schedule->command('bank:send')->everyMinute();
     }
 
     /**
