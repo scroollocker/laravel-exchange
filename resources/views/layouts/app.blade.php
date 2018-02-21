@@ -55,8 +55,8 @@
                 </button>
 
                 <!-- Branding Image -->
-                <a class="navbar-brand" href="{{ url('/') }}">
-                    {{ config('app.name', 'Exchange') }}
+                <a class="navbar-brand" href="http://kompanion.kg/">
+                    <img src="{{ assetV('img/komp.png') }}" width="100">
                 </a>
             </div>
 
