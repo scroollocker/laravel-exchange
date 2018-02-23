@@ -1087,8 +1087,7 @@ class InvoiceController extends Controller
                 throw new \Exception('Пользователь не авторизован');
             }
 
-            $declare = Invoice::where('user_id', $user->id)
-                            ->where('declare_id', $request->invoice_id)
+            $declare = Invoice::where('declare_id', $request->invoice_id)
                             ->first();
 
             if (is_null($declare)) {
