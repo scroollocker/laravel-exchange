@@ -7,6 +7,7 @@ use App\Notification;
 use App\Offer;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 
 class ConfirmBankJob extends Command
 {
