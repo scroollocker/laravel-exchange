@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use App\Invoice;
+use App\Notification;
 use App\Offer;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
