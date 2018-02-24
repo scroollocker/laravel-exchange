@@ -27,6 +27,12 @@
                 </div>
 
                 <div class="invoice-data-content" ng-if="isInvoiceLoading == false && getOffers().length > 0">
+                    <div class="alert alert-info">
+                        Если заявка находится в статусе "На согласовании с банком" -
+                        Вам необходимо дождаться оканчания согласования, уведомление придет Вам на почту.
+                        Если сделка успешно обработана, Вы можете просмотреть детали ее исполнения,
+                        нажав на соответствующее значение id.
+                    </div>
                     <div class="table-responsive">
                         <table class="table table-striped table-condensed">
                             <thead>
@@ -39,7 +45,7 @@
                                 <th>Курс</th>
                                 <th>Сумма</th>
                                 <th>Валюта</th>
-                                <th>Статус</th>
+                                <th>Статус сделки</th>
                                 <th>Действия</th>
                             </tr>
                             </thead>
