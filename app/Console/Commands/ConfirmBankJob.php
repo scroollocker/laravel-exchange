@@ -91,6 +91,7 @@ class ConfirmBankJob extends Command
                 else if ($msg == 'ok') {
                     DB::select('call exec_offer_close(?)', array($offer->offer_id));
                     DB::select('call exec_declare_close(?)', array($offer->declare_id));
+                    $this->senderJob($offer->declare_id, $offer->details_id);
                 }
             }
 
