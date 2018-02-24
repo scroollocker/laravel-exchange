@@ -37,6 +37,41 @@
             </div>
 
             <div class="panel-body">
+                <div class="container" ng-controller="CourseController" ng-init="hideCourse = false">
+                    <div class="hidden-lg hidden-md hidden-sm" ng-if="getCourses().length > 0">
+                        <span class="label label-warning" ng-click="hideCourse = !hideCourse"><i class="fa fa-arrow-right"></i> Курсы банка (Покупка \ Продажа)</span>
+                        <table class="table table-bordered" ng-if="hideCourse == false">
+                            <thead>
+                                <tr>
+                                    <th>Валюта</th>
+                                    <th>Покупка</th>
+                                    <th>Продажа</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="course in getCourses()">
+                                    <td>@{{ course.cur_code }}</td>
+                                    <td>@{{ course.course_buy_nd }}</td>
+                                    <td>@{{ course.course_sell_nd }}</td>
+                                </tr>
+                            </tbody>
+                            {{--<tr >--}}
+                                {{--<td><span class="label label-warning">Курсы банка (Покупка \ Продажа)</span></td>--}}
+                                {{--<td style="width: 100%; overflow: hidden;">--}}
+
+                            {{--<span ng-repeat="course in getCourses()">--}}
+                            {{--&nbsp; | <span style="padding-right: 15px; padding-left: 15px;">@{{ course.cur_code }}--}}
+                                    {{--= <strong>@{{ course.course_sell_nd }} /--}}
+                                        {{--@{{ course.course_buy_nd }}</strong></span> |--}}
+                            {{--</span>--}}
+                                {{--</td>--}}
+                            {{--</tr>--}}
+                        </table>
+
+
+                    </div>
+                </div>
+
                 <form name="step1_form">
                     <table class="table">
                         <tr>
@@ -91,7 +126,7 @@
                             <td>
                                 <input required name="curs" type="text" ng-model="invoice.cur_curs" class="form-control"
                                        placeholder="47,50">
-
+                                <small class="form-text text-muted">Здесь можете указать более выгодный курс.</small>
                             </td>
                         </tr>
                         <tr>

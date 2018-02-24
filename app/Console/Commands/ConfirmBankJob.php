@@ -33,6 +33,31 @@ class ConfirmBankJob extends Command
         parent::__construct();
     }
 
+    private function senderJob($declare_id, $detail_id) {
+        $notifications = Notification::select('msg_id', 'msg_v', 'receiver_v', 'event_n')
+            ->where('declare_id', $declare_id)
+            ->orWhere('declare_id', $detail_id)
+            ->get();
+
+        if (count($notifications) > 0) {
+            foreach($notifications as $item) {
+                if ($item->event_n == 2) {
+                    \Sms::sendSms($item->receiver_v, $item->msg_v);
+                    Notification::checkSended($item->msg_id);
+                }
+                else if ($item->event_n == 1) {
+                    Mail::send('custom.mail', array('msg' => $item->msg_v), function ($message) use ($item) {
+                        $message->subject('Уведомления с сайта');
+                        $message->from(env('MAIL_USERNAME'));
+
+                        $message->to($item->receiver_v);
+                    });
+                    Notification::checkSended($item->msg_id);
+                }
+            }
+        }
+    }
+
     /**
      * Execute the console command.
      *

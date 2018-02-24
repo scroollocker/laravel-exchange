@@ -35,7 +35,8 @@ class Kernel extends ConsoleKernel
         $schedule->command('bank:date')->everyMinute();
         $schedule->command('bank:user')->everyThirtyMinutes();
         $schedule->command('bank:course')->everyThirtyMinutes();
-        $schedule->command('bank:send')->everyMinute();
+        //$schedule->command('bank:send')->everyMinute();
+
     }
 
     /**

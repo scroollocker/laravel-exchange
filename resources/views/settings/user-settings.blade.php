@@ -19,10 +19,10 @@
                         <strong>Ошибка:</strong> @{{ settingsError.message }}
                     </div>
                    <table class="table">
-                       <tr>
-                           <td><label>Принимать сделки автоматически</label></td>
-                           <td><input  name="autoconfirm" icheck type="checkbox" ng-true-value="1" ng-false-value="0" ng-model="editSettings.autoconfirm" class="form-control"></td>
-                       </tr>
+                       {{--<tr>--}}
+                           {{--<td><label>Принимать сделки автоматически</label></td>--}}
+                           {{--<td><input  name="autoconfirm" icheck type="checkbox" ng-true-value="1" ng-false-value="0" ng-model="editSettings.autoconfirm" class="form-control"></td>--}}
+                       {{--</tr>--}}
                        <tr ng-class="{'has-error': settingsForm.phone.$invalid}">
                            <td><label>Номер телефона:</label></td>
                            <td><input name="phone" ng-model="editSettings.phone" required maxlength="12" placeholder="996yyyxxxxxx" class="form-control" pattern="996[0-9]{9}"></td>

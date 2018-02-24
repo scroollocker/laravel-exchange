@@ -11,12 +11,19 @@
 |
 */
 
+use Illuminate\Support\Facades\Mail;
+
 Route::get('/', function () {
     return view('welcome');
 });
 
 Route::get('test', function() {
+    Mail::send('custom.mail', array(), function ($message) {
+        $message->subject('Уведомления с сайта');
+        $message->from(env('MAIL_USERNAME'));
 
+        $message->to('arsenal_30@mail.ru');
+    });
 });
 
 Route::get('login', 'Auth\LoginController@showLoginForm')->name('login');

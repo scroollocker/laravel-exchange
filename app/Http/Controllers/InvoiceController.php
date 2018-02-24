@@ -1094,6 +1094,12 @@ class InvoiceController extends Controller
                 throw new \Exception('Заявка не найдена');
             }
 
+            $invoiceAccess = DB::select('select check_declare_access(?, ?) as access;', array($declare->declare_id, $user->id));
+
+            if (!$invoiceAccess and !isset($invoiceAccess[0]) and $invoiceAccess[0]->access == '0') {
+                throw new Exception('У вас нет прав доступа');
+            }
+
             $params = array(
                 'Deal' => $request->invoice_id
             );
@@ -1161,16 +1167,23 @@ class InvoiceController extends Controller
             return;
         }
 
-        $invoice = \App\Invoice::where('declare_id', $request->invoice_id)
-            ->with('user', 'acc_dt', 'acc_ct', 'currency_buy', 'currency_sell')
-            ->first();
+//        $invoice = \App\Invoice::where('declare_id', $request->invoice_id)
+//            ->with('user', 'acc_dt', 'acc_ct', 'currency_buy', 'currency_sell')
+//            ->first();
+//
+//        if (is_null($invoice)) {
+//            abort(404);
+//            return;
+//        }
 
-        if (is_null($invoice)) {
+        $htmlData = DB::select('select get_check(?, ?) as html', array($request->invoice_id, $user->id));
+
+        if (!$htmlData or !isset($htmlData[0])) {
             abort(404);
             return;
         }
 
-        return view ('custom.check', $invoice->toArray());
+        return view ('custom.check', array('html' => $htmlData[0]->html));
     }
 
 }

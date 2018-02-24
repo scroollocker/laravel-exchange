@@ -151,7 +151,7 @@
     </nav>
     @if (!Auth::guest())
         <div class="container" ng-controller="CourseController" >
-            <div class="course-line hidden-xs hidden-sm" ng-if="getCourses().length > 0">
+            <div class="course-line hidden-xs" ng-if="getCourses().length > 0">
                 <table>
                     <tr>
                         <td><span class="label label-warning">Курсы банка (Покупка \ Продажа)</span></td>
