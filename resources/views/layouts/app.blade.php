@@ -154,7 +154,7 @@
             <div class="course-line hidden-xs" ng-if="getCourses().length > 0">
                 <table>
                     <tr>
-                        <td><span class="label label-warning">Курсы банка (Покупка \ Продажа)</span></td>
+                        <td><span class="label label-warning">Курсы банка (Продажа \ Покупка)</span></td>
                         <td style="width: 100%; overflow: hidden;">
 
                             <span ng-repeat="course in getCourses()">
