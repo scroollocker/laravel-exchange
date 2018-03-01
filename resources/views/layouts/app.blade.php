@@ -154,13 +154,13 @@
             <div class="course-line hidden-xs" ng-if="getCourses().length > 0">
                 <table>
                     <tr>
-                        <td><span class="label label-warning">Курсы банка (Продажа \ Покупка)</span></td>
+                        <td><span class="label label-warning">Курсы банка (Покупка \ Продажа)</span></td>
                         <td style="width: 100%; overflow: hidden;">
 
                             <span ng-repeat="course in getCourses()">
                             &nbsp; | <span style="padding-right: 15px; padding-left: 15px;">@{{ course.cur_code }}
-                                = <strong>@{{ course.course_sell_nd }} /
-                                    @{{ course.course_buy_nd }}</strong></span> |
+                                = <strong>@{{ course.course_buy_nd }} /
+                                    @{{ course.course_sell_nd }}</strong></span> |
                             </span>
                         </td>
                     </tr>
