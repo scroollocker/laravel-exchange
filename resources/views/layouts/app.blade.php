@@ -55,8 +55,8 @@
                 </button>
 
                 <!-- Branding Image -->
-                <a class="navbar-brand" href="http://kompanion.kg/">
-                    <img src="{{ assetV('img/komp.png') }}" width="100">
+                <a class="navbar-brand" href="/home">
+                    <img src="{{ assetV('img/logo.png') }}" width="100">
                 </a>
             </div>
 
